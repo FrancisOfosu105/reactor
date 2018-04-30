@@ -1,0 +1,21 @@
+{
+  "name": "reactor",
+  "version": "1.0.0",
+  "description": "A social network web app to connect with others.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Francis Ofosu Afriyie",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.1.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1",
+    "webpack": "^4.5.0"
+  }
+}
