@@ -7,12 +7,20 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-preview2-final" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="1.0.0-preview2-final" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Reactor.Data\Reactor.Data.csproj">
       <Project>{E9A2DA9C-8437-475B-881A-96918010C5F2}</Project>
       <Name>Reactor.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reactor.Services\Reactor.Services.csproj">
+      <Project>{91F00B43-4B17-494F-82B3-452BF3E286B0}</Project>
+      <Name>Reactor.Services</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -1,11 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Reactor.Core;
+using Reactor.Core.Domain.Friends;
 using Reactor.Core.Domain.Members;
+using Reactor.Core.Repository;
+using Reactor.Data;
 using Reactor.Data.EfContext;
+using Reactor.Data.Repository;
+using Reactor.Services.Friends;
+using Reactor.Services.Users;
 
 namespace Reactor.Web
 {
@@ -26,7 +35,7 @@ namespace Reactor.Web
             services.AddDbContext<ReactorDbContext>(options=> 
                 options.UseSqlServer(Configuration.GetConnectionString("ReactorConnStr")));
             
-            services.AddIdentity<Member, IdentityRole>(options =>
+            services.AddIdentity<User, IdentityRole>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequiredLength = 6;
@@ -36,6 +45,17 @@ namespace Reactor.Web
                 })
                 .AddEntityFrameworkStores<ReactorDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddScoped<IRepository<Friend>, FriendRepository>();
+            
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFriendService, FriendService>();
+            
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +72,7 @@ namespace Reactor.Web
 
             app.UseMvc(routes => routes.MapRoute(
                 name: "default",
-                template: "{controller}/{action}/{id?}"));
+                template: "{controller=Home}/{action=Index}/{id?}"));
         }
     }
 }

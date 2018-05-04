@@ -13,17 +13,17 @@ namespace Reactor.Web.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly UserManager<Member> _userManager;
-        private readonly SignInManager<Member> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly ILogger<AccountController> _logger;
 
         public AccountController(
-            UserManager<Member> userManager,
+            UserManager<User> userManager,
             ILogger<AccountController> logger,
-            SignInManager<Member> signInManager)
+            SignInManager<User> signInManager)
         {
             _userManager = userManager;
-            this._logger = logger;
+            _logger = logger;
             _signInManager = signInManager;
         }
 
@@ -92,7 +92,7 @@ namespace Reactor.Web.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var member = new Member
+            var member = new User
             {
                 UserName = model.UserName,
                 FirstName = model.FirstName,

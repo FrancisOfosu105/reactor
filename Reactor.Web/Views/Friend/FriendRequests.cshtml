@@ -1,0 +1,31 @@
+﻿@model System.Collections.Generic.IEnumerable<Reactor.Core.Domain.Friends.Friend>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h2>All Friend Request friends</h2>
+    @foreach (var friend in Model)
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-text">@friend.RequestedBy.UserName</div>
+                    </div>
+                    <div class="card-footer">
+                        <form method="post" asp-action="AcceptFriendRequest"
+                              asp-route-requestedById="@friend.RequestedById" 
+                              asp-route-requestedToId="@friend.RequestedToId">
+                            <button class="btn btn-success d-block my-2 btn-block">Accept</button>
+                        </form>
+                        <button class="btn btn-danger d-block btn-block">Reject</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

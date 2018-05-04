@@ -1,0 +1,44 @@
+﻿@model System.Collections.Generic.IEnumerable<Reactor.Core.Domain.Friends.Friend>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<div class="container">
+    <h2>All My friends</h2>
+
+    
+    <div class="row">
+
+        @foreach (var friend in Model)
+        {
+            if (friend.RequestedBy.UserName == Url.ActionContext.HttpContext.User.Identity.Name)
+            {        
+                <div class="col-md-4">
+
+                         <div class="card">
+                             <div class="card-body">
+                                 <div class="card-title">@friend.RequestedTo.UserName</div>
+                             </div>
+                         </div>
+                     </div>
+
+            }
+            else
+            {
+                <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">@friend.RequestedBy.UserName</div>
+                    </div>
+                </div>
+                
+                </div>
+
+            }
+        }
+
+
+
+    </div>
+</div>

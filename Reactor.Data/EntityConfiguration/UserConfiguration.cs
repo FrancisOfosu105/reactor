@@ -4,15 +4,16 @@ using Reactor.Core.Domain.Members;
 
 namespace Reactor.Data.EntityConfiguration
 {
-    public class MemberConfiguration: IEntityTypeConfiguration<Member>
+    public class UserConfiguration: IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<Member> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-//            builder.ToTable("Members");
+            builder.ToTable("User");
             
             builder.Property(m => m.FirstName).HasMaxLength(256).IsRequired();
 
             builder.Property(m => m.LastName).HasMaxLength(256).IsRequired();
+
         }
     }
 }

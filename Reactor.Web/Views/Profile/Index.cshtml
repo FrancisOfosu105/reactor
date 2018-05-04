@@ -1,0 +1,42 @@
+﻿@model object
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<section class="profile">
+    <div class="profile__cover">
+        <img src="~/assets/images/profile.jpg"/>
+    </div>
+    
+    <div class="profile__min">
+        <img src="~/assets/images/person.jpg"/>
+    </div>
+    
+    <div class="profile__stats">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 ">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2 text-center">
+                        <span class="d-block profile__stats-title">Posts</span>
+                        <span class="d-block profile__stats-counter">20</span>
+                    </div>
+                    <div class="p-2 text-center">
+                        <span class="d-block profile__stats-title">Followers</span>
+                        <span class="d-block profile__stats-counter">4</span>
+                    </div>
+                    <div class="p-2 text-center">
+                        <span class="d-block profile__stats-title">Following</span>
+                        <span class="d-block profile__stats-counter">0</span>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    
+</section>
+    

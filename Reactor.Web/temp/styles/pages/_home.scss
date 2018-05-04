@@ -1,0 +1,26 @@
+.home{
+  
+  & .status,
+  & .post{
+    border-radius: 4px;
+    border: 1px solid #c6c8ca;
+    padding: 2rem;
+    background-color: #f7f7f7;
+  }
+  
+  & .suggested{
+    &__name{
+      font-size: 1.7rem;
+    }
+    
+  }
+  
+}
+
+.navbar {
+  a.nav-link {
+    font-size: 1.6rem;
+  }
+
+}
+
