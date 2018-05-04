@@ -1,0 +1,96 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  font-size: 62.5%; }
+
+body {
+  box-sizing: border-box; }
+
+body {
+  font-family: "Lato", sans-serif;
+  color: #777;
+  font-weight: 400;
+  line-height: 1.7; }
+
+.form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 60rem;
+  font-size: 1.6rem; }
+  .form__group:not(:last-child) {
+    margin-bottom: 1rem; }
+  .form__error {
+    text-align: center;
+    color: #e41c25;
+    font-size: 1.6rem;
+    font-weight: 500; }
+    .form__error ul {
+      list-style: none; }
+  .form__title {
+    color: #fff;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    text-align: center; }
+  .form__input {
+    font-size: 1.5rem;
+    padding: 1.2rem 2rem;
+    font-family: inherit;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 2px;
+    color: inherit;
+    border: none;
+    border-bottom: 3px solid transparent;
+    width: 100%; }
+    .form__input::-webkit-input-placeholder {
+      color: #999; }
+    .form__input:focus {
+      outline: none;
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+      border-bottom: 3px solid #55c57a; }
+    .form__input:focus:invalid {
+      border-bottom: 3px solid #ff7730; }
+  .form__checkbox-input {
+    display: none; }
+  .form__checkbox-label {
+    position: relative;
+    cursor: pointer;
+    padding-left: 4.5rem; }
+  .form__checkbox-button {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 5px solid #55c57a;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0; }
+    .form__checkbox-button::after {
+      content: "";
+      display: block;
+      width: 1.5rem;
+      height: 1.5rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+      background-color: #55c57a;
+      border-radius: 50%;
+      opacity: 0;
+      transition: all .5s; }
+  .form__checkbox-input:checked + .form__checkbox-label .form__checkbox-button::after {
+    opacity: 1; }
+
+.account {
+  background: linear-gradient(to right, rgba(210, 230, 207, 0.9), rgba(40, 180, 133, 0.9)) no-repeat center fixed;
+  background-size: cover;
+  height: 100vh; }

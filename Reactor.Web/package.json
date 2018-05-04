@@ -4,7 +4,7 @@
   "description": "A social network web app to connect with others.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp"
   },
   "author": "Francis Ofosu Afriyie",
   "license": "ISC",
@@ -15,7 +15,9 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
     "gulp-sass": "^4.0.1",
+    "gulp-watch": "^5.0.0",
     "webpack": "^4.5.0"
   }
 }

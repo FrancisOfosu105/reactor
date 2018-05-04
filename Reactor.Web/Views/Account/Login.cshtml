@@ -1,0 +1,38 @@
+﻿@model LoginModel
+@{
+    ViewBag.Title = "title";
+    Layout = "_AccountLayout";
+}
+<div class="form">
+    <h2 class="form__title">Login into your account</h2>
+    <form asp-action="Login" asp-antiforgery="true" asp-route-returnUrl="@ViewData["returnUrl"]">
+        <div asp-validation-summary="ModelOnly" class="form__error"></div>
+        <div class="form__group">
+            <div class="form-group">
+                <input type="text" class="form__input" placeholder="Username" asp-for="UserName" required/>
+                <span asp-validation-for="UserName" class="form__error"></span>
+            </div>
+
+            <div class="form__group">
+                <input type="password" class="form__input" placeholder="Password" asp-for="Password" required/>
+                <span asp-validation-for="Password" class="form__error"></span>
+            </div>
+
+        </div>
+        <div class="form__group">
+            <input type="checkbox" asp-for="RemmemberMe" class="form__checkbox-input"/>
+            <label asp-for="RemmemberMe" class="form__checkbox-label">
+                <span class="form__checkbox-button"></span> Remmember me?
+            </label>
+        </div>
+        <div class="form__group">
+            <input type="submit" class="btn btn-success btn-lg btn-block" value="Login"/>
+
+        </div>
+    </form>
+    
+    <div class="text-center">
+        <p>Not a member yet?  <a asp-action="Register">Register</a></p>
+    </div>
+
+</div>
