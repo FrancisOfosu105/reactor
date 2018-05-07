@@ -3,8 +3,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Gulp\Tasks" />
+    <Folder Include="temp\scripts\modules" />
     <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\assets\scripts" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />

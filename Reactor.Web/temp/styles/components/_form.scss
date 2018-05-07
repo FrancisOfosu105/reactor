@@ -56,7 +56,6 @@
     &:focus:invalid{
       border-bottom: 3px solid $color-secondary-dark;
     }
-
     
   }
 
@@ -98,6 +97,40 @@
   
   &__checkbox-input:checked + &__checkbox-label &__checkbox-button::after{
     opacity: 1;
+  }
+  
+  &__input-file{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  &__input-file + label{
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $color-white;
+    background-color: $color-primary;
+    display: inline-block;
+    padding: .5rem 1rem;
+    margin-left: 6rem;
+  }
+
+  &__input-file:focus + label,
+  &__input-file + label:hover
+  {
+    background-color: $color-primary-dark;
+  }
+
+  &__input-file + label{
+    cursor: pointer;
+  }
+
+  &__input-file:focus + label{
+    outline: 1px dotted $color-primary-light;
+    outline: -webkit-focus-ring-color auto 5px;
   }
 
 }

@@ -1,4 +1,4 @@
-﻿@model object
+﻿@model Reactor.Web.Models.Home.HomeModel
 
 @{
     ViewBag.Title = "Home Page";
@@ -7,51 +7,44 @@
 <section class="home">
 
     <div class="container">
-            <div class="row mt-2">
-        <div class="col-md-3">
-            Col 1
-        </div>
-        <div class="col-md-6">
-            <div class="status">
-                <div class="d-flex">
-                    <div class="mr-3">
-                        <img src="~/assets/images/person.jpg" class="rounded-circle" width="50" height="50"/>
-                    </div>
-                    <div class="w-100">
-                        <textarea class="form__input"  placeholder="Say something here"></textarea>
-                    </div>
-                </div>
-
-                <div class="mt-3 clearfix">
-                    <div class="d-flex float-left">
-                        <div>
-                            <span>Video</span>
-                        </div>
-                        <div>
-                            <span>Picture</span>
-                        </div>
-                    </div>
-                    <div class="float-right">
-                        <a href="#" class="btn btn-success">Post</a>
-                    </div>
-                </div>
+        <div class="row mt-2">
+            <div class="col-md-3">
+                Col 1
             </div>
+            <div class="col-md-6">
+                <div class="status">
+                    <form asp-controller="Home" asp-action="Create" method="post" enctype="multipart/form-data">
+                        <div class="d-flex">
+                            <div class="mr-3">
+                                <img src="~/assets/images/person.jpg" class="rounded-circle" width="50" height="50"/>
+                            </div>
+                            <div class="w-100">
+                                <textarea  class="form__input status__input" asp-for="Content"  required placeholder="Say something here"></textarea>
+                            </div>
+                        </div>
 
-            <div class="row mt-3">
-                <div class="col-12">
-                    <div class="post">
-                        <div class="post__header">Header</div>
-                        <div class="post__body">Body</div>
-                        <div class="post__footer">Footer</div>
-                    </div>
+                        <div class="mt-3 clearfix">
+                            <input type="file" id="file" class="form__input-file inputfile" asp-for="Files" data-multiple-caption="{count} files selected" multiple/>
+                            <label for="file"><i class="fa fa-image"></i> Photo</label>
+                            <div class="float-right">
+                                <button type="submit" class="btn btn-success">Post</button>
+                            </div>
+                        </div>
+
+                    </form>
+
                 </div>
+
+                <div class="row mt-3">
+
+                    @await Component.InvokeAsync("Posts")
+                </div>
+
             </div>
-
+            <div class="col-md-3">
+                @await Component.InvokeAsync("SuggestedFriends")
+            </div>
         </div>
-                <div class="col-md-3">
-                    @await Component.InvokeAsync("SuggestedFriends")
-                </div>
-    </div>
 
     </div>
 
@@ -60,3 +53,27 @@
         <button class="btn btn-warning">Logout</button>
     </form>
 </section>
+
+<script type="text/javascript">
+    var inputs = document.querySelectorAll('.inputfile');
+    Array.prototype.forEach.call(inputs,
+        function(input) {
+            var label = input.nextElementSibling,
+                labelVal = label.innerHTML;
+
+            input.addEventListener('change',
+                function(e) {
+                    var fileName = '';
+                    if (this.files && this.files.length > 1)
+                        fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}',
+                            this.files.length);
+                    else
+                        fileName = e.target.value.split('\\').pop();
+
+                    if (fileName)
+                        label.querySelector('span').innerHTML = fileName;
+                    else
+                        label.innerHTML = labelVal;
+                });
+        });
+</script>

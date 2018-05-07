@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Reactor.Core.Domain.Friends;
-using Reactor.Core.Domain.Members;
+using Reactor.Core.Domain.Users;
 
 namespace Reactor.Services.Friends
 {

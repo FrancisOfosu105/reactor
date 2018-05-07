@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Reactor.Core.Domain.Members;
+using Reactor.Core.Domain.Users;
 
 namespace Reactor.Services.Users
 {

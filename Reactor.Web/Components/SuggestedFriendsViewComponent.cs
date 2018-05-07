@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Reactor.Core.Domain.Members;
+using Reactor.Core.Domain.Users;
 using Reactor.Services.Friends;
 
 namespace Reactor.Web.Components

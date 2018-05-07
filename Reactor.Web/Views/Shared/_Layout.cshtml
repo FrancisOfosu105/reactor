@@ -1,14 +1,15 @@
 ﻿<!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@ViewData["Title"] - Reactor</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
     <link rel="stylesheet" href="~/assets/styles/bootstrap.css"/>
     <link rel="stylesheet" href="~/assets/styles/font-awesome.css"/>
-    <link rel="stylesheet" href="~/assets/styles/styles.css"/>
+    <link rel="stylesheet" href="~/assets/styles/styles.css" asp-append-version="true"/>
+    <title>@ViewData["Title"] - Reactor</title>
 </head>
 <body>
 <header>
@@ -24,12 +25,12 @@
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">Messages</a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Friend" asp-action="List">
                             <i class="fa fa-users"></i> Friends
                         </a>
-                    </li>   
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Friend" asp-action="FriendRequests">
                             <i class="fa fa-users"></i> Friend Requests
@@ -47,10 +48,11 @@
     </nav>
 </header>
 <main>
-        @RenderBody()
+    @RenderBody()
 </main>
 <footer>
-   
+
 </footer>
+<script type="text/javascript" src="~/assets/scripts/app.js" asp-append-version="true"></script>
 </body>
 </html>

@@ -1,0 +1,45 @@
+.post{
+    border-radius: 4px;
+    border: 1px solid $color-grey-light;
+    background-color: $color-white;
+    font-size: 1.4rem;
+  position: relative;
+  
+  &__photo-box{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+  }
+  
+  &__content,
+  &__comments{
+    padding: 2rem 2rem .5rem 2rem;
+  }
+  
+  &__photo{
+    max-width: 100%;
+  }
+  
+  &__author{
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: capitalize;
+  }
+  
+  &__text-container{
+    margin-left: 6rem;
+    padding-bottom: 1rem;
+  }
+  
+  &__text{
+
+    hyphens: auto;
+  }
+  
+  &__time{
+    font-size: 1rem;
+  }
+  
+}

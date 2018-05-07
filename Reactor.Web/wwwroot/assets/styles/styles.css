@@ -10,13 +10,13 @@ html {
 
 body {
   box-sizing: border-box;
-  background-color: #e8e8e8; }
+  background-color: #f5f8fa; }
 
 .btn {
   font-size: 1.4rem; }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Lato", sans-serif;
   color: #777;
   font-weight: 400;
   line-height: 1.7; }
@@ -93,24 +93,85 @@ body {
       transition: all .5s; }
   .form__checkbox-input:checked + .form__checkbox-label .form__checkbox-button::after {
     opacity: 1; }
+  .form__input-file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1; }
+  .form__input-file + label {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    background-color: #55c57a;
+    display: inline-block;
+    padding: .5rem 1rem;
+    margin-left: 6rem; }
+  .form__input-file:focus + label,
+  .form__input-file + label:hover {
+    background-color: #28b485; }
+  .form__input-file + label {
+    cursor: pointer; }
+  .form__input-file:focus + label {
+    outline: 1px dotted #d2e6cf;
+    outline: -webkit-focus-ring-color auto 5px; }
+
+.post {
+  border-radius: 4px;
+  border: 1px solid #c6c8ca;
+  background-color: #fff;
+  font-size: 1.4rem;
+  position: relative; }
+  .post__photo-box {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute; }
+  .post__content, .post__comments {
+    padding: 2rem 2rem .5rem 2rem; }
+  .post__photo {
+    max-width: 100%; }
+  .post__author {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: capitalize; }
+  .post__text-container {
+    margin-left: 6rem;
+    padding-bottom: 1rem; }
+  .post__text {
+    -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+            hyphens: auto; }
+  .post__time {
+    font-size: 1rem; }
 
 .account {
   background: linear-gradient(to right, rgba(210, 230, 207, 0.9), rgba(40, 180, 133, 0.9)) no-repeat center fixed;
   background-size: cover;
   height: 100vh; }
 
-.home .status,
-.home .post {
+.home .status {
   border-radius: 4px;
   border: 1px solid #c6c8ca;
   padding: 2rem;
-  background-color: #f7f7f7; }
+  background-color: #fff; }
+  .home .status__input {
+    border: 1px solid #c6c8ca; }
 
 .home .suggested__name {
   font-size: 1.7rem; }
 
-.navbar a.nav-link {
-  font-size: 1.6rem; }
+.home .status__upload-icon {
+  margin-left: 6rem;
+  color: #55c57a; }
+
+.navbar {
+  background-image: linear-gradient(#55c57a, #28b485); }
+  .navbar a.nav-link {
+    font-size: 1.6rem;
+    color: #fff !important; }
 
 .profile {
   position: relative; }

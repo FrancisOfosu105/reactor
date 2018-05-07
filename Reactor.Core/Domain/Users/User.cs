@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Reactor.Core.Domain.Friends;
+using Reactor.Core.Domain.Posts;
 
-namespace Reactor.Core.Domain.Members
+namespace Reactor.Core.Domain.Users
 {
     public class User : IdentityUser
     {
@@ -12,36 +13,13 @@ namespace Reactor.Core.Domain.Members
 
         public string LastName { get; set; }
 
-
         public ICollection<Friend> SentFriendRequests { get; set; }
 
         public ICollection<Friend> ReceievedFriendRequests { get; set; }
 
-        [NotMapped]
-        public virtual IEnumerable<Friend> ApprovedFriends
-        {
-            get
-            {
-                var friends = SentFriendRequests.Where(x => x.Approved ).ToList();
+        public ICollection<Post> Posts { get; set; }
 
-                friends.AddRange(ReceievedFriendRequests.Where(x => x.Approved));
-
-                return friends;
-            }
-        }
-        [NotMapped]
-        public virtual IEnumerable<Friend> NotApprovedFriends
-        {
-            get
-            {
-                var friends = SentFriendRequests.Where(x => x.NotApproved ).ToList();
-
-                friends.AddRange(ReceievedFriendRequests.Where(x => x.NotApproved));
-
-                return friends;
-            }
-        }
-        
+        [NotMapped] public string FullName => $"{FirstName} {LastName}";
 
 
         public User()
@@ -49,6 +27,27 @@ namespace Reactor.Core.Domain.Members
             SentFriendRequests = new List<Friend>();
 
             ReceievedFriendRequests = new List<Friend>();
+            
+            Posts = new List<Post>();
         }
+        
+        public virtual IEnumerable<Friend> ApprovedFriends()
+        {
+            var friends = SentFriendRequests.Where(x => x.Approved).ToList();
+
+            friends.AddRange(ReceievedFriendRequests.Where(x => x.Approved));
+
+            return friends;
+        }
+
+        public virtual IEnumerable<Friend> NotApprovedFriends()
+        {
+            var friends = SentFriendRequests.Where(x => x.NotApproved).ToList();
+
+            friends.AddRange(ReceievedFriendRequests.Where(x => x.NotApproved));
+
+            return friends;
+        }
+
     }
 }

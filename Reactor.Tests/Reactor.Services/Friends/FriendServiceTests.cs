@@ -7,7 +7,7 @@ using Moq;
 using NUnit.Framework;
 using Reactor.Core;
 using Reactor.Core.Domain.Friends;
-using Reactor.Core.Domain.Members;
+using Reactor.Core.Domain.Users;
 using Reactor.Core.Repository;
 using Reactor.Data.EfContext;
 using Reactor.Data.Repository;

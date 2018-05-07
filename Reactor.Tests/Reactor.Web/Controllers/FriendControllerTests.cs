@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using Reactor.Core;
-using Reactor.Core.Domain.Members;
+using Reactor.Core.Domain.Users;
 using Reactor.Services.Friends;
 using Reactor.Services.Users;
 using Reactor.Web.Controllers;

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Reactor.Core.Domain.Friends;
-using Reactor.Core.Domain.Members;
+using Reactor.Core.Domain.Users;
 using Reactor.Data.EntityConfiguration;
 
 namespace Reactor.Data.EfContext
@@ -32,6 +32,10 @@ namespace Reactor.Data.EfContext
             builder.ApplyConfiguration(new UserConfiguration());
 
             builder.ApplyConfiguration(new FriendConfiguration());
+
+            builder.ApplyConfiguration(new PostConfiguration());
+            
+            builder.ApplyConfiguration(new PhotoConfiguration());
 
         }
     }

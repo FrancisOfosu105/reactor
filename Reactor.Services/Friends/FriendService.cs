@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Reactor.Core;
 using Reactor.Core.Domain.Friends;
-using Reactor.Core.Domain.Members;
+using Reactor.Core.Domain.Users;
 using Reactor.Core.Extensions;
 using Reactor.Core.Repository;
 using Reactor.Services.Users;
@@ -31,9 +30,9 @@ namespace Reactor.Services.Friends
 
             var currentUser = await _userService.GetUserWithFriendsAsync();
 
-            var approvedFriends = currentUser.ApprovedFriends;
+            var approvedFriends = currentUser.ApprovedFriends();
 
-            var notApprovedFriends = currentUser.NotApprovedFriends;
+            var notApprovedFriends = currentUser.NotApprovedFriends();
 
             var friends = approvedFriends.Concat(notApprovedFriends).ToList();
 
@@ -90,7 +89,7 @@ namespace Reactor.Services.Friends
         {
             var user = await _userService.GetUserWithFriendsAsync();
 
-            return user.ApprovedFriends;
+            return user.ApprovedFriends();
         }
 
         public async Task<IEnumerable<Friend>> GetFriendRequests()

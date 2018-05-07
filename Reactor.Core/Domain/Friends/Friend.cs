@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using Reactor.Core.Domain.Members;
+using Reactor.Core.Domain.Users;
 
 namespace Reactor.Core.Domain.Friends
 {

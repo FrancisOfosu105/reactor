@@ -1,7 +1,7 @@
-const gulp = require('gulp'),
+var gulp = require('gulp'),
     watch = require('gulp-watch');
 
-gulp.task("default", ["styles" ,"fa", "fonts"], function () {
+gulp.task("default", ["styles","scripts" ,"fa", "fonts"], function () {
     watch([
         "./temp/styles/**/*.scss"
         // "./node_modules/bootstrap/scss/**/*.scss"
@@ -9,4 +9,8 @@ gulp.task("default", ["styles" ,"fa", "fonts"], function () {
 
         gulp.start("styles");
     });
+    
+    watch("./temp/scripts/**/*.js",function () {
+        gulp.start("scripts");
+    })
 });

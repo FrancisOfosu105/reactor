@@ -1,26 +1,37 @@
-.home{
-  
-  & .status,
-  & .post{
+.home {
+
+  & .status {
     border-radius: 4px;
-    border: 1px solid #c6c8ca;
+    border: 1px solid $color-grey-light;
     padding: 2rem;
-    background-color: #f7f7f7;
+    background-color: $color-white;
+
+    &__input {
+      border: 1px solid $color-grey-light;
+    }
   }
-  
-  & .suggested{
-    &__name{
+
+  & .suggested {
+    &__name {
       font-size: 1.7rem;
     }
-    
+
   }
-  
+
+  & .status {
+    &__upload-icon {
+      margin-left: 6rem;
+      color: $color-primary;
+    }
+  }
+
 }
 
 .navbar {
   a.nav-link {
     font-size: 1.6rem;
+    color: $color-white!important;
   }
-
+  background-image: linear-gradient($color-primary,$color-primary-dark);
 }
 

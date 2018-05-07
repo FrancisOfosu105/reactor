@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -8,12 +7,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reactor.Core;
 using Reactor.Core.Domain.Friends;
-using Reactor.Core.Domain.Members;
+using Reactor.Core.Domain.Photos;
+using Reactor.Core.Domain.Posts;
+using Reactor.Core.Domain.Users;
 using Reactor.Core.Repository;
 using Reactor.Data;
 using Reactor.Data.EfContext;
 using Reactor.Data.Repository;
 using Reactor.Services.Friends;
+using Reactor.Services.Photos;
+using Reactor.Services.Posts;
 using Reactor.Services.Users;
 
 namespace Reactor.Web
@@ -49,11 +52,15 @@ namespace Reactor.Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<IRepository<Friend>, FriendRepository>();
+            services.AddScoped<IRepository<Post>, PostRepository>();
+            services.AddScoped<IRepository<Photo>, PhotoRepository>();
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFriendService, FriendService>();
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IPhotoService, PhotoService>();
             
            
         }

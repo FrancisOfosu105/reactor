@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reactor.Core;
-using Reactor.Core.Domain.Members;
 using Reactor.Services.Friends;
 using Reactor.Services.Users;
 

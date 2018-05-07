@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Reactor.Core.Domain.Members;
+using Reactor.Core.Domain.Users;
 
 namespace Reactor.Data.EntityConfiguration
 {

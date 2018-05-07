@@ -150,7 +150,49 @@ namespace Reactor.Data.Migrations
                     b.ToTable("Friend");
                 });
 
-            modelBuilder.Entity("Reactor.Core.Domain.Members.User", b =>
+            modelBuilder.Entity("Reactor.Core.Domain.Photos.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.Property<int>("PostId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Photo");
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Posts.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(5000);
+
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasMaxLength(450);
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.ToTable("Post");
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Users.User", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -219,7 +261,7 @@ namespace Reactor.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Reactor.Core.Domain.Members.User")
+                    b.HasOne("Reactor.Core.Domain.Users.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -227,7 +269,7 @@ namespace Reactor.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Reactor.Core.Domain.Members.User")
+                    b.HasOne("Reactor.Core.Domain.Users.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -240,7 +282,7 @@ namespace Reactor.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Reactor.Core.Domain.Members.User")
+                    b.HasOne("Reactor.Core.Domain.Users.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -248,7 +290,7 @@ namespace Reactor.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Reactor.Core.Domain.Members.User")
+                    b.HasOne("Reactor.Core.Domain.Users.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -256,15 +298,31 @@ namespace Reactor.Data.Migrations
 
             modelBuilder.Entity("Reactor.Core.Domain.Friends.Friend", b =>
                 {
-                    b.HasOne("Reactor.Core.Domain.Members.User", "RequestedBy")
+                    b.HasOne("Reactor.Core.Domain.Users.User", "RequestedBy")
                         .WithMany("SentFriendRequests")
                         .HasForeignKey("RequestedById")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Reactor.Core.Domain.Members.User", "RequestedTo")
+                    b.HasOne("Reactor.Core.Domain.Users.User", "RequestedTo")
                         .WithMany("ReceievedFriendRequests")
                         .HasForeignKey("RequestedToId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Photos.Photo", b =>
+                {
+                    b.HasOne("Reactor.Core.Domain.Posts.Post", "Post")
+                        .WithMany("Photos")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Posts.Post", b =>
+                {
+                    b.HasOne("Reactor.Core.Domain.Users.User", "CreatedBy")
+                        .WithMany("Posts")
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
