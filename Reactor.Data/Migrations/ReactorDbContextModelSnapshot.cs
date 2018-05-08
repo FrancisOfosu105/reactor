@@ -129,6 +129,31 @@ namespace Reactor.Data.Migrations
                     b.ToTable("UserTokens");
                 });
 
+            modelBuilder.Entity("Reactor.Core.Domain.Comments.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CommentById")
+                        .IsRequired()
+                        .HasMaxLength(450);
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<int>("PostId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentById");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comment");
+                });
+
             modelBuilder.Entity("Reactor.Core.Domain.Friends.Friend", b =>
                 {
                     b.Property<string>("RequestedById")
@@ -231,6 +256,9 @@ namespace Reactor.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasMaxLength(256);
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -293,6 +321,19 @@ namespace Reactor.Data.Migrations
                     b.HasOne("Reactor.Core.Domain.Users.User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Comments.Comment", b =>
+                {
+                    b.HasOne("Reactor.Core.Domain.Users.User", "CommentBy")
+                        .WithMany("Comments")
+                        .HasForeignKey("CommentById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Reactor.Core.Domain.Posts.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

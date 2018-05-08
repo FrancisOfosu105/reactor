@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reactor.Core;
+using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Posts;
 using Reactor.Services.Photos;
 using Reactor.Services.Posts;
@@ -30,9 +31,12 @@ namespace Reactor.Web.Controllers
         }
 
         // GET
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(new HomeModel());
+            return View(new HomeModel
+            {
+                UserProfilePicture = await _userService.GetUserProfileAsync()
+            });
         }
 
         [HttpPost]
@@ -59,6 +63,52 @@ namespace Reactor.Web.Controllers
             }
 
             return RedirectToAction(nameof(Index), "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(CreateCommentModel model)
+        {
+            var post = await _postService.GetPostWithCommentsAsync(model.PostId);
+
+            if (post == null)
+                return NotFound();
+
+            var user = await _userService.GetUserAsync(await _userService.GetCurrentUserIdAsync());
+
+            var createdOn = await _postService.AddCommentToPost(post, model.Comment);
+
+            await _unitOfWork.CompleteAsync();
+
+            return Ok(new
+            {
+                comment = model.Comment,
+                profilePicture = await _userService.GetUserProfileAsync(),
+                postId = model.PostId,
+                fullName = user.FullName,
+                createdOn = createdOn.ToString("o"),
+                totalComments = await _postService.GetTotalCommentsForPostAsnyc(model.PostId)
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PreviousComments(LoadPreviousCommentModel model)    
+        {
+            var post = await _postService.GetPostByIdAsync(model.PostId);
+
+            if (post == null)
+                return NotFound();
+
+            var comments = await _postService.GetPagedComments(model.PageIndex, model.PostId);
+
+            return Ok(new
+            {
+                comments,
+                loadMore = comments.Count() >= 5
+                
+            });
+
         }
     }
 }

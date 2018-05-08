@@ -10,11 +10,11 @@
         <div class="card-body">
             <div class="d-flex">
                 <div class="mr-3">
-                    <img src="~/assets/images/person.jpg" class="rounded-circle" width="50" height="50"/>
+                    <img src="@user.GetPicture()" class="rounded-circle" width="50" height="50"/>
 
                 </div>
                 <div>
-                    <span class="d-block font-weight-bold suggested__name">@user.UserName</span>
+                    <span class="d-block font-weight-bold suggested__name">@user.FullName</span>
 
                     <form asp-controller="Friend" asp-action="AddFriendRequest" method="post" asp-route-requestedToId="@user.Id">
                         <button class="btn btn-success"><i class="fa fa-user-plus"></i> Add as friend</button>

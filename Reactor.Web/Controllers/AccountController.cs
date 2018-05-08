@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Reactor.Core.Domain.Users;
+using Reactor.Services.Photos;
 using Reactor.Web.Models.Account;
 
 namespace Reactor.Web.Controllers
@@ -16,15 +17,17 @@ namespace Reactor.Web.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly IPhotoService _photoService;
 
         public AccountController(
             UserManager<User> userManager,
             ILogger<AccountController> logger,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager, IPhotoService photoService)
         {
             _userManager = userManager;
             _logger = logger;
             _signInManager = signInManager;
+            _photoService = photoService;
         }
 
 
@@ -32,10 +35,9 @@ namespace Reactor.Web.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
-
             if (_signInManager.IsSignedIn(User))
                 return RedirectToAction(nameof(HomeController.Index), "Home");
-            
+
             //clear existing cookies to ensure a clean login process
             HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
@@ -82,6 +84,9 @@ namespace Reactor.Web.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
+            if (_signInManager.IsSignedIn(User))
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            
             return View();
         }
 
@@ -92,7 +97,7 @@ namespace Reactor.Web.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var member = new User
+            var user = new User 
             {
                 UserName = model.UserName,
                 FirstName = model.FirstName,
@@ -100,7 +105,14 @@ namespace Reactor.Web.Controllers
                 Email = model.EmailAddress
             };
 
-            var result = await _userManager.CreateAsync(member, model.Password);
+            if (model.File != null)
+            {
+                var photoLocation = await _photoService.Upload(model.File);
+                user.ProfilePictureUrl = photoLocation;
+            }
+
+
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
@@ -116,10 +128,9 @@ namespace Reactor.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-           await _signInManager.SignOutAsync();
-            
+            await _signInManager.SignOutAsync();
+
             return RedirectToAction(nameof(Login));
-            
         }
 
         private IActionResult RedirectToLocal(string returnUrl)

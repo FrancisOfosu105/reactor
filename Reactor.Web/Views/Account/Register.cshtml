@@ -6,7 +6,7 @@
 
 <div class="form">
     <h2 class="form__title">Register a new account</h2>
-    <form asp-action="Register" asp-antiforgery="true">
+    <form asp-action="Register" asp-antiforgery="true" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="form__error"></div>
         <div class="form__group">
             <input type="text" class="form__input" placeholder="User Name" asp-for="UserName" required/>
@@ -37,6 +37,10 @@
             <input type="password" class="form__input" placeholder="Confirm Password" asp-for="ConfirmPassword" required/>
             <span asp-validation-for="ConfirmPassword" class="form__error"></span>
 
+        </div>
+        <div class="form__group">
+            <input type="file" id="file" class="form__input-file js-inputfile" accept=".jpg,.jpeg,.png,.gif" asp-for="File"/>
+            <label for="file"><i class="fa fa-user"></i>&nbsp; <span>Upload a profile picture</span></label>
         </div>
         <div class="form__group">
             <input type="submit" class="btn btn-success btn-block btn-lg " value="Register"/>

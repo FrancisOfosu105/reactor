@@ -14,6 +14,8 @@ namespace Reactor.Data.EntityConfiguration
 
             builder.Property(m => m.LastName).HasMaxLength(256).IsRequired();
 
+            builder.Property(m => m.ProfilePictureUrl).HasMaxLength(256);
+
         }
     }
 }

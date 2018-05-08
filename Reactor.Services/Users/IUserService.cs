@@ -15,5 +15,7 @@ namespace Reactor.Services.Users
         IQueryable<User> GetAllUsersExceptCurrentUser();
 
         Task<User> GetUserWithFriendsAsync();
+
+        Task<string> GetUserProfileAsync();
     }
 }

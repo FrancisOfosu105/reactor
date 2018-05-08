@@ -36,6 +36,8 @@ namespace Reactor.Data.EfContext
             builder.ApplyConfiguration(new PostConfiguration());
             
             builder.ApplyConfiguration(new PhotoConfiguration());
+            
+            builder.ApplyConfiguration(new CommentConfiguration());
 
         }
     }

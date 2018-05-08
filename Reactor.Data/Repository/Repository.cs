@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Reactor.Core;
@@ -28,11 +26,6 @@ namespace Reactor.Data.Repository
         public void Remove(T entity)
         {
             _dbSet.Remove(entity);
-        }
-
-        public async Task<T> FindAsync(Expression<Func<T, object>> predicate)
-        {
-           return await _dbSet.FindAsync(predicate);
         }
 
         public async Task<IEnumerable<T>> FindAll()

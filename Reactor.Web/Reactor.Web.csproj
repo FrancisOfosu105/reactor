@@ -3,7 +3,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="temp\scripts\modules" />
+    <Folder Include="Models\Posts" />
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\assets\scripts" />
   </ItemGroup>
@@ -23,5 +23,8 @@
       <Project>{91F00B43-4B17-494F-82B3-452BF3E286B0}</Project>
       <Name>Reactor.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\styles\components\post.css" />
   </ItemGroup>
 </Project>

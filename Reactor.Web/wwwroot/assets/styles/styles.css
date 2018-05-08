@@ -1,3 +1,6 @@
+.u-margin-left-medium {
+  margin-left: 6rem; }
+
 *,
 *::after,
 *::before {
@@ -106,8 +109,7 @@ body {
     color: #fff;
     background-color: #55c57a;
     display: inline-block;
-    padding: .5rem 1rem;
-    margin-left: 6rem; }
+    padding: .5rem 1rem; }
   .form__input-file:focus + label,
   .form__input-file + label:hover {
     background-color: #28b485; }
@@ -122,17 +124,63 @@ body {
   border: 1px solid #c6c8ca;
   background-color: #fff;
   font-size: 1.4rem;
-  position: relative; }
+  position: relative;
+  padding: 2rem; }
   .post__photo-box {
     width: 5rem;
     height: 5rem;
-    border-radius: 50%;
-    overflow: hidden;
     position: absolute; }
-  .post__content, .post__comments {
-    padding: 2rem 2rem .5rem 2rem; }
   .post__photo {
-    max-width: 100%; }
+    width: 4rem;
+    border-radius: 50%;
+    height: 4rem; }
+  .post__comments {
+    position: relative;
+    display: none; }
+    .post__comments--show {
+      display: block; }
+  .post__commenter {
+    position: absolute;
+    left: 0; }
+  .post__comment-box {
+    margin-left: 5rem; }
+  .post__comment-input {
+    width: 100%;
+    border-radius: 2rem;
+    padding: .7rem 2rem;
+    border: 1px solid #c6c8ca; }
+    .post__comment-input:focus {
+      outline: none; }
+  .post__comment-list-box {
+    margin-bottom: 1rem; }
+  .post__comments-list {
+    margin-left: 5rem;
+    border: 1px solid #c6c8ca;
+    border-radius: 2rem;
+    padding: .7rem 1rem; }
+    .post__comments-list h4 {
+      font-weight: 700;
+      font-size: 1.4rem;
+      text-transform: capitalize;
+      margin-right: .2rem;
+      color: #55c57a; }
+      .post__comments-list h4:hover {
+        text-decoration: underline;
+        cursor: pointer; }
+  .post__comment-author {
+    position: absolute; }
+  .post__comment-author-photo {
+    width: 4rem;
+    border-radius: 50%;
+    height: 4rem; }
+  .post__icons {
+    margin: 2rem 0;
+    color: #777; }
+    .post__icons a {
+      color: #777; }
+      .post__icons a:hover {
+        text-decoration: underline;
+        cursor: pointer; }
   .post__author {
     font-size: 1.5rem;
     font-weight: 700;
@@ -158,7 +206,16 @@ body {
   padding: 2rem;
   background-color: #fff; }
   .home .status__input {
-    border: 1px solid #c6c8ca; }
+    border: 1px solid #c6c8ca;
+    width: 85%;
+    margin-left: 6rem; }
+  .home .status__photo-box {
+    width: 5rem;
+    height: 5rem;
+    position: absolute; }
+  .home .status__photo {
+    max-width: 100%;
+    border-radius: .5rem; }
 
 .home .suggested__name {
   font-size: 1.7rem; }

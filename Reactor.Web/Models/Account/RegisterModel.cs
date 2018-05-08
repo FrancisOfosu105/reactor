@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Reactor.Web.Models.Account
 {
@@ -27,5 +28,7 @@ namespace Reactor.Web.Models.Account
         
         [Compare(nameof(Password), ErrorMessage = "Password does not match")]
         public string ConfirmPassword { get; set; }
+
+        public IFormFile File { get; set; }
     }
 }

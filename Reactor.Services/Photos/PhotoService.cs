@@ -37,6 +37,21 @@ namespace Reactor.Services.Photos
             }
         }
 
+        public async Task<string> Upload(IFormFile file)
+        {
+            CreateDirectory(Path.Combine(_host.WebRootPath, "uploads/profiles"));
+
+            var filename = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(Path.Combine(_host.WebRootPath, "uploads/profiles"), filename);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return $"/uploads/profiles/{filename}";
+        }
+
         private async Task AddPhotoAsync(int postId, string filename)
         {
             var photo = new Photo

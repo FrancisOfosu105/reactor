@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Photos;
 using Reactor.Core.Domain.Users;
 
@@ -17,9 +18,13 @@ namespace Reactor.Core.Domain.Posts
         
         public ICollection<Photo> Photos { get; set; }
 
+        public ICollection<Comment> Comments { get; set; }
+
         public Post()
         {
             Photos = new List<Photo>();
+            
+            Comments = new List<Comment>();
         }
     }
 }

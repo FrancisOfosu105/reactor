@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reactor.Core;
+using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Friends;
 using Reactor.Core.Domain.Photos;
 using Reactor.Core.Domain.Posts;
@@ -54,6 +55,7 @@ namespace Reactor.Web
             services.AddScoped<IRepository<Friend>, FriendRepository>();
             services.AddScoped<IRepository<Post>, PostRepository>();
             services.AddScoped<IRepository<Photo>, PhotoRepository>();
+            services.AddScoped<IRepository<Comment>, CommentRepository>();
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

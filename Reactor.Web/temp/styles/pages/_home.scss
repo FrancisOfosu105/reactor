@@ -8,6 +8,19 @@
 
     &__input {
       border: 1px solid $color-grey-light;
+      width: 85%;
+      margin-left: 6rem;
+    }
+    
+    &__photo-box{
+      width: 5rem;
+      height: 5rem;
+      position: absolute;
+    }
+    
+    &__photo{
+      max-width: 100%;
+      border-radius: .5rem;
     }
   }
 

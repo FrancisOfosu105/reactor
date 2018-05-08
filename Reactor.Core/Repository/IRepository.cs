@@ -14,8 +14,6 @@ namespace Reactor.Core.Repository
 
         void Remove(T entity);
         
-        Task<T> FindAsync(Expression<Func<T, object>> predicate);
-
         Task<IEnumerable<T>> FindAll();
         
     }

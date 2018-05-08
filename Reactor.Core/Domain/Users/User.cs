@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
+using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Friends;
 using Reactor.Core.Domain.Posts;
 
@@ -13,6 +14,8 @@ namespace Reactor.Core.Domain.Users
 
         public string LastName { get; set; }
 
+        public string ProfilePictureUrl { get; set; }    
+
         public ICollection<Friend> SentFriendRequests { get; set; }
 
         public ICollection<Friend> ReceievedFriendRequests { get; set; }
@@ -20,6 +23,8 @@ namespace Reactor.Core.Domain.Users
         public ICollection<Post> Posts { get; set; }
 
         [NotMapped] public string FullName => $"{FirstName} {LastName}";
+        
+        public ICollection<Comment> Comments { get; set; }
 
 
         public User()
@@ -29,6 +34,8 @@ namespace Reactor.Core.Domain.Users
             ReceievedFriendRequests = new List<Friend>();
             
             Posts = new List<Post>();
+            
+            Comments = new List<Comment>();
         }
         
         public virtual IEnumerable<Friend> ApprovedFriends()
@@ -47,6 +54,11 @@ namespace Reactor.Core.Domain.Users
             friends.AddRange(ReceievedFriendRequests.Where(x => x.NotApproved));
 
             return friends;
+        }
+
+        public string GetPicture()
+        {
+            return ProfilePictureUrl ?? "/assets/images/no-profile.svg";
         }
 
     }

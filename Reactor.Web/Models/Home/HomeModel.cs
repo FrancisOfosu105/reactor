@@ -9,6 +9,8 @@ namespace Reactor.Web.Models.Home
         public string Content { get; set; }
 
         public IFormFileCollection Files { get; set; }
+
+        public string UserProfilePicture { get; set; }
         
     }
 }

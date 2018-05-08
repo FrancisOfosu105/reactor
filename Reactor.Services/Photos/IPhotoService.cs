@@ -6,5 +6,6 @@ namespace Reactor.Services.Photos
     public interface IPhotoService
     {
         Task Upload(IFormFileCollection files, int postId);
+        Task<string> Upload(IFormFile file);
     }
 }

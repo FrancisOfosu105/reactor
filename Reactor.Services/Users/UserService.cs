@@ -52,5 +52,12 @@ namespace Reactor.Services.Users
                 .ThenInclude(f => f.RequestedBy)
                 .FirstOrDefaultAsync(u => u.Id == _currentUserId);
         }
+
+        public async Task<string> GetUserProfileAsync()
+        {
+            var user = await GetUserAsync(_currentUserId);
+
+            return user.GetPicture();
+        }
     }
 }
