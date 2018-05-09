@@ -1,7 +1,8 @@
 import FileInput from "./modules/file-input";
 import DateTime from "./modules/date-time";
-import Comment from "./modules/comment";
+import Post from "./modules/post";
 
 new FileInput();
 new DateTime();
-new Comment();
+new Post();
+// new Comment();

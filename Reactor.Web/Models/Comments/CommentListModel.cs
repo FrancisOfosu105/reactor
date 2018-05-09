@@ -9,5 +9,7 @@ namespace Reactor.Web.Models.Comments
         public IEnumerable<Comment> Comments{ get; set; }
 
         public int PostId { get; set; }
+
+        public bool LoadMore { get; set; }
     }
 }

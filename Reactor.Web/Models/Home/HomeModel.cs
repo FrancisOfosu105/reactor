@@ -11,6 +11,8 @@ namespace Reactor.Web.Models.Home
         public IFormFileCollection Files { get; set; }
 
         public string UserProfilePicture { get; set; }
+
+        public bool PostLoadMore { get; set; }
         
     }
 }

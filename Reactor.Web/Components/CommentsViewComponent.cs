@@ -5,19 +5,23 @@ using Reactor.Web.Models.Comments;
 
 namespace Reactor.Web.Components
 {
-    public class CommentsViewComponent:ViewComponent
+    public class CommentsViewComponent : ViewComponent
     {
         private readonly IPostService _postService;
+
         public CommentsViewComponent(IPostService postService)
         {
             _postService = postService;
         }
-        
+        // GET
         public async Task<IViewComponentResult> InvokeAsync(int postId)
         {
+            var result = await _postService.GetPagedCommentsByPostIdAsync(postId);
+            
             return View(new CommentViewModel
             {
-                Comments = await _postService.GetCommentsByIdAsync(postId),
+                Comments = result.data,
+                LoadMore = result.loadMore,
                 PostId = postId
             });
         }

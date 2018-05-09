@@ -1,0 +1,21 @@
+﻿@model Reactor.Web.Models.Comments.CommentViewModel
+
+@foreach (var comment in Model.Comments)
+{
+    <div class="post__comment-list-box">
+        <div class="post__comment-author">
+            <img src="@comment.CommentBy.GetPicture()" class="post__comment-author-photo"/>
+        </div>
+
+        <div class="post__comments-list">
+
+            <p class="d-inline-block">
+                <h4 class="d-inline-block">@comment.CommentBy.FullName:</h4>
+                @comment.Content
+                <time class="d-inline-block pull-right post__time timeago" datetime="@comment.CreatedOn.ToString("o")"></time>
+            </p>
+
+        </div>
+    </div>
+}
+

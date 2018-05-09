@@ -1,39 +1,24 @@
-﻿@using Reactor.Services.Users
-@model Reactor.Web.Models.Comments.CommentViewModel
+﻿@model Reactor.Web.Models.Comments.CommentViewModel
 @inject IUserService UserService
 <div class="post__comments" id="post__comments-@(Model.PostId)">
-    <div class="text-center p-2">
-        <a href="#" data-post-id="@Model.PostId" class="load-previous-comments-btn">
-           <span class="d-none">2</span> View previous comments
-        </a>
+        @if (Model.LoadMore)
+        {
+            <div class="text-center p-2">
+                <a href="#" data-post-id="@Model.PostId" class="load-previous-comments-btn">
+                    <span class="d-none">2</span> View previous comments
+                </a>
 
-    </div>
+            </div>
+        }
 
     <div class="post__comments-container-@(Model.PostId)">
-    @if (Model.Comments.Any())
-    {
-            foreach (var comment in Model.Comments)
-            {
-                <div class="post__comment-list-box">
-                    <div class="post__comment-author">
-                        <img src="@comment.CommentBy.GetPicture()" class="post__comment-author-photo"/>
-                    </div>
+        @if (Model.Comments.Any())
+        {
+            @await Html.PartialAsync("Templates/Comment", Model)
+            <span class="d-none" id="comment-loadMore-@Model.PostId">@Model.LoadMore</span>
+        }
+    </div>
 
-                    <div class="post__comments-list">
-                       
-                        <p class="d-inline-block">
-                            <h4 class="d-inline-block">@comment.CommentBy.FullName:</h4> 
-                            @comment.Content
-                        <time class="d-inline-block pull-right post__time timeago" datetime="@comment.CreatedOn.ToString("o")"></time>
-                        </p>
-                        
-                    </div>
-                </div>
-            }
-     
-    }
-        </div>
-    
     <div class="post__commenter">
         <img src="@await UserService.GetUserProfileAsync()" class="post__photo"/>
     </div>

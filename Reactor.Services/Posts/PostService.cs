@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Posts;
-using Reactor.Core.Model.Comments;
-using Reactor.Core.Model.Posts;
 using Reactor.Core.Repository;
 using Reactor.Services.Users;
 
@@ -17,6 +15,7 @@ namespace Reactor.Services.Posts
         private readonly IRepository<Post> _postRepository;
         private readonly IUserService _userService;
         private readonly IRepository<Comment> _commentRepository;
+        private const int PAGE_SIZE = 5;
 
         public PostService(IRepository<Post> postRepository, IUserService userService,
             IRepository<Comment> commentRepository)
@@ -31,39 +30,11 @@ namespace Reactor.Services.Posts
             await _postRepository.AddAsync(post);
         }
 
-        public async Task<IEnumerable<PostListModel>> GetPostsAsync()
-        {
-            var posts = _postRepository.Table
-                .Include(p => p.CreatedBy)
-                .Include(p => p.Photos)
-                .OrderByDescending(p => p.CreatedOn).Select(p=> new PostListModel
-                {
-                    Post = p,
-                    CommentCount = p.Comments.Count
-                } );
-
-            return await posts.ToListAsync();
-        }
-
         public Task<Post> GetPostWithCommentsAsync(int postId)
         {
             return _postRepository.Table.Include(p => p.Comments).FirstOrDefaultAsync(p => p.Id == postId);
         }
 
-
-        public async Task<IEnumerable<Comment>> GetCommentsByIdAsync(int postId)
-        {
-            var comments = _commentRepository.Table
-                .Include(c => c.Post)
-                .Include(c => c.CommentBy)
-                .Where(c => c.PostId == postId)
-                .OrderByDescending(c => c.CreatedOn)
-                .Take(5);
-
-            comments = comments.OrderBy(c => c.CreatedOn);
-
-            return await comments.ToListAsync();
-        }
 
         public async Task<DateTime> AddCommentToPost(Post post, string comment)
         {
@@ -88,23 +59,50 @@ namespace Reactor.Services.Posts
             return await _postRepository.Table.FirstOrDefaultAsync(p => p.Id == postId);
         }
 
-        public async Task<IEnumerable<CommentListModel>> GetPagedComments(int pageIndex, int postId)
+        public async Task<(IEnumerable<Post> data, bool loadMore)> GetPagedPostsAsync(int pageIndex)
         {
-            var comments =  _commentRepository.Table
+            var query = _postRepository.Table
+                .Include(p => p.Comments)
+                .Include(p => p.Photos)
+                .Include(p => p.CreatedBy)
+                .OrderByDescending(p => p.CreatedOn)
+                .AsQueryable();
+
+            var loadMore = pageIndex * PAGE_SIZE < await query.CountAsync();
+
+            query = query.Skip((pageIndex - 1) * PAGE_SIZE).Take(PAGE_SIZE);
+
+            return (await query.ToListAsync(), loadMore);
+        }
+
+        public async Task<bool> ShouldPostLoadMoreAsync()
+        {
+            var query = _postRepository.Table
+                .OrderByDescending(c => c.CreatedOn)
+                .AsQueryable();
+
+            return 1 * PAGE_SIZE < await query.CountAsync();
+        }
+
+        public async Task<(IEnumerable<Comment> data, bool loadMore)> GetPagedCommentsByPostIdAsync(int postId,
+            int pageIndex = 1)
+        {
+            var query = _commentRepository.Table
+                .Include(c => c.Post)
+                .Include(c => c.CommentBy)
                 .Where(c => c.PostId == postId)
                 .OrderByDescending(c => c.CreatedOn)
-                .Skip((pageIndex - 1) * 5)
-                .Take(5).Select(c=>new CommentListModel
-                {
-                    Comment = c.Content,
-                    FullName = c.CommentBy.FullName,
-                    CreatedOn = c.CreatedOn.ToString("o"),
-                    ProfilePicture = c.CommentBy.GetPicture()
-                });
+                .AsQueryable();
 
-            comments = comments.OrderBy(c => c.CreatedOn);
 
-            return await comments.ToListAsync();
+            var loadMore = pageIndex * PAGE_SIZE < await query.CountAsync();
+
+            query = query.Skip((pageIndex - 1) * PAGE_SIZE).Take(PAGE_SIZE);
+
+            query = query.OrderBy(c => c.CreatedOn).AsQueryable();
+
+
+            return (await query.ToListAsync(), loadMore);
         }
     }
 }
