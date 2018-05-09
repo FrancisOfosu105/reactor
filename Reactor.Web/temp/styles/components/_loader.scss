@@ -1,0 +1,16 @@
+.loader{
+  
+  text-align: center;
+  width: 100%;
+    font-size: 1.6rem;
+  display: none;
+  padding: 2rem;
+  &__icon{
+    color: $color-primary-dark;
+  }
+  
+  &--show{
+    display: block;
+  }
+  
+}

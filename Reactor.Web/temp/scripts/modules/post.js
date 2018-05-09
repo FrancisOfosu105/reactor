@@ -6,21 +6,28 @@ export default class Post {
     constructor() {
         this.postPageIndex = 1;
         this.baseUrl = '/home';
+        this.$body = $('body');
+        this.$window = $(window);
+        this.$document = $(document);
         this.getInitialPosts();
-        this.postEvents();
-
-
+        this.events();
     }
 
-    postEvents() {
-        $(window).on('scroll', this.windowScrollHander.bind(this));
+    events() {
+        this.$window.on('scroll', this.windowScrollHander.bind(this));
+
+        this.$body.on('keyup', 'input.post__comment-input', this.keyPressHandler.bind(this));
+
+        this.$body.on('click', 'a.post__comment-icon', this.toggleComments.bind(this));
+
+        this.$body.on('click', 'a.load-previous-comments-btn', this.loadPreviousComment.bind(this));
     }
 
 
     windowScrollHander() {
-        let documentHeight = $(document).height();
-        let windowHeight = $(window).height();
-        let windowScrollTop = $(window).scrollTop();
+        let documentHeight = this.$document.height();
+        let windowHeight = this.$window.height();
+        let windowScrollTop = this.$window.scrollTop();
 
         if ((documentHeight - windowHeight) === windowScrollTop) {
             this.postPageIndex++;
@@ -31,27 +38,34 @@ export default class Post {
 
 
     getInitialPosts() {
-        let that = this;
         let $postContainer = $('#post-container');
+        
+        $.ajax({
+            url :`${this.baseUrl}/getposts`,
+            method: 'POST',
+            data :commonHelper.addAntiForgeryToken({
+                pageIndex: this.postPageIndex
 
-        $.post(`${this.baseUrl}/getposts`, commonHelper.addAntiForgeryToken({
-            pageIndex: this.postPageIndex
+            }),
+            beforeSend: ()=>{
+                $('.loader').addClass('loader--show');
 
-        }), (data) => {
-            $postContainer.append(data.posts);
+            },
+            success: data => {
+                $('.loader').removeClass('loader--show');
 
-            //Re-initialize timeago
-            commonHelper.addTimeago();
+                $postContainer.append(data.posts);
 
-            //Call the comment events
-            that.commentEvents();
+                //Re-initialize timeago
+                commonHelper.addTimeago();
+            }
+            
         });
 
     }
 
     loadMorePosts(pageIndex) {
-        let that = this;
-        let $postLoadMoreElem = $('#post-loadMore');
+                let $postLoadMoreElem = $('#post-loadMore');
 
         if ($postLoadMoreElem.html()) {
             $.ajax({
@@ -61,11 +75,11 @@ export default class Post {
                     pageIndex: pageIndex
                 }),
                 beforeSend: function () {
-                    $('.post-loader').removeClass('d-none');
+                    $('.loader').addClass('loader--show');
                 },
                 success: function (data) {
 
-                    $('.post-loader').addClass('d-none');
+                    $('.loader').removeClass('loader--show');
 
                     $('#post-container').append(data.posts);
 
@@ -76,9 +90,6 @@ export default class Post {
 
                     //Re-initialize timeago
                     commonHelper.addTimeago();
-
-                    //Call the comment events
-                    that.commentEvents();
 
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -92,18 +103,6 @@ export default class Post {
 
 
     //Comments system
-
-    commentEvents() {
-        let $commentInput = $('.post__comment-input');
-        let $commentIcon = $('.post__comment-icon');
-        let $loadPreviousCommentBtn = $('.load-previous-comments-btn');
-
-        $commentInput.keyup(this.keyPressHandler.bind(this));
-        $commentIcon.on('click', this.toggleComments.bind(this));
-        $loadPreviousCommentBtn.on('click', this.loadPreviousComment.bind(this));
-    }
-
-
     keyPressHandler(e) {
         if (e.keyCode === 13) {
             this.createComment($(e.target));
@@ -111,10 +110,10 @@ export default class Post {
     }
 
     toggleComments(e) {
+        e.preventDefault();
         let $anchorElem = $(e.target);
         let $commentBox = $($anchorElem.data('comments-target'));
         $commentBox.toggleClass('post__comments--show');
-        return false;
     }
 
     createComment($element) {
@@ -153,13 +152,11 @@ export default class Post {
 
     loadPreviousComment(e) {
         e.preventDefault();
-        let that = this;
-        let $loadBtn = $(e.target);
+         let $loadBtn = $(e.target);
         let pageIndex = parseInt($loadBtn.find('span').html());
         let postId = $loadBtn.data('post-id');
         let $commentContainer = $(`.post__comments-container-${postId}`);
         let $loadMore = $(`#comment-loadMore-${postId}`);
-
 
         if ($loadMore.html()) {
             $.post(`${this.baseUrl}/previouscomments`, commonHelper.addAntiForgeryToken({

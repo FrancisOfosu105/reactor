@@ -1,4 +1,4 @@
-﻿@model object
+﻿@model Reactor.Web.Models.Profile.ProfileModel
 
 @{
     ViewBag.Title = "title";
@@ -7,36 +7,136 @@
 
 <section class="profile">
     <div class="profile__cover">
-        <img src="~/assets/images/profile.jpg"/>
-    </div>
-    
-    <div class="profile__min">
-        <img src="~/assets/images/person.jpg"/>
-    </div>
-    
-    <div class="profile__stats">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6 ">
-                <div class="d-flex justify-content-center">
-                    <div class="p-2 text-center">
-                        <span class="d-block profile__stats-title">Posts</span>
-                        <span class="d-block profile__stats-counter">20</span>
-                    </div>
-                    <div class="p-2 text-center">
-                        <span class="d-block profile__stats-title">Followers</span>
-                        <span class="d-block profile__stats-counter">4</span>
-                    </div>
-                    <div class="p-2 text-center">
-                        <span class="d-block profile__stats-title">Following</span>
-                        <span class="d-block profile__stats-counter">0</span>
-                    </div>
-                    
-                </div>
-            </div>
-            <div class="col-md-3"></div>
+        <div class="profile__info">
+            <img src="~/assets/images/person.jpg" class="profile__photo"/>
+            <h2 class="profile__title">Dave Westfield</h2>
+            <p class="profile__description">
+                I wish i was a little bit taller, wish i was a baller, wish i had a girl… also.
+            </p>
+        </div>
+
+        <div class="profile__follow">
+            <a class="profile__follow-btn" href="#"> <i class="fa fa-user-plus"></i>&nbsp; Follow me</a>
         </div>
     </div>
-    
+    <div class="profile__stats">
+        <ul class="profile__list">
+            <li class="profile__item">
+                <a class="profile__link" href="#">
+                    <span class="fa fa-camera profile__icon"></span>
+                    Photos
+                    <span class="profile__counter">10</span>
+                </a>
+            </li>
+            <li class="profile__item">
+                <a class="profile__link" href="#">
+                    <span class="fa fa-camera profile__icon"></span>
+                    Posts
+                    <span class="profile__counter">5</span>
+                </a>
+            </li>
+            <li class="profile__item">
+                <a class="profile__link" href="#">
+                    <span class="fa fa-camera profile__icon"></span>
+                    Followers
+                    <span class="profile__counter">20+</span>
+                </a>
+            </li>
+            <li class="profile__item">
+                <a class="profile__link" href="#">
+                    <span class="fa fa-camera profile__icon"> </span>
+                    Following
+                    <span class="profile__counter">1</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-md-3">
+                <div class="box">
+                    <div class="box__header">
+                        <h2 class="box__title">About</h2>
+                    </div>
+                    <div class="box__content">
+                        <ul class="box__list">
+                            <li class="box__item">
+                                <span class="fa fa-globe box__icon"></span> Website
+                                <a href="#" class="box__link">www.frowgh.com</a>
+                            </li>
+                            <li class="box__item">
+                                <span class="fa fa-home box__icon"></span> Lives in
+                                <a href="#" class="box__link">Abrepo, Kumasi</a>
+                            </li>
+                            <li class="box__item">
+                                <span class="fa fa-globe box__icon"></span> From
+                                <a href="#" class="box__link">Mffensi</a>
+                            </li>
+                            <li class="box__item">
+                                <span class="fa fa-globe box__icon"></span> Works at
+                                <a href="#" class="box__link">Microsoft</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <div id="post-container">
+                </div>
+                <div class=" no-posts d-none text-center p-2 w-100">
+                    <h2 class="text-capitalize">No more posts</h2>
+                </div>
+
+                @if (Model.PostLoadMore)
+                {
+                    <span class="d-none" id="post-loadMore">@Model.PostLoadMore</span>
+                }
+                else
+                {
+                    <span class="d-none" id="post-loadMore"></span>
+                }
+                
+                <div class="loader">
+                    <span class="fa fa-spin fa-spinner loader__icon"></span>
+                    please wait...
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+                <div class="box">
+                    <div class="box__header">
+                        <h2 class="box__title">Suggested Friends</h2>
+                    </div>
+                    <div class="box__content">
+                        <ul class="box__list">
+                            <li class="box__item">
+                                <span class="fa fa-globe box__icon"></span> Website
+                                <a href="#" class="box__link">www.frowgh.com</a>
+                            </li>
+                            <li class="box__item">
+                                <span class="fa fa-home box__icon"></span> Lives in
+                                <a href="#" class="box__link">Abrepo, Kumasi</a>
+                            </li>
+                            <li class="box__item">
+                                <span class="fa fa-globe box__icon"></span> From
+                                <a href="#" class="box__link">Mffensi</a>
+                            </li>
+                            <li class="box__item">
+                                <span class="fa fa-globe box__icon"></span> Works at
+                                <a href="#" class="box__link">Microsoft</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
 </section>
-    
+
+<form asp-antiforgery="true"></form>

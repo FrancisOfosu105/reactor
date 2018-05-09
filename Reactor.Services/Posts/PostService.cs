@@ -15,7 +15,7 @@ namespace Reactor.Services.Posts
         private readonly IRepository<Post> _postRepository;
         private readonly IUserService _userService;
         private readonly IRepository<Comment> _commentRepository;
-        private const int PAGE_SIZE = 5;
+        private const int PAGE_SIZE = 3;
 
         public PostService(IRepository<Post> postRepository, IUserService userService,
             IRepository<Comment> commentRepository)

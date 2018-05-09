@@ -125,7 +125,8 @@ body {
   background-color: #fff;
   font-size: 1.4rem;
   position: relative;
-  padding: 2rem; }
+  padding: 2rem;
+  margin-bottom: 2rem; }
   .post__photo-box {
     width: 5rem;
     height: 5rem;
@@ -195,6 +196,44 @@ body {
   .post__time {
     font-size: 1rem; }
 
+.box {
+  padding: 2rem;
+  background-color: #fff;
+  border: 1px solid #c6c8ca;
+  border-radius: .5rem;
+  margin-bottom: 2rem; }
+  .box__title {
+    font-size: 2rem;
+    font-weight: 500;
+    text-transform: capitalize; }
+  .box__list {
+    list-style: none; }
+  .box__item {
+    font-size: 1.5rem;
+    font-weight: 300; }
+    .box__item:not(last-child) {
+      margin-bottom: .7rem; }
+  .box__icon {
+    font-size: 1.4rem;
+    display: inline-block;
+    padding-right: .8rem;
+    color: #55c57a; }
+  .box__link {
+    color: #005cbf;
+    display: inline-block;
+    padding-left: 1rem; }
+
+.loader {
+  text-align: center;
+  width: 100%;
+  font-size: 1.6rem;
+  display: none;
+  padding: 2rem; }
+  .loader__icon {
+    color: #28b485; }
+  .loader--show {
+    display: block; }
+
 .account {
   background: linear-gradient(to right, rgba(210, 230, 207, 0.9), rgba(40, 180, 133, 0.9)) no-repeat center fixed;
   background-size: cover;
@@ -231,27 +270,67 @@ body {
     color: #fff !important; }
 
 .profile {
-  position: relative; }
+  height: 100rem; }
   .profile__cover {
-    width: 100%; }
-    .profile__cover img {
-      width: 100%;
-      height: 40rem; }
-  .profile__min {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../images/bg-profile.jpeg");
+    background-position: center;
+    height: 65vh;
+    background-size: cover;
+    position: relative; }
+  .profile__info {
     position: absolute;
-    left: 5%;
-    bottom: -10%;
-    border-radius: 2rem;
-    box-shadow: 0 1.5rem 2rem rgba(0, 0, 0, 0.25);
-    width: 20rem;
-    overflow: hidden; }
-    .profile__min img {
-      max-width: 100%; }
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff; }
+  .profile__photo {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%; }
+  .profile__title {
+    text-transform: capitalize;
+    font-size: 2rem;
+    font-weight: 700; }
+  .profile__description {
+    font-size: 1.4rem;
+    max-width: 25rem; }
+  .profile__follow {
+    position: absolute;
+    bottom: 3%;
+    right: 3%; }
+    .profile__follow-btn {
+      display: block;
+      color: #fff;
+      font-size: 1.4rem;
+      border: 1px solid #d2e6cf;
+      padding: .7rem 1rem;
+      transition: all .3s ease-out; }
+      .profile__follow-btn:hover {
+        color: #fff;
+        background-color: #55c57a;
+        text-decoration: none; }
   .profile__stats {
-    background-color: #fff; }
-    .profile__stats-title {
-      text-transform: uppercase;
-      font-size: 1.4rem; }
-    .profile__stats-counter {
-      color: #28b485;
-      font-size: 1.7rem; }
+    background-color: #fff;
+    padding: .5rem .8rem;
+    margin-bottom: 4rem;
+    text-align: center; }
+  .profile__list {
+    list-style: none; }
+  .profile__item {
+    display: inline-block;
+    padding: 0 2rem; }
+  .profile__link {
+    color: #777;
+    font-size: 1.4rem; }
+    .profile__link:hover {
+      text-decoration: none;
+      color: #d2e6cf; }
+  .profile__counter {
+    text-transform: uppercase; }
+  .profile__counter {
+    color: #28b485;
+    display: block; }
+  .profile__icon {
+    color: #28b485; }

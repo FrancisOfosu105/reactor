@@ -7,7 +7,8 @@ let addAntiForgeryToken = (data) => {
     }
 
     let tokenInput = $('input[name=__RequestVerificationToken]');
-
+        
+    
     if (tokenInput.length) {
         data.__RequestVerificationToken = tokenInput.val();
 

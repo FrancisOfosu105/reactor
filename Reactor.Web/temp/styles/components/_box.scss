@@ -1,0 +1,44 @@
+.box {
+  padding: 2rem;
+  background-color: $color-white;
+  border: 1px solid $color-grey-light;
+  border-radius: .5rem;
+  margin-bottom: 2rem;
+
+  &__header {
+    
+  }
+  
+  &__title{
+    font-size: 2rem;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+  
+  &__list{
+    list-style: none;
+  }
+  
+  &__item{
+    font-size: 1.5rem;
+    font-weight: 300;
+
+    &:not(last-child){
+       margin-bottom: .7rem;
+     }
+  }
+  
+  &__icon{
+    font-size: 1.4rem;
+    display: inline-block;
+    padding-right: .8rem;
+    color: $color-primary;
+    
+  }
+  
+  &__link{
+    color: #005cbf;
+    display: inline-block;
+    padding-left: 1rem;
+  }
+}

@@ -96,6 +96,8 @@ namespace Reactor.Web.Controllers
             };
             var postTemplate = await RenderViewToStringAsync("Templates/Post", model);
 
+            System.Threading.Thread.Sleep(2000);
+            
             return Json(new
             {
                 posts = postTemplate,

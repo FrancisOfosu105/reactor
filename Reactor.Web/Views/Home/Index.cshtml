@@ -36,10 +36,11 @@
                     @* List of posts  *@
                     <div class="    col-12" id="post-container">
                     </div>
-                    <div class=" no-posts d-none text-center p-2 w-100">    
+
+                    <div class=" no-posts d-none text-center p-2 w-100">
                         <h2 class="text-capitalize">No more posts</h2>
                     </div>
-                    
+
                     @if (Model.PostLoadMore)
                     {
                         <span class="d-none" id="post-loadMore">@Model.PostLoadMore</span>
@@ -50,10 +51,11 @@
                     }
 
 
+                    <div class="loader">
+                        <span class="fa fa-spin fa-spinner loader__icon"></span>
+                        please wait...
+                    </div>
 
-                </div>
-                <div class="row text-center d-none post-loader">
-                    <div class="mx-auto" style="font-size: 1.4rem"><i class="fa fa-spin fa-spinner"></i> Loading...</div>
                 </div>
 
             </div>
@@ -64,8 +66,8 @@
 
     </div>
 
-    <form asp-controller="Account" asp-action="Logout" method="post">
+    @*<form asp-controller="Account" asp-action="Logout" method="post">
 
         <button class="btn btn-warning">Logout</button>
-    </form>
+    </form>*@
 </section>

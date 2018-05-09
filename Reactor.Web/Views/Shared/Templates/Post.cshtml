@@ -1,7 +1,7 @@
 ﻿@model Reactor.Web.Models.Templates.PostTemplateModel
     @foreach (var post in Model.Posts)
     {
-        <div class="post mb-3">
+        <div class="post">
             <div class="post__content">
                 <div class="post__photo-box">
                     <img class="post__photo" alt="@post.Id image" src="@post.CreatedBy.GetPicture()"/>
