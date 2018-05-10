@@ -1,28 +1,15 @@
 const path = require('path');
 module.exports = {
-    mode: "development",
     entry: {
-        app: "./temp/scripts/app.ts"
+        app: "./temp/scripts/app.js"
     },
     output: {
         path: path.resolve(__dirname, "./wwwroot/assets/scripts"),
-        filename: "[name]-bundle.js"
-    },
-    resolve: {
-        // Add `.ts` and `.tsx` as a resolvable extension.
-        extensions: [".ts", ".tsx", ".js"]
+        filename: "[name].js"
     },
     module: {
         rules: [
-            {   
-                test: /\.ts$/,
-                exclude: /(node_modules)/,
-                loaders: ['babel-loader', 'ts-loader']
-            }
-        ]
-/*
-        rules: [
-            {   
+            {
                 test: /\.js$/,
                 exclude: /(node_modules)/,
                 use: {
@@ -31,9 +18,8 @@ module.exports = {
                         presets: ['env']
                     }
                 }
-            },
-            { test: /\.tsx?$/, loader: "ts-loader" }
+            }
         ]
-*/
-    }
+    },
+    mode: "development"
 };

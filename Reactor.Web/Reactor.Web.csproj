@@ -1,12 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="temp\scripts\modules\date-time.ts" />
-    <None Remove="temp\scripts\modules\file-input.ts" />
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\assets\scripts" />
@@ -31,23 +26,4 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\assets\styles\components\post.css" />
   </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="temp\scripts\modules\date-time.ts" />
-    <TypeScriptCompile Include="temp\scripts\modules\file-input.ts" />
-  </ItemGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ESNext</TypeScriptTarget>
-    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
-    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
-    <TypeScriptOutFile />
-    <TypeScriptOutDir />
-    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
-    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
-    <TypeScriptSourceMap>True</TypeScriptSourceMap>
-    <TypeScriptMapRoot />
-    <TypeScriptSourceRoot />
-  </PropertyGroup>
 </Project>
