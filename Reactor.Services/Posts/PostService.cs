@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Reactor.Core.Domain.Comments;
+using Reactor.Core.Domain.Likes;
 using Reactor.Core.Domain.Posts;
 using Reactor.Core.Repository;
 using Reactor.Services.Users;
@@ -15,14 +16,20 @@ namespace Reactor.Services.Posts
         private readonly IRepository<Post> _postRepository;
         private readonly IUserService _userService;
         private readonly IRepository<Comment> _commentRepository;
-        private const int PAGE_SIZE = 3;
+        private readonly IRepository<Like> _likeRepository;
+        private const int PAGE_SIZE = 5;
 
-        public PostService(IRepository<Post> postRepository, IUserService userService,
-            IRepository<Comment> commentRepository)
+        public PostService(
+            IRepository<Post> postRepository,
+            IRepository<Comment> commentRepository,
+            IRepository<Like> likeRepository,
+            IUserService userService
+        )
         {
             _postRepository = postRepository;
             _userService = userService;
             _commentRepository = commentRepository;
+            _likeRepository = likeRepository;
         }
 
         public async Task AddPostAsync(Post post)
@@ -65,6 +72,7 @@ namespace Reactor.Services.Posts
                 .Include(p => p.Comments)
                 .Include(p => p.Photos)
                 .Include(p => p.CreatedBy)
+                .Include(p => p.Likes)
                 .OrderByDescending(p => p.CreatedOn)
                 .AsQueryable();
 
@@ -73,6 +81,50 @@ namespace Reactor.Services.Posts
             query = query.Skip((pageIndex - 1) * PAGE_SIZE).Take(PAGE_SIZE);
 
             return (await query.ToListAsync(), loadMore);
+        }
+
+        public async Task LikePostAsync(int postId)
+        {
+            var userId = await _userService.GetCurrentUserIdAsync();
+
+            var like = _likeRepository.Table.FirstOrDefault(l => l.PostId == postId && l.LikeById == userId);
+
+            if (like == null)
+            {
+                like = new Like
+                {
+                    LikeById = userId,
+                    PostId = postId,
+                    CreatedOn = DateTime.Now
+                };
+
+                await _likeRepository.AddAsync(like);
+            }
+        }
+
+
+        public async Task UnLikePostAsync(int postId)
+        {
+            var userId = await _userService.GetCurrentUserIdAsync();
+
+            var like = _likeRepository.Table.FirstOrDefault(l => l.PostId == postId && l.LikeById == userId);
+
+            if (like != null)
+            {
+                _likeRepository.Remove(like);
+            }
+        }
+
+        public async Task<int> GetTotalPostLikesExceptCurrentUserAsync(int postId)
+        {
+            var userId = await _userService.GetCurrentUserIdAsync();
+            return await _likeRepository.Table.Where(l => l.PostId == postId && l.LikeById != userId).CountAsync();
+        }
+
+        public async Task<bool> HasUserLikePostAsync(int postId)
+        {
+            var userId = await _userService.GetCurrentUserIdAsync();
+            return await _likeRepository.Table.AnyAsync(l => l.PostId == postId && l.LikeById == userId);
         }
 
         public async Task<bool> ShouldPostLoadMoreAsync()

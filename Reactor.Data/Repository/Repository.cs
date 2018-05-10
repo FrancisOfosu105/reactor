@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Reactor.Core;
 using Reactor.Core.Repository;
 
 namespace Reactor.Data.Repository

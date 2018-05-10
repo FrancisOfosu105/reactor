@@ -23,5 +23,13 @@ namespace Reactor.Services.Posts
         Task<Post> GetPostByIdAsync(int postId);
 
         Task<(IEnumerable<Post> data, bool loadMore)> GetPagedPostsAsync(int pageIndex);
+
+        Task LikePostAsync(int postId);
+        
+        Task UnLikePostAsync(int postId);
+
+        Task<int> GetTotalPostLikesExceptCurrentUserAsync(int postId);
+
+        Task<bool> HasUserLikePostAsync(int postId);    
     }
 }

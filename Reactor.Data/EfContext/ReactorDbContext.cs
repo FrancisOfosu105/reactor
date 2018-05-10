@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Reactor.Core.Domain.Friends;
 using Reactor.Core.Domain.Users;
 using Reactor.Data.EntityConfiguration;
 
@@ -38,6 +37,8 @@ namespace Reactor.Data.EfContext
             builder.ApplyConfiguration(new PhotoConfiguration());
             
             builder.ApplyConfiguration(new CommentConfiguration());
+
+            builder.ApplyConfiguration(new LikeConfiguration());
 
         }
     }

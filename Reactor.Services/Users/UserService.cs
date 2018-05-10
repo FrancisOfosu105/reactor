@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Reactor.Core;
 using Reactor.Core.Domain.Users;
 
 namespace Reactor.Services.Users

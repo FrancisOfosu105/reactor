@@ -2,11 +2,11 @@
 import commonHelper from "../modules/common-helper";
 
 export default class Post {
-    postPageIndex = 1;
-    baseUrl = "/home";
-    $body = $("body");
-    $window = $(window);
-    $document = $(document);
+    private postPageIndex = 1;
+    private baseUrl = "/home";
+    private $body = $("body");
+    private $window = $(window);
+    private $document = $(document);
 
     constructor() {
 
@@ -15,18 +15,21 @@ export default class Post {
 
     }
 
-    events() {
+    private events() {
         this.$window.on("scroll", this.windowScrollHander.bind(this));
 
         this.$body.on("keyup", "input.post__comment-input", this.keyPressHandler.bind(this));
 
         this.$body.on("click", "a.post__comment-icon", this.toggleComments.bind(this));
 
+        this.$body.on("click", "a.post__like-icon", this.toggleLike.bind(this));
+
         this.$body.on("click", "a.load-previous-comments-btn", this.loadPreviousComment.bind(this));
+
     }
 
 
-    windowScrollHander() {
+    private windowScrollHander() {
         const documentHeight = this.$document.height();
         const windowHeight = this.$window.height();
         const windowScrollTop = this.$window.scrollTop();
@@ -38,8 +41,62 @@ export default class Post {
 
     }
 
+    private toggleLike(e: MouseEvent) {
 
-    getInitialPosts() {
+        const $likeBtn = $(e.target);
+
+        const postId = $likeBtn.data('post-id');
+
+        let $likeCounter = $(`.like-count-${postId}`);
+
+        let isLiked = $likeBtn.hasClass('post__like-icon--is-liked');
+
+        if (!isLiked)
+            this.likePost(postId, $likeBtn, $likeCounter);
+        else
+            this.unLikePost(postId, $likeBtn, $likeCounter);
+
+
+        return false;
+
+    }
+
+    private likePost(postId: number, $likeBtn: any, $likeCounter: any) {
+
+        $.post(`${this.baseUrl}/likepost`, commonHelper.addAntiForgeryToken({
+            postId: postId
+        }), data => {
+
+            $likeBtn.addClass("post__like-icon--is-liked");
+
+            $likeBtn.html('Liked');
+
+            //user and more people have liked the post.
+            if (data.totalLikes >= 2)
+                $likeCounter.html(`(you and ${data.totalLikes} people)`);
+            
+            //only the user has liked the post
+            else
+                $likeCounter.html(`(you and ${data.totalLikes} person)`);
+
+
+        });
+    }
+
+    private unLikePost(postId: number, $likeBtn: any, $likeCounter: any) {
+        $.post(`${this.baseUrl}/unlikepost`, commonHelper.addAntiForgeryToken({
+            postId: postId
+        }), data => {
+            $likeBtn.removeClass("post__like-icon--is-liked");
+
+            $likeBtn.html('Like');
+
+            $likeCounter.html(`(${data.totalLikes})`);
+        });
+    }
+
+
+    private getInitialPosts() {
         const $postContainer = $("#post-container");
 
         $.ajax({
@@ -66,7 +123,7 @@ export default class Post {
 
     }
 
-    loadMorePosts(pageIndex: number) {
+    private loadMorePosts(pageIndex: number) {
         const $postLoadMoreElem = $("#post-loadMore");
 
         if ($postLoadMoreElem.html()) {
@@ -103,20 +160,20 @@ export default class Post {
 
 
     //Comments system
-    keyPressHandler(e:any) {
+    private keyPressHandler(e: any) {
         if (e.keyCode === 13) {
             this.createComment($(e.target));
         }
     }
 
-    toggleComments(e:any) {
+    private toggleComments(e: any) {
         e.preventDefault();
         const $anchorElem = $(e.target);
         const $commentBox = $($anchorElem.data("comments-target"));
         $commentBox.toggleClass("post__comments--show");
     }
 
-    createComment($element: any) {
+    private createComment($element: any) {
 
         const postId = $element.data("post-id");
         const comment = $element.val();
@@ -136,7 +193,7 @@ export default class Post {
 
     }
 
-    appendNewComment(data: any) {
+    private appendNewComment(data: any) {
 
         const template = this.prepareTemplate(data);
 
@@ -151,7 +208,7 @@ export default class Post {
         $(`.comment-count-${data.postId}`).html(`(${data.totalComments})`);
     }
 
-    loadPreviousComment(e:any) {
+    private loadPreviousComment(e: any) {
         e.preventDefault();
         const $loadBtn = $(e.target);
         const pageIndex = $loadBtn.find("span").html();
@@ -184,7 +241,7 @@ export default class Post {
 
     }
 
-    prepareTemplate(data: any) {
+    private prepareTemplate(data: any) {
         return `<div class="post__comment-list-box">        
                             <div class="post__comment-author">
                                 <img src="${data.profilePicture}" class="post__comment-author-photo"/>

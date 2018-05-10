@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Reactor.Core;
-using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Posts;
 using Reactor.Services.Photos;
 using Reactor.Services.Posts;
@@ -93,11 +88,10 @@ namespace Reactor.Web.Controllers
             {
                 Posts = result.data,
                 LoadMore = result.loadMore
+                
             };
             var postTemplate = await RenderViewToStringAsync("Templates/Post", model);
 
-            System.Threading.Thread.Sleep(2000);
-            
             return Json(new
             {
                 posts = postTemplate,
@@ -157,6 +151,45 @@ namespace Reactor.Web.Controllers
             {
                 comments = commentTemplate,
                 loadMore = model.LoadMore
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LikePost([FromForm] int postId)
+        {
+            var post = await _postService.GetPostByIdAsync(postId);
+
+            if (post == null)
+                return NotFound();
+
+            await _postService.LikePostAsync(postId);
+
+            await _unitOfWork.CompleteAsync();
+            
+            return Ok(new
+            {
+                totalLikes = await _postService.GetTotalPostLikesExceptCurrentUserAsync(postId)
+            });
+
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UnLikePost([FromForm] int postId)        
+        {
+            var post = await _postService.GetPostByIdAsync(postId);
+
+            if (post == null)
+                return NotFound();
+
+            await _postService.UnLikePostAsync(postId);
+
+            await _unitOfWork.CompleteAsync();
+
+            return Ok(new
+            {
+                totalLikes = await _postService.GetTotalPostLikesExceptCurrentUserAsync(postId)
             });
         }
     }

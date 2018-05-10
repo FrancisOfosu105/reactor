@@ -1,14 +1,13 @@
 ﻿using System;
-using Reactor.Core.Domain.Friends;
+using Reactor.Core.Domain.Likes;
 using Reactor.Core.Repository;
 using Reactor.Data.EfContext;
 
 namespace Reactor.Data.Repository
 {
-    public class FriendRepository : Repository<Friend>, IFriendRepository
+    public class LikeRepository : Repository<Like>, ILikeRepository
     {
-        public FriendRepository(ReactorDbContext context) 
-            : base(context)
+        public LikeRepository(ReactorDbContext context) : base(context)
         {
             if (context == null)
             {

@@ -5,7 +5,7 @@
   font-size: 1.4rem;
   position: relative;
   padding: 2rem;
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 
   &__photo-box {
     width: 5rem;
@@ -22,12 +22,11 @@
   &__comments {
     position: relative;
     display: none;
-    
-    &--show{
+
+    &--show {
       display: block;
     }
 
-    
   }
 
   &__commenter {
@@ -58,14 +57,14 @@
     border: 1px solid $color-grey-light;
     border-radius: 2rem;
     padding: .7rem 1rem;
-    
-    h4{
+
+    h4 {
       font-weight: 700;
       font-size: 1.4rem;
       text-transform: capitalize;
       margin-right: .2rem;
       color: $color-primary;
-      &:hover{
+      &:hover {
         text-decoration: underline;
         cursor: pointer;
       }
@@ -85,16 +84,16 @@
     margin: 2rem 0;
     color: $color-grey-dark;
 
-    a{
+    a {
       color: $color-grey-dark;
-      
-      &:hover{
+
+      &:hover {
         text-decoration: underline;
         cursor: pointer;
       }
-      
+
     }
-    
+
   }
 
   &__author {
@@ -115,6 +114,12 @@
 
   &__time {
     font-size: 1rem;
+  }
+  &__like-icon {
+    
+    &--is-liked{
+      color: $color-primary-dark !important;
+    }
   }
 
 }

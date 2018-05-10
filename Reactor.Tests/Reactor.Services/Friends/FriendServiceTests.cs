@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using NUnit.Framework;
-using Reactor.Core;
 using Reactor.Core.Domain.Friends;
 using Reactor.Core.Domain.Users;
 using Reactor.Core.Repository;
@@ -13,6 +11,7 @@ using Reactor.Data.EfContext;
 using Reactor.Data.Repository;
 using Reactor.Services.Friends;
 using Reactor.Services.Users;
+using Reactor.Tests.Helper;
 
 namespace Reactor.Tests.Reactor.Services.Friends
 {
@@ -219,7 +218,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
         [Test]
         public async Task FriendRequestExists_RequestIsNotCreated_ReturnFalse()
         {
-            var options = SetUpInMemoryDb("Request_Is_Not_Created");
+            var options =  InMemoryDbHelper.SetUpInMemoryDb("Request_Is_Not_Created");
 
             using (var dbContext = new ReactorDbContext(options))
             {
@@ -237,7 +236,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
         [Test]
         public async Task FriendRequestExists_RequestIsCreatedByRequestedByUser_ReturnTrue()
         {
-            var options = SetUpInMemoryDb("Request_Is_Created_By_RequestedByUser");
+            var options = InMemoryDbHelper.SetUpInMemoryDb("Request_Is_Created_By_RequestedByUser");
 
             using (var dbContext = new ReactorDbContext(options))
             {
@@ -259,7 +258,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
         [Test]
         public async Task FriendRequestExists_RequestIsCreatedByRequestedToUser_ReturnTrue()
         {
-            var options = SetUpInMemoryDb("Request_Is_Created_By_RequestedToUser");
+            var options =InMemoryDbHelper.SetUpInMemoryDb("Request_Is_Created_By_RequestedToUser");
 
             using (var dbContext = new ReactorDbContext(options))
             {
@@ -312,12 +311,6 @@ namespace Reactor.Tests.Reactor.Services.Friends
             Assert.That(result.Count(), Is.EqualTo(1));
         }
 
-        private static DbContextOptions<ReactorDbContext> SetUpInMemoryDb(string dbName)
-        {
-            var options = new DbContextOptionsBuilder<ReactorDbContext>()
-                .UseInMemoryDatabase(databaseName: dbName)
-                .Options;
-            return options;
-        }
+      
     }
 }

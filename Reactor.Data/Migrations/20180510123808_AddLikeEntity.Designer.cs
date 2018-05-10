@@ -2,15 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Reactor.Core.Domain.Friends;
 using Reactor.Data.EfContext;
 using System;
 
 namespace Reactor.Data.Migrations
 {
     [DbContext(typeof(ReactorDbContext))]
-    partial class ReactorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180510123808_AddLikeEntity")]
+    partial class AddLikeEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

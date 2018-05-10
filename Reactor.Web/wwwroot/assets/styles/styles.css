@@ -195,6 +195,8 @@ body {
             hyphens: auto; }
   .post__time {
     font-size: 1rem; }
+  .post__like-icon--is-liked {
+    color: #28b485 !important; }
 
 .box {
   padding: 2rem;

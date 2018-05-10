@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Friends;
+using Reactor.Core.Domain.Likes;
 using Reactor.Core.Domain.Posts;
 
 namespace Reactor.Core.Domain.Users
@@ -25,6 +26,8 @@ namespace Reactor.Core.Domain.Users
         [NotMapped] public string FullName => $"{FirstName} {LastName}";
         
         public ICollection<Comment> Comments { get; set; }
+        
+        public ICollection<Like> Likes { get; set; }
 
 
         public User()
@@ -36,6 +39,8 @@ namespace Reactor.Core.Domain.Users
             Posts = new List<Post>();
             
             Comments = new List<Comment>();
+            
+            Likes = new List<Like>();
         }
         
         public virtual IEnumerable<Friend> ApprovedFriends()

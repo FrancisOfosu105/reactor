@@ -1,45 +1,49 @@
 import * as $ from "jquery";
 
 export default class FileInput {
-    $fileInput = $(".js-inputfile");
+    private $fileInput = $(".js-inputfile");
 
     constructor() {
         this.configure();
     }
 
-    configure() {
+    private configure() {
+        let that = this;
+        
+        this.$fileInput.each(function () {
+            
+            let currentFileInputElem :any = this;   
+            
+            let fileInput = $(this),
+                label = fileInput.next(),
+                labelValue = label.html();
 
-        this.$fileInput.on("change",
-            (e: any) => {
-                const $this: any = $(e.target);
-                const label = $this.next();
-                const labelValue = label.html();
+            fileInput.on('change', function (e:any) {
+                let fileName = '';
 
-                let fileName = "";
 
-                if (!($this.files && $this.files.length > 1)) {
+                if (!(currentFileInputElem.files && currentFileInputElem.files.length > 1)) {
                     if (e.target.value) {
-                        fileName = FileInput.getFileName(e.target.value);
+                        fileName = that.getFileName(e.target.value);
                     }
-                } else {
-                    
-                    fileName = ($this.attr("data-multiple-caption") || "").replace("{count}",
-                        $this.files.length);
+                }
+                else {
+
+                    fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', currentFileInputElem.files.length);
                 }
 
                 if (fileName) {
-                    label.find("span").html(fileName);
+                    label.find('span').html(fileName);
                 } else {
                     label.html(labelValue);
                 }
 
-
             });
+
+        })
     }
 
-    static getFileName(value: any) {
+    private getFileName(value: any) {
         return value.split("\\").pop();
     }
-
-
 }

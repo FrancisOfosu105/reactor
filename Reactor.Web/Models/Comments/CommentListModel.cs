@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Reactor.Core.Domain.Comments;
-using Reactor.Core.Domain.Posts;
 
 namespace Reactor.Web.Models.Comments
 {

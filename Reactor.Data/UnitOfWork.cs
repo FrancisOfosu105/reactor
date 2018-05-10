@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Reactor.Core;
 using Reactor.Data.EfContext;
 
