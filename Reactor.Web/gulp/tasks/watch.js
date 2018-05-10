@@ -9,8 +9,9 @@ gulp.task("default", ["styles","scripts" ,"fa", "fonts"], function () {
 
         gulp.start("styles");
     });
-    
-    watch("./temp/scripts/**/*.js",function () {
-        gulp.start("scripts");
-    })
+
+    watch("./temp/scripts/**/*.ts",
+        function() {
+            gulp.start("scripts");
+        });
 });

@@ -158,7 +158,10 @@ body {
     margin-left: 5rem;
     border: 1px solid #c6c8ca;
     border-radius: 2rem;
-    padding: .7rem 1rem; }
+    padding: .7rem 1rem;
+    -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+            hyphens: auto; }
     .post__comments-list h4 {
       font-weight: 700;
       font-size: 1.4rem;
