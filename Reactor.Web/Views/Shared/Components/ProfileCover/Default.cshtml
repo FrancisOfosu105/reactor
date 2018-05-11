@@ -1,0 +1,51 @@
+﻿@model ProfileCoverModel
+@inject CommonHelper CommonHelper
+
+<div class="profile__cover">
+    <div class="profile__info">
+        <img src="@Model.ProfilePicture" class="profile__photo"/>
+        <h2 class="profile__title">@Model.FullName</h2>
+        <p class="profile__description">
+            I wish i was a little bit taller, wish i was a baller, wish i had a girl… also.
+        </p>
+    </div>
+
+    <div class="profile__follow">
+        <a class="profile__follow-btn" href="#"> <i class="fa fa-user-plus"></i>&nbsp; Follow me</a>
+    </div>
+</div>
+
+<div class="profile__stats">
+    <ul class="profile__list">
+        <li class="profile__item">
+            <a class="profile__link"  asp-controller="Profile" asp-action="Index" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
+
+                <span class="fa fa-edit profile__icon"></span>
+                Posts
+                <span class="profile__counter">@Model.TotalPosts</span>
+            </a>
+        </li>
+
+        <li class="profile__item">
+            <a class="profile__link" asp-controller="Profile" asp-action="GetUserPhotos" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
+                <span class="fa fa-image profile__icon"></span>
+                Photos    
+                <span class="profile__counter">@Model.TotalPhotos</span>
+            </a>
+        </li>
+        <li class="profile__item">
+            <a class="profile__link" href="#">
+                <span class="fa fa-camera profile__icon"></span>
+                Followers
+                <span class="profile__counter">20+</span>
+            </a>
+        </li>
+        <li class="profile__item">
+            <a class="profile__link" href="#">
+                <span class="fa fa-camera profile__icon"> </span>
+                Following
+                <span class="profile__counter">1</span>
+            </a>
+        </li>
+    </ul>
+</div>

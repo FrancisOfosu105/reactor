@@ -43,22 +43,9 @@ namespace Reactor.Services.Posts
         }
 
 
-        public async Task<DateTime> AddCommentToPost(Post post, string comment)
+        public async Task AddCommentToPostAsync(Comment comment)
         {
-            var com = new Comment
-            {
-                CommentById = await _userService.GetCurrentUserIdAsync(),
-                CreatedOn = DateTime.Now,
-                Content = comment
-            };
-            post.Comments.Add(com);
-
-            return com.CreatedOn;
-        }
-
-        public async Task<int> GetTotalCommentsForPostAsnyc(int postId)
-        {
-            return await _commentRepository.Table.Where(c => c.PostId == postId).CountAsync();
+            await _commentRepository.AddAsync(comment);
         }
 
         public async Task<Post> GetPostByIdAsync(int postId)
@@ -76,12 +63,31 @@ namespace Reactor.Services.Posts
                 .OrderByDescending(p => p.CreatedOn)
                 .AsQueryable();
 
-            var loadMore = pageIndex * PAGE_SIZE < await query.CountAsync();
+            var loadMore = CalculateLoadMore(pageIndex, await query.CountAsync());
 
             query = query.Skip((pageIndex - 1) * PAGE_SIZE).Take(PAGE_SIZE);
 
             return (await query.ToListAsync(), loadMore);
         }
+
+        public async Task<(IEnumerable<Post> data, bool loadMore)> GetUserPostsAsync(int pageIndex, string userId)
+        {
+            var query = _postRepository.Table
+                .Include(p => p.Comments)
+                .Include(p => p.Photos)
+                .Include(p => p.CreatedBy)
+                .Include(p => p.Likes)
+                .OrderByDescending(p => p.CreatedOn)
+                .Where(p => p.CreatedById == userId)
+                .AsQueryable();
+
+            var loadMore = CalculateLoadMore(pageIndex, await query.CountAsync());
+
+            query = query.Skip((pageIndex - 1) * PAGE_SIZE).Take(PAGE_SIZE);
+
+            return (await query.ToListAsync(), loadMore);
+        }
+
 
         public async Task LikePostAsync(int postId)
         {
@@ -127,11 +133,34 @@ namespace Reactor.Services.Posts
             return await _likeRepository.Table.AnyAsync(l => l.PostId == postId && l.LikeById == userId);
         }
 
-        public async Task<bool> ShouldPostLoadMoreAsync()
+        public async Task<int> GetUserTotalPostsAsync(string userId)
         {
-            var query = _postRepository.Table
-                .OrderByDescending(c => c.CreatedOn)
-                .AsQueryable();
+            return await _postRepository.Table.Where(p => p.CreatedById == userId).CountAsync();
+        }
+
+        public async Task<int> GetTotalCommentsForPostAsnyc(int postId)
+        {
+            return await _commentRepository.Table.Where(c => c.PostId == postId).CountAsync();
+        }
+
+        public async Task<bool> ShouldPostLoadMoreAsync(string userId = null)
+        {
+            IQueryable<Post> query;
+
+            if (userId == null)
+            {
+                query = _postRepository.Table
+                    .OrderByDescending(c => c.CreatedOn)
+                    .AsQueryable();
+            }
+            else
+            {
+                query = _postRepository.Table
+                    .Where(p => p.CreatedById == userId)
+                    .OrderByDescending(c => c.CreatedOn)
+                    .AsQueryable();
+            }
+
 
             return 1 * PAGE_SIZE < await query.CountAsync();
         }
@@ -147,7 +176,7 @@ namespace Reactor.Services.Posts
                 .AsQueryable();
 
 
-            var loadMore = pageIndex * PAGE_SIZE < await query.CountAsync();
+            var loadMore = CalculateLoadMore(pageIndex, await query.CountAsync());
 
             query = query.Skip((pageIndex - 1) * PAGE_SIZE).Take(PAGE_SIZE);
 
@@ -155,6 +184,11 @@ namespace Reactor.Services.Posts
 
 
             return (await query.ToListAsync(), loadMore);
+        }
+
+        private static bool CalculateLoadMore(int pageIndex, int totalCount)
+        {
+            return pageIndex * PAGE_SIZE < totalCount;
         }
     }
 }

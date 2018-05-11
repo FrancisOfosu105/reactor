@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Reactor.Core.Extensions
 {
-    public static class IQueryableExtensions
+    public static class QueryableExtensions
     {
         public static Task<List<TSource>> ToListAsyncSafe<TSource>(this IQueryable<TSource> source)
         {

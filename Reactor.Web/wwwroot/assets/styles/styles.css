@@ -18,6 +18,9 @@ body {
 .btn {
   font-size: 1.4rem; }
 
+a, a:hover {
+  color: #28b485; }
+
 body {
   font-family: "Lato", sans-serif;
   color: #777;
@@ -236,6 +239,44 @@ body {
   .loader--show {
     display: block; }
 
+.img-overlay {
+  position: fixed;
+  z-index: -5;
+  background-color: rgba(255, 255, 255, 0.98);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  -webkit-transform: scale(0) rotate(45deg);
+          transform: scale(0) rotate(45deg);
+  transition: all .5s; }
+  .img-overlay--is-visible {
+    opacity: 1;
+    z-index: 5;
+    -webkit-transform: scale(1) rotate(0deg);
+            transform: scale(1) rotate(0deg); }
+  .img-overlay__photo-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    text-align: center; }
+  .img-overlay__photo {
+    display: inline-block;
+    max-width: 100%; }
+  .img-overlay__close {
+    position: absolute;
+    right: 3rem;
+    top: 3rem;
+    font-size: 4rem;
+    font-weight: 700;
+    cursor: pointer; }
+
+img[data-overlay] {
+  cursor: pointer; }
+
 .account {
   background: linear-gradient(to right, rgba(210, 230, 207, 0.9), rgba(40, 180, 133, 0.9)) no-repeat center fixed;
   background-size: cover;
@@ -290,11 +331,13 @@ body {
   .profile__photo {
     width: 10rem;
     height: 10rem;
-    border-radius: 50%; }
+    border-radius: 50%;
+    margin-bottom: 1rem; }
   .profile__title {
     text-transform: capitalize;
     font-size: 2rem;
-    font-weight: 700; }
+    font-weight: 700;
+    margin-bottom: 1rem; }
   .profile__description {
     font-size: 1.4rem;
     max-width: 25rem; }
@@ -336,3 +379,5 @@ body {
     display: block; }
   .profile__icon {
     color: #28b485; }
+  .profile__img-block {
+    margin-bottom: 2rem; }

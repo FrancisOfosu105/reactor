@@ -3,6 +3,7 @@
 //abstract
 @import "./abstract/_variables";
 @import "./abstract/_utilities";
+@import "./abstract/_mixins";
 
 //base
 @import "./base/_base";
@@ -15,6 +16,7 @@
 @import "./components/_post";
 @import "./components/_box";
 @import "./components/_loader";
+@import "./components/img-overlay";
 
 //pages
 @import "./pages/_account"; 

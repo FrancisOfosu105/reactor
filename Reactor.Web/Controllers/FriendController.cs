@@ -40,7 +40,7 @@ namespace Reactor.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFriendRequest(string requestedToId)
         {
-            if (await _userService.GetUserAsync(requestedToId) == null)
+            if (await _userService.GetUserByIdAsync(requestedToId) == null)
                 return NotFound();
 
             var requestedById = await _userService.GetCurrentUserIdAsync();
@@ -50,7 +50,7 @@ namespace Reactor.Web.Controllers
                 return RedirectToAction(nameof(HomeController.Index), "Home");
 
 
-            await _friendService.AddFriendRequestAsync(requestedById, (await _userService.GetUserAsync(requestedToId)).Id);
+            await _friendService.AddFriendRequestAsync(requestedById, (await _userService.GetUserByIdAsync(requestedToId)).Id);
 
             await _unitOfWork.CompleteAsync();
 

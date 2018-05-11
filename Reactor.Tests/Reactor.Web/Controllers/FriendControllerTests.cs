@@ -32,7 +32,7 @@ namespace Reactor.Tests.Reactor.Web.Controllers
         [Test]
         public async Task AddFriendRequest_RequestedByUserIsNull_ReturnNotFound()
         {
-            _userService.Setup(us => us.GetUserAsync(It.IsAny<string>())).ReturnsAsync(() => null);
+            _userService.Setup(us => us.GetUserByIdAsync(It.IsAny<string>())).ReturnsAsync(() => null);
 
             var result = await _friendController.AddFriendRequest(It.IsAny<string>()) as NotFoundResult;
 
@@ -43,7 +43,7 @@ namespace Reactor.Tests.Reactor.Web.Controllers
         [Test]
         public async Task AddFriendRequest_User1CreatedRequestFirstBeforeUser2_RedirectToHomePage()
         {
-            _userService.Setup(us => us.GetUserAsync(It.IsAny<string>())).ReturnsAsync(() => new User());
+            _userService.Setup(us => us.GetUserByIdAsync(It.IsAny<string>())).ReturnsAsync(() => new User());
 
             _friendService.Setup(fs => fs.FriendRequestExistsAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(true);
@@ -60,7 +60,7 @@ namespace Reactor.Tests.Reactor.Web.Controllers
         [Test]
         public async Task AddFriendRequest_UserCreatedRequestSuccessfully_RedirectToHomePage()
         {
-            _userService.Setup(us => us.GetUserAsync(It.IsAny<string>())).ReturnsAsync(() => new User());
+            _userService.Setup(us => us.GetUserByIdAsync(It.IsAny<string>())).ReturnsAsync(() => new User());
 
             _friendService.Setup(fs => fs.FriendRequestExistsAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(false);

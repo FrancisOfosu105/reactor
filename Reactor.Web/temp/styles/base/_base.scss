@@ -18,3 +18,12 @@ body {
 .btn{
   font-size: 1.4rem;
 }
+
+a{
+ &,&:hover{
+   
+  color: $color-primary-dark;
+ } 
+  
+  
+}

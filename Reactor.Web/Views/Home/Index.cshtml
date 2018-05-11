@@ -34,7 +34,7 @@
 
                 <div class="row mt-3">
                     @* List of posts  *@
-                    <div class="    col-12" id="post-container">
+                    <div class="col-12" id="post-container" data-url="/home/getposts">
                     </div>
 
                     <div class=" no-posts d-none text-center p-2 w-100">
@@ -66,8 +66,6 @@
 
     </div>
 
-    <form asp-controller="Account" asp-action="Logout" method="post">
-
-        <button class="btn btn-warning">Logout</button>
-    </form>
+   @await Html.PartialAsync("_AntiForgery")
+    
 </section>

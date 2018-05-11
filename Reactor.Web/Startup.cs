@@ -20,6 +20,9 @@ using Reactor.Services.Friends;
 using Reactor.Services.Photos;
 using Reactor.Services.Posts;
 using Reactor.Services.Users;
+using Reactor.Services.ViewRender;
+using Reactor.Web.Infrastructure.Extensions;
+using Reactor.Web.Infrastructure.Helpers;
 
 namespace Reactor.Web
 {
@@ -31,15 +34,18 @@ namespace Reactor.Web
         {
             Configuration = configuration;
         }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            
-            services.AddDbContext<ReactorDbContext>(options=> 
+
+            services.AddNoTrailingSlash(options=> options.RemoveTrailingSlash = true);
+
+            services.AddDbContext<ReactorDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ReactorConnStr")));
-            
+
             services.AddIdentity<User, IdentityRole>(options =>
                 {
                     options.Password.RequireDigit = false;
@@ -58,15 +64,18 @@ namespace Reactor.Web
             services.AddScoped<IRepository<Photo>, PhotoRepository>();
             services.AddScoped<IRepository<Like>, LikeRepository>();
             services.AddScoped<IRepository<Comment>, CommentRepository>();
-            
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPhotoService, PhotoService>();
-            
-           
+            services.AddTransient<IViewRenderService, ViewRenderService>();
+
+            services.AddTransient<CommonHelper>();
+
+            services.AddRouting(options => options.LowercaseUrls = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,7 +87,9 @@ namespace Reactor.Web
             }
 
             app.UseAuthentication();
-            
+
+            app.UseNoTrailingSlash();
+
             app.UseStaticFiles();
 
             app.UseMvc(routes => routes.MapRoute(

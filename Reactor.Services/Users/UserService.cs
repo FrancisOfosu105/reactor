@@ -20,9 +20,14 @@ namespace Reactor.Services.Users
             _currentUserId = GetCurrentUserIdAsync().Result;
         }
 
-        public async Task<User> GetUserAsync(string userId)
+        public async Task<User> GetUserByIdAsync(string userId)
         {
             return await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        }
+
+        public async Task<User> GetUserNameAsync(string username)
+        {
+            return await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
         }
 
         public async Task<string> GetCurrentUserIdAsync()
@@ -30,6 +35,13 @@ namespace Reactor.Services.Users
             var user = await _userManager.GetUserAsync(_accessor.HttpContext.User);
 
             return await _userManager.GetUserIdAsync(user);
+        }
+
+        public async Task<string> GetCurrentUserNameAsync()
+        {
+            var user = await _userManager.GetUserAsync(_accessor.HttpContext.User);
+
+            return await _userManager.GetUserNameAsync(user);
         }
 
         public IQueryable<User> GetAllUsers()
@@ -54,7 +66,7 @@ namespace Reactor.Services.Users
 
         public async Task<string> GetUserProfileAsync()
         {
-            var user = await GetUserAsync(_currentUserId);
+            var user = await GetUserByIdAsync(_currentUserId);
 
             return user.GetPicture();
         }

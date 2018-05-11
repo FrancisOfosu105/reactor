@@ -8,39 +8,40 @@ export default class FileInput {
     }
 
     private configure() {
-        let that = this;
-        
-        this.$fileInput.each(function () {
-            
-            let currentFileInputElem :any = this;   
-            
-            let fileInput = $(this),
-                label = fileInput.next(),
-                labelValue = label.html();
+        const that = this;
 
-            fileInput.on('change', function (e:any) {
-                let fileName = '';
+        this.$fileInput.each(function() {
+
+            const currentFileInputElem: any = this;
+
+            const fileInput = $(currentFileInputElem);
+            const label = fileInput.next();
+            const labelValue = label.html();
+
+            fileInput.on("change",
+                (e: any) => {
+                    let fileName = "";
 
 
-                if (!(currentFileInputElem.files && currentFileInputElem.files.length > 1)) {
-                    if (e.target.value) {
-                        fileName = that.getFileName(e.target.value);
+                    if (!(currentFileInputElem.files && currentFileInputElem.files.length > 1)) {
+                        if (e.target.value) {
+                            fileName = that.getFileName(e.target.value);
+                        }
+                    } else {
+
+                        fileName = (currentFileInputElem.getAttribute("data-multiple-caption") || "").replace("{count}",
+                            currentFileInputElem.files.length);
                     }
-                }
-                else {
 
-                    fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', currentFileInputElem.files.length);
-                }
+                    if (fileName) {
+                        label.find("span").html(fileName);
+                    } else {
+                        label.html(labelValue);
+                    }
 
-                if (fileName) {
-                    label.find('span').html(fileName);
-                } else {
-                    label.html(labelValue);
-                }
+                });
 
-            });
-
-        })
+        });
     }
 
     private getFileName(value: any) {

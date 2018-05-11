@@ -7,17 +7,23 @@
     <div class="post">
         <div class="post__content">
             <div class="post__photo-box">
-                <img class="post__photo" alt="@post.Id image" src="@post.CreatedBy.GetPicture()"/>
+                <a asp-controller="Profile" asp-action="Index" asp-route-username="@post.CreatedBy.UserName">
+                    
+                    <img class="post__photo" alt="@post.Id image" src="@post.CreatedBy.GetPicture()"/>
+                </a>
             </div>
 
             <div class="post__text-container">
-                <h2 class="post__author d-inline-block">@post.CreatedBy.FullName</h2>
+                <h2 class="post__author d-inline-block">
+                    <a asp-controller="Profile" asp-action="Index" asp-route-username="@post.CreatedBy.UserName"> @post.CreatedBy.FullName
+                    </a>
+                </h2>
                 <time class="d-inline-block pull-right post__time timeago" datetime="@post.CreatedOn"></time>
                 <p class="post__text"> @post.Content</p>
             </div>
             @foreach (var photo in post.Photos)
             {
-                <img src="~/uploads/posts/@photo.FileName" class="p-1 w-100 d-block"/>
+                <img src="~/uploads/posts/@photo.FileName" class="p-1 w-100 d-block" data-overlay/>
             }
 
         </div>

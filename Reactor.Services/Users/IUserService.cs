@@ -6,9 +6,13 @@ namespace Reactor.Services.Users
 {
     public interface IUserService
     {
-        Task<User> GetUserAsync(string userId);
+        Task<User> GetUserByIdAsync(string userId);
+
+        Task<User> GetUserNameAsync(string username);
 
         Task<string> GetCurrentUserIdAsync();
+        
+        Task<string> GetCurrentUserNameAsync(); 
 
         IQueryable<User> GetAllUsers();
         
@@ -17,5 +21,6 @@ namespace Reactor.Services.Users
         Task<User> GetUserWithFriendsAsync();
 
         Task<string> GetUserProfileAsync();
+
     }
 }

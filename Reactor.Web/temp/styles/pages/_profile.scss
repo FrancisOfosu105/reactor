@@ -22,12 +22,15 @@
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
+    margin-bottom: 1rem;
+
   }
 
   &__title {
     text-transform: capitalize;
     font-size: 2rem;
     font-weight: 700;
+    margin-bottom: 1rem;
   }
 
   &__description {
@@ -91,6 +94,11 @@
   }
   &__icon{
     color: $color-primary-dark;
+  }
+  
+  &__img-block{
+    margin-bottom: 2rem;
+    
   }
   
   

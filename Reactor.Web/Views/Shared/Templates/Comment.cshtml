@@ -4,13 +4,19 @@
 {
     <div class="post__comment-list-box">
         <div class="post__comment-author">
-            <img src="@comment.CommentBy.GetPicture()" class="post__comment-author-photo"/>
+            <a asp-controller="Profile" asp-action="Index" asp-route-username="@comment.CommentBy.UserName">
+                <img src="@comment.CommentBy.GetPicture()" class="post__comment-author-photo"/>
+            </a>
         </div>
 
         <div class="post__comments-list">
 
             <p class="d-inline">
-                <h4 class="d-inline-block">@comment.CommentBy.FullName:</h4>
+                <h4 class="d-inline-block">
+                    <a asp-controller="Profile" asp-action="Index" asp-route-username="@comment.CommentBy.UserName">
+                        @comment.CommentBy.FullName:
+                    </a>
+                </h4>
                 @comment.Content
                 <time class="d-inline-block pull-right post__time timeago" datetime="@comment.CreatedOn.ToString("o")"></time>
             </p>
@@ -18,4 +24,3 @@
         </div>
     </div>
 }
-

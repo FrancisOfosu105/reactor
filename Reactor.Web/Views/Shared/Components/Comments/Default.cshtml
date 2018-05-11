@@ -20,7 +20,11 @@
     </div>
 
     <div class="post__commenter">
-        <img src="@await UserService.GetUserProfileAsync()" class="post__photo"/>
+        <a asp-controller="Profile" asp-action="Index" asp-route-username="@UserService.GetCurrentUserNameAsync()">
+            
+            <img src="@await UserService.GetUserProfileAsync()" class="post__photo"/>
+            
+        </a>
     </div>
     <div class="post__comment-box">
         <input type="text" class="post__comment-input" data-post-id="@Model.PostId" id="comment-@(Model.PostId)" placeholder="write on this post..."/>

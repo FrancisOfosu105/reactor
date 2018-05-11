@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reactor.Core;
+using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Posts;
 using Reactor.Services.Photos;
 using Reactor.Services.Posts;
 using Reactor.Services.Users;
-using Reactor.Web.Infrastructure.Mvc;
+using Reactor.Services.ViewRender;
 using Reactor.Web.Models.Comments;
 using Reactor.Web.Models.Home;
 using Reactor.Web.Models.Templates;
@@ -15,26 +17,26 @@ using Reactor.Web.Models.Templates;
 namespace Reactor.Web.Controllers
 {
     [Authorize]
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         private readonly IPostService _postService;
         private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoService;
+        private readonly IViewRenderService _renderService;
 
         public HomeController(
             IPostService postService,
             IUserService userService,
             IUnitOfWork unitOfWork,
-            IPhotoService photoService,
-            IServiceProvider serviceProvider
-        )
-            : base(serviceProvider)
+            IPhotoService photoService, IViewRenderService renderService)
+
         {
             _postService = postService;
             _userService = userService;
             _unitOfWork = unitOfWork;
             _photoService = photoService;
+            _renderService = renderService;
         }
 
         // GET
@@ -88,9 +90,8 @@ namespace Reactor.Web.Controllers
             {
                 Posts = result.data,
                 LoadMore = result.loadMore
-                
             };
-            var postTemplate = await RenderViewToStringAsync("Templates/Post", model);
+            var postTemplate = await _renderService.RenderViewToStringAsync("Templates/Post", model);
 
             return Json(new
             {
@@ -102,27 +103,43 @@ namespace Reactor.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddComment(CreateCommentModel model)
+        public async Task<IActionResult> AddComment([FromForm] int postId, [FromForm] string content)    
         {
-            var post = await _postService.GetPostWithCommentsAsync(model.PostId);
+            var post = await _postService.GetPostWithCommentsAsync(postId);
 
             if (post == null)
                 return NotFound();
 
-            var user = await _userService.GetUserAsync(await _userService.GetCurrentUserIdAsync());
+            var user = await _userService.GetUserByIdAsync(await _userService.GetCurrentUserIdAsync());
 
-            var createdOn = await _postService.AddCommentToPost(post, model.Comment);
+            var comment = new Comment
+            {
+                Content = content,
+                CreatedOn = DateTime.Now,
+                CommentById = user.Id,
+                PostId = post.Id,
+                CommentBy = user
+            };
+
+            await _postService.AddCommentToPostAsync(comment);
 
             await _unitOfWork.CompleteAsync();
 
+            var model = new CommentViewModel
+            {
+                Comments = new List<Comment>
+                {
+                    comment
+                },
+            };
+
+            var commentTemplate = await _renderService.RenderViewToStringAsync("Templates/Comment", model);
+
             return Json(new
             {
-                comment = model.Comment,
-                profilePicture = await _userService.GetUserProfileAsync(),
-                postId = model.PostId,
-                fullName = user.FullName,
-                createdOn = createdOn.ToString("o"),
-                totalComments = await _postService.GetTotalCommentsForPostAsnyc(model.PostId)
+                postId = comment.PostId,
+                totalComments = await _postService.GetTotalCommentsForPostAsnyc(comment.PostId),
+                comment = commentTemplate
             });
         }
 
@@ -145,7 +162,7 @@ namespace Reactor.Web.Controllers
             };
 
 
-            var commentTemplate = await RenderViewToStringAsync("Templates/Comment", model);
+            var commentTemplate = await _renderService.RenderViewToStringAsync("Templates/Comment", model);
 
             return Json(new
             {
@@ -166,17 +183,16 @@ namespace Reactor.Web.Controllers
             await _postService.LikePostAsync(postId);
 
             await _unitOfWork.CompleteAsync();
-            
+
             return Ok(new
             {
                 totalLikes = await _postService.GetTotalPostLikesExceptCurrentUserAsync(postId)
             });
-
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UnLikePost([FromForm] int postId)        
+        public async Task<IActionResult> UnLikePost([FromForm] int postId)
         {
             var post = await _postService.GetPostByIdAsync(postId);
 
