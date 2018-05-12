@@ -22,7 +22,7 @@
     <div class="post__commenter">
         <a asp-controller="Profile" asp-action="Index" asp-route-username="@UserService.GetCurrentUserNameAsync()">
             
-            <img src="@await UserService.GetUserProfileAsync()" class="post__photo"/>
+            <img src="@await UserService.GetUserProfilePictureAsync()" class="post__photo"/>
             
         </a>
     </div>

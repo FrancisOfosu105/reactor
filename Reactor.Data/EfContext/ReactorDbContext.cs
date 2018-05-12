@@ -39,6 +39,8 @@ namespace Reactor.Data.EfContext
             builder.ApplyConfiguration(new CommentConfiguration());
 
             builder.ApplyConfiguration(new LikeConfiguration());
+            
+            builder.ApplyConfiguration(new FollowConfiguration());
 
         }
     }

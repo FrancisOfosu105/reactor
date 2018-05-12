@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Reactor.Services.Follows;
 using Reactor.Services.Photos;
 using Reactor.Services.Posts;
 using Reactor.Services.Users;
@@ -9,6 +11,7 @@ using Reactor.Web.Models.Templates;
 
 namespace Reactor.Web.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class ProfileController : Controller
     {
@@ -16,14 +19,16 @@ namespace Reactor.Web.Controllers
         private readonly IUserService _userService;
         private readonly IViewRenderService _renderService;
         private readonly IPhotoService _photoService;
-
-        public ProfileController(IPostService postService, IUserService userService, IViewRenderService renderService, IPhotoService photoService)
+        private readonly IFollowService _followService;
+        public ProfileController(IPostService postService, IUserService userService, IViewRenderService renderService,
+            IPhotoService photoService, IFollowService followService)
 
         {
             _postService = postService;
             _userService = userService;
             _renderService = renderService;
             _photoService = photoService;
+            _followService = followService;
         }
 
         // GET
@@ -66,9 +71,9 @@ namespace Reactor.Web.Controllers
                 loadMore = model.LoadMore
             });
         }
-        
+
         [HttpGet("photos/{username}")]
-        public async Task<IActionResult> GetUserPhotos(string username)    
+        public async Task<IActionResult> GetUserPhotos(string username)
         {
             var user = await _userService.GetUserNameAsync(username);
 
@@ -81,5 +86,30 @@ namespace Reactor.Web.Controllers
         }
 
 
+        [HttpGet("followers/{username}")]
+        public async Task<IActionResult> GetUserFollowers(string username)
+        {
+            var user = await _userService.GetUserNameAsync(username);
+
+            if (user == null)
+                return NotFound();
+
+            var followers = await _followService.GetUserFollowersAsync(user.Id);
+            
+            return View("Followers", followers);
+        }
+
+        [HttpGet("following/{username}")]
+        public async Task<IActionResult> GetUserFollowees(string username)
+        {
+            var user = await _userService.GetUserNameAsync(username);
+
+            if (user == null)
+                return NotFound();
+
+            var followees = await _followService.GetUserFolloweesAsync(user.Id);
+
+            return View("Followees", followees);
+        }
     }
 }

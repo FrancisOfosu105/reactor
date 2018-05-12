@@ -8,6 +8,7 @@ export default class FileInput {
     }
 
     private configure() {
+        
         const that = this;
 
         this.$fileInput.each(function() {

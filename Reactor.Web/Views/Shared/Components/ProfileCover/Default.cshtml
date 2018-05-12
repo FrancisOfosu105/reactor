@@ -1,24 +1,47 @@
 ﻿@model ProfileCoverModel
 @inject CommonHelper CommonHelper
+@inject IUserService UserService
 
 <div class="profile__cover">
+    <img src="~/assets/images/bg-profile.jpeg" class="profile__bg-img"/>
+    
     <div class="profile__info">
-        <img src="@Model.ProfilePicture" class="profile__photo"/>
+        <img src="@Model.ProfilePicture" class="profile__photo" alt="Profile-Picture"/>
         <h2 class="profile__title">@Model.FullName</h2>
         <p class="profile__description">
             I wish i was a little bit taller, wish i was a baller, wish i had a girl… also.
         </p>
     </div>
 
-    <div class="profile__follow">
-        <a class="profile__follow-btn" href="#"> <i class="fa fa-user-plus"></i>&nbsp; Follow me</a>
-    </div>
+    @if (!await UserService.IsProfilePageForCurrentUserAsync(CommonHelper.GetUserNameFromUrl()))
+    {
+        if (Model.IsFollowingUser)
+        {
+            <div class="profile__follow">
+                <a class="profile__follow-btn profile__follow--is-following" data-followee-username="@CommonHelper.GetUserNameFromUrl()">
+                    <span>Following</span>
+
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="profile__follow">
+                <a class="profile__follow-btn" data-followee-username="@CommonHelper.GetUserNameFromUrl()">
+                    <i class="fa fa-user-plus"></i>
+                    <span>Follow me</span>
+
+                </a>
+            </div>
+        }
+    }
+
 </div>
 
 <div class="profile__stats">
     <ul class="profile__list">
         <li class="profile__item">
-            <a class="profile__link"  asp-controller="Profile" asp-action="Index" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
+            <a class="profile__link" asp-controller="Profile" asp-action="Index" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
 
                 <span class="fa fa-edit profile__icon"></span>
                 Posts
@@ -29,22 +52,24 @@
         <li class="profile__item">
             <a class="profile__link" asp-controller="Profile" asp-action="GetUserPhotos" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
                 <span class="fa fa-image profile__icon"></span>
-                Photos    
+                Photos
                 <span class="profile__counter">@Model.TotalPhotos</span>
             </a>
         </li>
         <li class="profile__item">
-            <a class="profile__link" href="#">
-                <span class="fa fa-camera profile__icon"></span>
+            <a class="profile__link" asp-controller="Profile" asp-action="GetUserFollowers" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
+
+                <span class="fa fa-users profile__icon"></span>
                 Followers
-                <span class="profile__counter">20+</span>
+                <span class="profile__counter">@Model.TotalFollowers</span>
             </a>
         </li>
         <li class="profile__item">
-            <a class="profile__link" href="#">
-                <span class="fa fa-camera profile__icon"> </span>
+            <a class="profile__link" asp-controller="Profile" asp-action="GetUserFollowees" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
+
+                <span class="fa fa-support profile__icon"> </span>
                 Following
-                <span class="profile__counter">1</span>
+                <span class="profile__counter">@Model.TotalFollowees</span>
             </a>
         </li>
     </ul>

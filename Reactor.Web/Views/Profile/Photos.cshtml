@@ -5,11 +5,20 @@
     Layout = "_ProfileLayout";
 }
 
-@foreach (var photo in Model)
+@if (Model.Any())
 {
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="profile__img-block">
-            <img src="~/uploads/posts/@photo.FileName" class="p-1 d-block w-100" data-overlay/>
+    foreach (var photo in Model)
+    {
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="profile__img-block">
+                <img src="~/uploads/posts/@photo.FileName" class="p-1 d-block w-100" data-overlay/>
+            </div>
         </div>
+    }
+}
+else
+{
+    <div class="col-12 text-center">
+        <h2 class="text-capitalize">No Photo is available.</h2>
     </div>
 }

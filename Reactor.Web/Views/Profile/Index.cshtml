@@ -1,10 +1,12 @@
-﻿@model Reactor.Web.Models.Profile.ProfileModel
+﻿@model ProfileModel
 @inject CommonHelper CommonHelper
 @{
-    ViewBag.Title = "title";
+    ViewData["Title"] = $"{CommonHelper.GetUserNameFromUrl()}'s profile page";
+    
     Layout = "_ProfileLayout";
 }
 <div class="col-md-3">
+    
     <div class="box">
         <div class="box__header">
             <h2 class="box__title">Suggested Friends</h2>

@@ -101,7 +101,7 @@ eval("!function(t,e){\"object\"==typeof module&&module.exports?(module.exports=e
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar file_input_1 = __webpack_require__(/*! ./modules/file-input */ \"./temp/scripts/modules/file-input.ts\");\nvar date_time_1 = __webpack_require__(/*! ./modules/date-time */ \"./temp/scripts/modules/date-time.ts\");\nvar post_1 = __webpack_require__(/*! ./modules/post */ \"./temp/scripts/modules/post.ts\");\nvar modal_1 = __webpack_require__(/*! ./modules/modal */ \"./temp/scripts/modules/modal.ts\");\nnew file_input_1.default();\nnew date_time_1.default();\nnew post_1.default();\nnew modal_1.default();\n\n//# sourceURL=webpack:///./temp/scripts/app.ts?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar file_input_1 = __webpack_require__(/*! ./modules/file-input */ \"./temp/scripts/modules/file-input.ts\");\nvar date_time_1 = __webpack_require__(/*! ./modules/date-time */ \"./temp/scripts/modules/date-time.ts\");\nvar post_1 = __webpack_require__(/*! ./modules/post */ \"./temp/scripts/modules/post.ts\");\nvar modal_1 = __webpack_require__(/*! ./modules/modal */ \"./temp/scripts/modules/modal.ts\");\nvar follow_1 = __webpack_require__(/*! ./modules/follow */ \"./temp/scripts/modules/follow.ts\");\nnew file_input_1.default();\nnew date_time_1.default();\nnew post_1.default();\nnew modal_1.default();\nnew follow_1.default();\n\n//# sourceURL=webpack:///./temp/scripts/app.ts?");
 
 /***/ }),
 
@@ -138,6 +138,18 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar 
 
 "use strict";
 eval("\n\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\nvar FileInput = /** @class */function () {\n    function FileInput() {\n        this.$fileInput = $(\".js-inputfile\");\n        this.configure();\n    }\n    FileInput.prototype.configure = function () {\n        var that = this;\n        this.$fileInput.each(function () {\n            var currentFileInputElem = this;\n            var fileInput = $(currentFileInputElem);\n            var label = fileInput.next();\n            var labelValue = label.html();\n            fileInput.on(\"change\", function (e) {\n                var fileName = \"\";\n                if (!(currentFileInputElem.files && currentFileInputElem.files.length > 1)) {\n                    if (e.target.value) {\n                        fileName = that.getFileName(e.target.value);\n                    }\n                } else {\n                    fileName = (currentFileInputElem.getAttribute(\"data-multiple-caption\") || \"\").replace(\"{count}\", currentFileInputElem.files.length);\n                }\n                if (fileName) {\n                    label.find(\"span\").html(fileName);\n                } else {\n                    label.html(labelValue);\n                }\n            });\n        });\n    };\n    FileInput.prototype.getFileName = function (value) {\n        return value.split(\"\\\\\").pop();\n    };\n    return FileInput;\n}();\nexports.default = FileInput;\n\n//# sourceURL=webpack:///./temp/scripts/modules/file-input.ts?");
+
+/***/ }),
+
+/***/ "./temp/scripts/modules/follow.ts":
+/*!****************************************!*\
+  !*** ./temp/scripts/modules/follow.ts ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\nvar common_helper_1 = __webpack_require__(/*! ../modules/common-helper */ \"./temp/scripts/modules/common-helper.ts\");\nvar Follow = /** @class */function () {\n    function Follow() {\n        this.$followButton = $('.profile__follow-btn');\n        this.$profileCover = $('.profile__cover');\n        this.$baseUrl = \"/follow\";\n        this.events();\n    }\n    Follow.prototype.events = function () {\n        this.$profileCover.on('click', '.profile__follow-btn', this.toggleFollow.bind(this));\n    };\n    Follow.prototype.toggleFollow = function () {\n        var isfollowing = this.$followButton.hasClass('profile__follow--is-following');\n        var followeeUserName = this.$followButton.data('followee-username');\n        if (!isfollowing) {\n            this.follow(followeeUserName);\n        } else {\n            this.$followButton.find('span').html('Follow me');\n            this.unFollow(followeeUserName);\n        }\n    };\n    Follow.prototype.follow = function (followeeUserName) {\n        if (followeeUserName) {\n            $.post(this.$baseUrl + \"/followuser\", common_helper_1.default.addAntiForgeryToken({\n                followeeUserName: followeeUserName\n            }), function () {\n                location.reload();\n            });\n        }\n    };\n    Follow.prototype.unFollow = function (followeeUserName) {\n        if (followeeUserName) {\n            $.post(this.$baseUrl + \"/unfollowuser\", common_helper_1.default.addAntiForgeryToken({\n                followeeUserName: followeeUserName\n            }), function () {\n                location.reload();\n            });\n        }\n    };\n    return Follow;\n}();\nexports.default = Follow;\n\n//# sourceURL=webpack:///./temp/scripts/modules/follow.ts?");
 
 /***/ }),
 

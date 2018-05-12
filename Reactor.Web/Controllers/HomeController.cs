@@ -44,7 +44,7 @@ namespace Reactor.Web.Controllers
         {
             return View(new HomeModel
             {
-                UserProfilePicture = await _userService.GetUserProfileAsync(),
+                UserProfilePicture = await _userService.GetUserProfilePictureAsync(),
                 PostLoadMore = await _postService.ShouldPostLoadMoreAsync()
             });
         }
@@ -55,7 +55,7 @@ namespace Reactor.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.UserProfilePicture = await _userService.GetUserProfileAsync();
+                model.UserProfilePicture = await _userService.GetUserProfilePictureAsync();
                 model.PostLoadMore = await _postService.ShouldPostLoadMoreAsync();
                 return View(nameof(Index));
             }

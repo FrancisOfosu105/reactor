@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reactor.Core;
 using Reactor.Core.Domain.Comments;
+using Reactor.Core.Domain.Follows;
 using Reactor.Core.Domain.Friends;
 using Reactor.Core.Domain.Likes;
 using Reactor.Core.Domain.Photos;
@@ -16,6 +17,7 @@ using Reactor.Core.Repository;
 using Reactor.Data;
 using Reactor.Data.EfContext;
 using Reactor.Data.Repository;
+using Reactor.Services.Follows;
 using Reactor.Services.Friends;
 using Reactor.Services.Photos;
 using Reactor.Services.Posts;
@@ -64,6 +66,7 @@ namespace Reactor.Web
             services.AddScoped<IRepository<Photo>, PhotoRepository>();
             services.AddScoped<IRepository<Like>, LikeRepository>();
             services.AddScoped<IRepository<Comment>, CommentRepository>();
+            services.AddScoped<IRepository<Follow>, FollowRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -72,6 +75,7 @@ namespace Reactor.Web
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddTransient<IViewRenderService, ViewRenderService>();
+            services.AddTransient<IFollowService, FollowService>();
 
             services.AddTransient<CommonHelper>();
 

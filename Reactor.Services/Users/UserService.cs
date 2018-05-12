@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -44,11 +45,6 @@ namespace Reactor.Services.Users
             return await _userManager.GetUserNameAsync(user);
         }
 
-        public IQueryable<User> GetAllUsers()
-        {
-            return _userManager.Users;
-        }
-
         public IQueryable<User> GetAllUsersExceptCurrentUser()
         {
             return _userManager.Users.Where(u => u.Id != _currentUserId);
@@ -64,11 +60,18 @@ namespace Reactor.Services.Users
                 .FirstOrDefaultAsync(u => u.Id == _currentUserId);
         }
 
-        public async Task<string> GetUserProfileAsync()
+        public async Task<string> GetUserProfilePictureAsync()
         {
             var user = await GetUserByIdAsync(_currentUserId);
 
             return user.GetPicture();
+        }
+
+        public async Task<bool> IsProfilePageForCurrentUserAsync(string username)
+        {
+            var currentUser = await GetUserByIdAsync(_currentUserId);
+
+            return string.Equals(currentUser.UserName, username,StringComparison.OrdinalIgnoreCase);
         }
     }
 }

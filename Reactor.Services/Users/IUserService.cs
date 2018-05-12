@@ -12,15 +12,14 @@ namespace Reactor.Services.Users
 
         Task<string> GetCurrentUserIdAsync();
         
-        Task<string> GetCurrentUserNameAsync(); 
+        Task<string> GetCurrentUserNameAsync();
 
-        IQueryable<User> GetAllUsers();
-        
         IQueryable<User> GetAllUsersExceptCurrentUser();
 
         Task<User> GetUserWithFriendsAsync();
 
-        Task<string> GetUserProfileAsync();
+        Task<string> GetUserProfilePictureAsync();
 
+        Task<bool> IsProfilePageForCurrentUserAsync(string username);
     }
 }

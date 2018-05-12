@@ -4,6 +4,7 @@
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Pages\Profile" />
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\assets\scripts" />
   </ItemGroup>

@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Follow>
+@inject CommonHelper CommonHelper
+@{
+    ViewBag.Title = "Following";
+    Layout = "_ProfileLayout";
+}
+
+@if (Model.Any())
+{
+    foreach (var follow in Model)
+     {
+         await Html.RenderPartialAsync("Templates/follow", follow.Followee);
+     }  
+}
+else
+{
+    <div class="col-12 text-center">
+        <h2 class="text-capitalize">No Following is available.</h2>
+    </div>
+}

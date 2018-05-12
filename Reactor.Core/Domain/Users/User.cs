@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Reactor.Core.Domain.Comments;
+using Reactor.Core.Domain.Follows;
 using Reactor.Core.Domain.Friends;
 using Reactor.Core.Domain.Likes;
 using Reactor.Core.Domain.Posts;
@@ -23,6 +24,10 @@ namespace Reactor.Core.Domain.Users
 
         public ICollection<Post> Posts { get; set; }
 
+        public ICollection<Follow> Followers { get; set; }
+
+        public ICollection<Follow> Followees { get; set; }
+
         [NotMapped] public string FullName => $"{FirstName} {LastName}";
         
         public ICollection<Comment> Comments { get; set; }
@@ -41,6 +46,10 @@ namespace Reactor.Core.Domain.Users
             Comments = new List<Comment>();
             
             Likes = new List<Like>();
+            
+            Followers = new List<Follow>();
+            
+            Followees = new List<Follow>();
         }
         
         public virtual IEnumerable<Friend> ApprovedFriends()
