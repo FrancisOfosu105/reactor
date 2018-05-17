@@ -129,6 +129,16 @@ namespace Reactor.Data.Migrations
                     b.ToTable("UserTokens");
                 });
 
+            modelBuilder.Entity("Reactor.Core.Domain.Chats.Chat", b =>
+                {
+                    b.Property<string>("ChatId")
+                        .HasMaxLength(256);
+
+                    b.HasKey("ChatId");
+
+                    b.ToTable("Chat");
+                });
+
             modelBuilder.Entity("Reactor.Core.Domain.Comments.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -210,6 +220,31 @@ namespace Reactor.Data.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("Like");
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Messages.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ChatId")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("RecipientId")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("Reactor.Core.Domain.Photos.Photo", b =>
@@ -410,6 +445,14 @@ namespace Reactor.Data.Migrations
                     b.HasOne("Reactor.Core.Domain.Posts.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Messages.Message", b =>
+                {
+                    b.HasOne("Reactor.Core.Domain.Chats.Chat", "Chat")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

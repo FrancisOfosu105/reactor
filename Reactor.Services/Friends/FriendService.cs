@@ -26,7 +26,7 @@ namespace Reactor.Services.Friends
 
         public async Task<IEnumerable<User>> GetSuggestedFriendsAsync()
         {
-            var users = _userService.GetAllUsersExceptCurrentUser();
+            var users = await _userService.GetAllUsersExceptCurrentUser();
 
             var currentUser = await _userService.GetUserWithFriendsAsync();
 
@@ -37,7 +37,7 @@ namespace Reactor.Services.Friends
             var friends = approvedFriends.Concat(notApprovedFriends).ToList();
 
             if (!friends.Any())
-                return await users.ToListAsyncSafe();
+                return  await users.ToListAsyncSafe();
 
             var suggestedFriends = new List<User>();
 

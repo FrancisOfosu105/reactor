@@ -11,7 +11,7 @@
 {
     foreach (var follow in Model)
     {
-        await Html.RenderPartialAsync("Templates/follow", follow.Follower);
+        await Html.RenderPartialAsync("Templates/_Follow", follow.Follower);
     }  
 }
 else

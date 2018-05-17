@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Likes;
 using Reactor.Core.Domain.Posts;
+using Reactor.Core.Extensions;
 using Reactor.Core.Repository;
 using Reactor.Services.Users;
 
@@ -17,7 +18,6 @@ namespace Reactor.Services.Posts
         private readonly IUserService _userService;
         private readonly IRepository<Comment> _commentRepository;
         private readonly IRepository<Like> _likeRepository;
-        private const int PAGE_SIZE = 5;
 
         public PostService(
             IRepository<Post> postRepository,
@@ -63,9 +63,9 @@ namespace Reactor.Services.Posts
                 .OrderByDescending(p => p.CreatedOn)
                 .AsQueryable();
 
-            var loadMore = CalculateLoadMore(pageIndex, await query.CountAsync());
+            var loadMore = query.ShouldEnableLoadMore(pageIndex: pageIndex);
 
-            query = query.Skip((pageIndex - 1) * PAGE_SIZE).Take(PAGE_SIZE);
+            query = query.ApplyingPagination(pageIndex);
 
             return (await query.ToListAsync(), loadMore);
         }
@@ -81,9 +81,9 @@ namespace Reactor.Services.Posts
                 .Where(p => p.CreatedById == userId)
                 .AsQueryable();
 
-            var loadMore = CalculateLoadMore(pageIndex, await query.CountAsync());
+            var loadMore = query.ShouldEnableLoadMore(pageIndex: pageIndex);
 
-            query = query.Skip((pageIndex - 1) * PAGE_SIZE).Take(PAGE_SIZE);
+            query = query.ApplyingPagination(pageIndex);
 
             return (await query.ToListAsync(), loadMore);
         }
@@ -143,7 +143,7 @@ namespace Reactor.Services.Posts
             return await _commentRepository.Table.Where(c => c.PostId == postId).CountAsync();
         }
 
-        public async Task<bool> ShouldPostLoadMoreAsync(string userId = null)
+        public bool ShouldPostLoadMore(string userId = null)
         {
             IQueryable<Post> query;
 
@@ -162,7 +162,7 @@ namespace Reactor.Services.Posts
             }
 
 
-            return 1 * PAGE_SIZE < await query.CountAsync();
+            return query.ShouldEnableLoadMore();
         }
 
         public async Task<(IEnumerable<Comment> data, bool loadMore)> GetPagedCommentsByPostIdAsync(int postId,
@@ -176,19 +176,14 @@ namespace Reactor.Services.Posts
                 .AsQueryable();
 
 
-            var loadMore = CalculateLoadMore(pageIndex, await query.CountAsync());
+            var loadMore = query.ShouldEnableLoadMore(pageIndex: pageIndex);
 
-            query = query.Skip((pageIndex - 1) * PAGE_SIZE).Take(PAGE_SIZE);
+            query = query.ApplyingPagination(pageIndex);
 
-            query = query.OrderBy(c => c.CreatedOn).AsQueryable();
+            query = query.OrderBy(c => c.CreatedOn);
 
 
             return (await query.ToListAsync(), loadMore);
-        }
-
-        private static bool CalculateLoadMore(int pageIndex, int totalCount)
-        {
-            return pageIndex * PAGE_SIZE < totalCount;
         }
     }
 }

@@ -6,10 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reactor.Core;
+using Reactor.Core.Domain.Chats;
 using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Follows;
 using Reactor.Core.Domain.Friends;
 using Reactor.Core.Domain.Likes;
+using Reactor.Core.Domain.Messages;
 using Reactor.Core.Domain.Photos;
 using Reactor.Core.Domain.Posts;
 using Reactor.Core.Domain.Users;
@@ -17,14 +19,17 @@ using Reactor.Core.Repository;
 using Reactor.Data;
 using Reactor.Data.EfContext;
 using Reactor.Data.Repository;
+using Reactor.Services.Chats;
 using Reactor.Services.Follows;
 using Reactor.Services.Friends;
 using Reactor.Services.Photos;
 using Reactor.Services.Posts;
 using Reactor.Services.Users;
 using Reactor.Services.ViewRender;
+using Reactor.Web.Hubs;
 using Reactor.Web.Infrastructure.Extensions;
 using Reactor.Web.Infrastructure.Helpers;
+using Reactor.Web.Models.Chat;
 
 namespace Reactor.Web
 {
@@ -43,7 +48,9 @@ namespace Reactor.Web
         {
             services.AddMvc();
 
-            services.AddNoTrailingSlash(options=> options.RemoveTrailingSlash = true);
+            services.AddSignalR();
+
+            services.AddNoTrailingSlash(options => options.RemoveTrailingSlash = true);
 
             services.AddDbContext<ReactorDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ReactorConnStr")));
@@ -60,6 +67,7 @@ namespace Reactor.Web
                 .AddDefaultTokenProviders();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<ChatConnection>();
 
             services.AddScoped<IRepository<Friend>, FriendRepository>();
             services.AddScoped<IRepository<Post>, PostRepository>();
@@ -67,6 +75,8 @@ namespace Reactor.Web
             services.AddScoped<IRepository<Like>, LikeRepository>();
             services.AddScoped<IRepository<Comment>, CommentRepository>();
             services.AddScoped<IRepository<Follow>, FollowRepository>();
+            services.AddScoped<IRepository<Message>, MessageRepository>();
+            services.AddScoped<IRepository<Chat>, ChatRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -76,6 +86,7 @@ namespace Reactor.Web
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<IFollowService, FollowService>();
+            services.AddTransient<IChatService, ChatService>();
 
             services.AddTransient<CommonHelper>();
 
@@ -95,6 +106,8 @@ namespace Reactor.Web
             app.UseNoTrailingSlash();
 
             app.UseStaticFiles();
+
+            app.UseSignalR(configure => configure.MapHub<ChatHub>("/chathub"));
 
             app.UseMvc(routes => routes.MapRoute(
                 name: "default",

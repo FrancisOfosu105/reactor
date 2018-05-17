@@ -11,9 +11,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Reactor.Core\Reactor.Core.csproj">
       <Project>{54015FAF-B85F-4417-8E64-160161407ECE}</Project>
       <Name>Reactor.Core</Name>

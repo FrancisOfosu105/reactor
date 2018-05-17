@@ -19,12 +19,12 @@ namespace Reactor.Data.EntityConfiguration
             builder.HasOne(f => f.Follower)
                 .WithMany(f => f.Followees)
                 .HasForeignKey(f => f.FollowerId)
-                .OnDelete(DeleteBehavior.Restrict);;
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(f => f.Followee)
                 .WithMany(f => f.Followers)
                 .HasForeignKey(f => f.FolloweeId)
-                .OnDelete(DeleteBehavior.Restrict);;
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

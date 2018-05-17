@@ -11,7 +11,7 @@ namespace Reactor.Services.Posts
 
         Task<Post> GetPostWithCommentsAsync(int postId);
 
-        Task<bool> ShouldPostLoadMoreAsync(string userId = null);
+        bool ShouldPostLoadMore(string userId = null);
 
         Task<(IEnumerable<Comment> data, bool loadMore)> GetPagedCommentsByPostIdAsync(int postId, int pageIndex = 1);
 

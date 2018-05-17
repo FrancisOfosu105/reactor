@@ -67,13 +67,13 @@ namespace Reactor.Tests.Reactor.Services.Friends
         [Test]
         public async Task GetSuggestedFriends_UserHasNoFriends_ReturnAllUsers()
         {
-            _userService.Setup(us => us.GetAllUsersExceptCurrentUser()).Returns(new List<User>
+            _userService.Setup(us => us.GetAllUsersExceptCurrentUser()).ReturnsAsync(new List<User>
             {
                 _otherUser1,
                 _otherUser2,
             }.AsQueryable());
 
-            _userService.Setup(us => us.GetUserWithFriendsAsync()).ReturnsAsync(new User
+            _userService.Setup(us => us.GetUserWithFriendsAsync(null)).ReturnsAsync(new User
             {
                 ReceievedFriendRequests = new List<Friend>(),
                 SentFriendRequests = new List<Friend>()
@@ -93,7 +93,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
         [Test]
         public async Task GetSuggestedFriends_UserHasAnAprrovedFriend_ReturnListOfSuggestedUsers()
         {
-            _userService.Setup(us => us.GetAllUsersExceptCurrentUser()).Returns(new List<User>
+            _userService.Setup(us => us.GetAllUsersExceptCurrentUser()).ReturnsAsync(new List<User>
             {
                 _otherUser1,
                 _otherUser2,
@@ -105,7 +105,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
                 _approvedfriend
             };
 
-            _userService.Setup(us => us.GetUserWithFriendsAsync())
+            _userService.Setup(us => us.GetUserWithFriendsAsync(null))
                 .ReturnsAsync(
                     _currentUser
                 );
@@ -125,7 +125,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
         [Test]
         public async Task GetSuggestedFriends_UserHasUnAprrovedFriend_ReturnListOfSuggestedUsers()
         {
-            _userService.Setup(us => us.GetAllUsersExceptCurrentUser()).Returns(new List<User>
+            _userService.Setup(us => us.GetAllUsersExceptCurrentUser()).ReturnsAsync(new List<User>
             {
                 _otherUser1,
                 _otherUser2,
@@ -137,7 +137,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
                 _notapprovedfriend
             };
 
-            _userService.Setup(us => us.GetUserWithFriendsAsync())
+            _userService.Setup(us => us.GetUserWithFriendsAsync(null))
                 .ReturnsAsync(
                     _currentUser
                 );
@@ -157,7 +157,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
         [Test]
         public async Task GetSuggestedFriends_UserHasBothAprrovedAndNotApprovedFriend_ReturnListOfSuggestedUsers()
         {
-            _userService.Setup(us => us.GetAllUsersExceptCurrentUser()).Returns(new List<User>
+            _userService.Setup(us => us.GetAllUsersExceptCurrentUser()).ReturnsAsync(new List<User>
             {
                 _otherUser1,
                 _otherUser2,
@@ -177,7 +177,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
                 }
             };
 
-            _userService.Setup(us => us.GetUserWithFriendsAsync())
+            _userService.Setup(us => us.GetUserWithFriendsAsync(null))
                 .ReturnsAsync(
                     _currentUser
                 );
@@ -200,7 +200,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
             _currentUser.SentFriendRequests = new List<Friend>();
             _currentUser.ReceievedFriendRequests = new List<Friend>();
 
-            _userService.Setup(us => us.GetUserWithFriendsAsync()).ReturnsAsync(
+            _userService.Setup(us => us.GetUserWithFriendsAsync(null)).ReturnsAsync(
                 _currentUser
             );
 
@@ -209,7 +209,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
             await _friendService.AddFriendRequestAsync(_currentUser.Id, _otherUser1.Id);
 
 
-            _userService.Verify(us => us.GetUserWithFriendsAsync());
+            _userService.Verify(us => us.GetUserWithFriendsAsync(null));
 
             Assert.That(_currentUser.SentFriendRequests.Count, Is.EqualTo(1));
         }
@@ -285,7 +285,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
                 _approvedfriend
             };
 
-            _userService.Setup(us => us.GetUserWithFriendsAsync()).ReturnsAsync(
+            _userService.Setup(us => us.GetUserWithFriendsAsync(null)).ReturnsAsync(
                 _currentUser
             );
 
@@ -302,7 +302,7 @@ namespace Reactor.Tests.Reactor.Services.Friends
                 _notapprovedfriend
             };
 
-            _userService.Setup(us => us.GetUserWithFriendsAsync()).ReturnsAsync(
+            _userService.Setup(us => us.GetUserWithFriendsAsync(null)).ReturnsAsync(    
                 _currentUser
             );
 

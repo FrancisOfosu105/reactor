@@ -215,10 +215,12 @@ export default class Post {
 
     }
 
-    private loadPreviousComment(e: any) {
-        e.preventDefault();
+    private loadPreviousComment(e: Event) {
+      
         const $loadBtn = $(e.target);
-        const pageIndex = $loadBtn.find("span").html();
+
+        const pageIndex:any = parseInt($loadBtn.find("span").html());
+
         const postId = $loadBtn.data("post-id");
         const $commentContainer = $(`.post__comments-container-${postId}`);
         const $loadMore = $(`#comment-loadMore-${postId}`);
@@ -246,5 +248,6 @@ export default class Post {
 
         }
 
+        return false;
     }
 }

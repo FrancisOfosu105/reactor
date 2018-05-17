@@ -35,7 +35,7 @@ namespace Reactor.Web.Controllers
         [HttpGet("{username}")]
         public async Task<IActionResult> Index(string username)
         {
-            var user = await _userService.GetUserNameAsync(username);
+            var user = await _userService.GetUserByUserNameAsync(username);
 
             if (user == null)
                 return NotFound();
@@ -43,7 +43,7 @@ namespace Reactor.Web.Controllers
 
             return View(new ProfileModel
             {
-                PostLoadMore = await _postService.ShouldPostLoadMoreAsync(user.Id)
+                PostLoadMore =  _postService.ShouldPostLoadMore(user.Id)
             });
         }
 
@@ -52,7 +52,7 @@ namespace Reactor.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> GetUserPosts(string username, [FromForm] int pageIndex = 1)
         {
-            var user = await _userService.GetUserNameAsync(username);
+            var user = await _userService.GetUserByUserNameAsync(username);
             if (user == null)
                 return NotFound();
 
@@ -63,7 +63,7 @@ namespace Reactor.Web.Controllers
                 Posts = result.data,
                 LoadMore = result.loadMore
             };
-            var postTemplate = await _renderService.RenderViewToStringAsync("Templates/Post", model);
+            var postTemplate = await _renderService.RenderViewToStringAsync("Templates/_Post", model);
 
             return Json(new
             {
@@ -75,7 +75,7 @@ namespace Reactor.Web.Controllers
         [HttpGet("photos/{username}")]
         public async Task<IActionResult> GetUserPhotos(string username)
         {
-            var user = await _userService.GetUserNameAsync(username);
+            var user = await _userService.GetUserByUserNameAsync(username);
 
             if (user == null)
                 return NotFound();
@@ -89,7 +89,7 @@ namespace Reactor.Web.Controllers
         [HttpGet("followers/{username}")]
         public async Task<IActionResult> GetUserFollowers(string username)
         {
-            var user = await _userService.GetUserNameAsync(username);
+            var user = await _userService.GetUserByUserNameAsync(username);
 
             if (user == null)
                 return NotFound();
@@ -102,7 +102,7 @@ namespace Reactor.Web.Controllers
         [HttpGet("following/{username}")]
         public async Task<IActionResult> GetUserFollowees(string username)
         {
-            var user = await _userService.GetUserNameAsync(username);
+            var user = await _userService.GetUserByUserNameAsync(username);
 
             if (user == null)
                 return NotFound();

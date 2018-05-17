@@ -18,5 +18,7 @@ namespace Reactor.Services.Friends
         Task<IEnumerable<Friend>> GetFriendRequests();
 
         Task AcceptFriendRequestAsync(string requestedByUserId, string requestedToUserId);
+        
+        
     }
 }

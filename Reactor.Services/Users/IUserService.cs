@@ -8,15 +8,15 @@ namespace Reactor.Services.Users
     {
         Task<User> GetUserByIdAsync(string userId);
 
-        Task<User> GetUserNameAsync(string username);
+        Task<User> GetUserByUserNameAsync(string username);
 
         Task<string> GetCurrentUserIdAsync();
-        
+
         Task<string> GetCurrentUserNameAsync();
 
-        IQueryable<User> GetAllUsersExceptCurrentUser();
+        Task<IQueryable<User>> GetAllUsersExceptCurrentUser();
 
-        Task<User> GetUserWithFriendsAsync();
+        Task<User> GetUserWithFriendsAsync(string userId = null);
 
         Task<string> GetUserProfilePictureAsync();
 

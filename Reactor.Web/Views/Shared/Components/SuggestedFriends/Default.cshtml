@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<Reactor.Core.Domain.Users.User>
-<div class="card suggested">
-    <div class="card-header">
-        <h2 class="text-capitalize text-center">Suggested friends</h2>
+<div class="box suggested">
+    <div class="box__header">
+        <h2 class="box__title">Suggested friends</h2>
     </div>
 @foreach (var user in Model)
 {
       
-        <div class="card-body">
+        <div class="box__content pb-5">
             <div class="d-flex">
                 <div class="mr-3">
                     <img src="@user.GetPicture()" class="rounded-circle" width="50" height="50"/>

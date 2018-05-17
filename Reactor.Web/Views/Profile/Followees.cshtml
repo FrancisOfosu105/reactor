@@ -9,7 +9,7 @@
 {
     foreach (var follow in Model)
      {
-         await Html.RenderPartialAsync("Templates/follow", follow.Followee);
+         await Html.RenderPartialAsync("Templates/_Follow", follow.Followee);
      }  
 }
 else

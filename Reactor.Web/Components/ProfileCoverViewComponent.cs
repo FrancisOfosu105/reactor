@@ -25,7 +25,7 @@ namespace Reactor.Web.Components
 
         public async Task<IViewComponentResult> InvokeAsync(string username)
         {
-            var user = await _userService.GetUserNameAsync(username);
+            var user = await _userService.GetUserByUserNameAsync(username);
 
          
                 var model = new ProfileCoverModel

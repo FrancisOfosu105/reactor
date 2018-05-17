@@ -15,5 +15,16 @@ namespace Reactor.Core.Extensions
 
             return !(source is IAsyncEnumerable<TSource>) ? Task.FromResult(source.ToList()) : source.ToListAsync();
         }
+
+        public static IQueryable<T> ApplyingPagination<T>(this IQueryable<T> query, int pageIndex = 1,
+            int pageSize = 10)
+        {
+            return query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+        }
+
+        public static bool ShouldEnableLoadMore<T>(this IQueryable<T> query, int pageIndex = 1, int pageSize = 10)
+        {
+            return pageIndex * pageSize <  query.Count();
+        }
     }
 }

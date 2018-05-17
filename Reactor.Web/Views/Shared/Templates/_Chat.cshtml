@@ -1,0 +1,32 @@
+﻿@using Reactor.Web.Models.Chat
+@model ChatModel
+    @if (Model.Position == MessagePosition.Left)
+    {
+        <div class="chat-box__container chat-box__container-left">
+            <div class="chat-box__info">
+                <h2 class="chat-box__name pull-left">@Model.FullName</h2>
+                <time class="timeago chat-box__time pull-right" datetime="@Model.CreatedOn.ToString("o")"></time>
+            </div>
+            <img class="chat-box__img-left" src="@Model.ProfilePicture"/>
+            <div class="chat-box__message">
+                @Model.Message
+            </div>
+        </div>
+        
+    }
+    else
+    {
+        <div class="chat-box__container chat-box__container-right">
+            <div class="chat-box__info">
+                <time class="timeago chat-box__time pull-left" datetime="@Model.CreatedOn.ToString("o")"></time>
+                <h2 class="chat-box__name pull-right">@Model.FullName</h2>
+            </div>
+            <img class="chat-box__img-right" src="@Model.ProfilePicture"/>
+            <div class="chat-box__message">
+                @Model.Message
+            </div>
+        </div>
+        
+    }
+
+

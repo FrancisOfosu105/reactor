@@ -25,7 +25,7 @@ namespace Reactor.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> FollowUser([FromForm] string followeeUserName)
         {
-            var followee = await _userService.GetUserNameAsync(followeeUserName);
+            var followee = await _userService.GetUserByUserNameAsync(followeeUserName);
 
             if (followee == null)
                 return NotFound();
@@ -41,7 +41,7 @@ namespace Reactor.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UnFollowUser([FromForm] string followeeUserName)    
         {
-            var followee = await _userService.GetUserNameAsync(followeeUserName);
+            var followee = await _userService.GetUserByUserNameAsync(followeeUserName);
 
             if (followee == null)
                 return NotFound();

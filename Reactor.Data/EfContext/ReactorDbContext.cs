@@ -41,6 +41,10 @@ namespace Reactor.Data.EfContext
             builder.ApplyConfiguration(new LikeConfiguration());
             
             builder.ApplyConfiguration(new FollowConfiguration());
+            
+            builder.ApplyConfiguration(new MessageConfiguration());
+            
+            builder.ApplyConfiguration(new ChatConfiguration());
 
         }
     }

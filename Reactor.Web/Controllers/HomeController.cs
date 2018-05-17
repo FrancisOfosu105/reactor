@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Reactor.Core;
 using Reactor.Core.Domain.Comments;
 using Reactor.Core.Domain.Posts;
@@ -45,7 +46,7 @@ namespace Reactor.Web.Controllers
             return View(new HomeModel
             {
                 UserProfilePicture = await _userService.GetUserProfilePictureAsync(),
-                PostLoadMore = await _postService.ShouldPostLoadMoreAsync()
+                PostLoadMore =  _postService.ShouldPostLoadMore()
             });
         }
 
@@ -56,7 +57,7 @@ namespace Reactor.Web.Controllers
             if (!ModelState.IsValid)
             {
                 model.UserProfilePicture = await _userService.GetUserProfilePictureAsync();
-                model.PostLoadMore = await _postService.ShouldPostLoadMoreAsync();
+                model.PostLoadMore =  _postService.ShouldPostLoadMore();
                 return View(nameof(Index));
             }
 
@@ -91,7 +92,7 @@ namespace Reactor.Web.Controllers
                 Posts = result.data,
                 LoadMore = result.loadMore
             };
-            var postTemplate = await _renderService.RenderViewToStringAsync("Templates/Post", model);
+            var postTemplate = await _renderService.RenderViewToStringAsync("Templates/_Post", model);
 
             return Json(new
             {
@@ -133,7 +134,7 @@ namespace Reactor.Web.Controllers
                 },
             };
 
-            var commentTemplate = await _renderService.RenderViewToStringAsync("Templates/Comment", model);
+            var commentTemplate = await _renderService.RenderViewToStringAsync("Templates/_Comment", model);
 
             return Json(new
             {
@@ -162,7 +163,7 @@ namespace Reactor.Web.Controllers
             };
 
 
-            var commentTemplate = await _renderService.RenderViewToStringAsync("Templates/Comment", model);
+            var commentTemplate = await _renderService.RenderViewToStringAsync("Templates/_Comment", model);
 
             return Json(new
             {
@@ -208,5 +209,7 @@ namespace Reactor.Web.Controllers
                 totalLikes = await _postService.GetTotalPostLikesExceptCurrentUserAsync(postId)
             });
         }
+        
+        
     }
 }
