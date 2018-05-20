@@ -2,12 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
-using Reactor.Core.Domain.Friends;
 using Reactor.Services.Chats;
 using Reactor.Services.Users;
-using Reactor.Web.Hubs;
 using Reactor.Web.Models.Chat;
 
 namespace Reactor.Web.Controllers

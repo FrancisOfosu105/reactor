@@ -16,10 +16,13 @@
 @import "./components/_post";
 @import "./components/_box";
 @import "./components/_loader";
-@import "./components/img-overlay";
+@import "./components/_img-overlay";
+@import "./components/_dropdown";
+@import "./components/_navigation";
 
 //pages
 @import "./pages/_account"; 
 @import "./pages/_home"; 
 @import "./pages/_profile"; 
 @import "./pages/_chat"; 
+@import "./pages/_notification.scss"; 

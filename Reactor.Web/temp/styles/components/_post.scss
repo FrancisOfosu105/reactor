@@ -1,126 +1,124 @@
 .post {
-  border-radius: 4px;
-  border: 1px solid $color-grey-light;
-  background-color: $color-white;
-  font-size: 1.4rem;
-  position: relative;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 1rem 4rem rgba($color-black,.22);
-
-  &__photo-box {
-    width: 5rem;
-    height: 5rem;
-    position: absolute;
-  }
-
-  &__photo {
-    width: 4rem;
-    border-radius: 50%;
-    height: 4rem;
-  }
-
-  &__comments {
+    border-radius: .2rem .2rem 0 0;
+    border: 1px solid $color-grey-light;
+    background-color: $color-white;
+    font-size: 1.4rem;
     position: relative;
-    display: none;
+    padding: 2rem;
+    margin-bottom: 2rem;
 
-    &--show {
-      display: block;
+    &__photo-box {
+        width: 5rem;
+        height: 5rem;
+        position: absolute;
     }
 
-  }
-
-  &__commenter {
-    position: absolute;
-    left: 0;
-  }
-  &__comment-box {
-    margin-left: 5rem;
-  }
-
-  &__comment-input {
-    width: 100%;
-    border-radius: 2rem;
-    padding: .7rem 2rem;
-    border: 1px solid $color-grey-light;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  &__comment-list-box {
-    margin-bottom: 1rem;
-  }
-
-  &__comments-list {
-    margin-left: 5rem;
-    border: 1px solid $color-grey-light;
-    border-radius: 2rem;
-    padding: .7rem 1rem;
-
-    h4 {
-      font-weight: 700;
-      font-size: 1.4rem;
-      text-transform: capitalize;
-      margin-right: .2rem;
-      color: $color-primary;
-      &:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }
-    }
-  }
-
-  &__comment-author {
-    position: absolute;
-  }
-  &__comment-author-photo {
-    width: 4rem;
-    border-radius: 50%;
-    height: 4rem;
-  }
-
-  &__icons {
-    margin: 2rem 0;
-    color: $color-grey-dark;
-
-    a {
-      color: $color-grey-dark;
-
-      &:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }
-
+    &__photo {
+        width: 4rem;
+        border-radius: 50%;
+        height: 4rem;
     }
 
-  }
+    &__comments {
+        position: relative;
+        display: none;
 
-  &__author {
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-transform: capitalize;
-  }
-
-  &__text-container {
-    margin-left: 6rem;
-    padding-bottom: 1rem;
-  }
-
-  &__text {
-
-    hyphens: auto;
-  }
-
-  &__time {
-    font-size: 1rem;
-  }
-  &__like-icon {
-    
-    &--is-liked{
-      color: $color-primary-dark !important;
+        &--show {
+            display: block;
+        }
     }
-  }
 
+    &__commenter {
+        position: absolute;
+        left: 0;
+    }
+
+    &__comment-box {
+        margin-left: 5rem;
+    }
+
+    &__comment-input {
+        width: 100%;
+        border-radius: 2rem;
+        padding: .7rem 2rem;
+        border: 1px solid $color-grey-light;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__comment-list-box {
+        margin-bottom: 1rem;
+    }
+
+    &__comments-list {
+        margin-left: 5rem;
+        border: 1px solid $color-grey-light;
+        border-radius: 2rem;
+        padding: .7rem 1rem;
+
+        h4 {
+            font-weight: 700;
+            font-size: 1.4rem;
+            text-transform: capitalize;
+            margin-right: .2rem;
+            color: $color-primary;
+
+            &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &__comment-author {
+        position: absolute;
+    }
+
+    &__comment-author-photo {
+        width: 4rem;
+        border-radius: 50%;
+        height: 4rem;
+    }
+
+    &__icons {
+        margin: 2rem 0;
+        color: $color-grey-dark;
+
+        a {
+            color: $color-grey-dark;
+
+            &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &__author {
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    &__text-container {
+        margin-left: 6rem;
+        padding-bottom: 1rem;
+    }
+
+    &__text {
+        hyphens: auto;
+    }
+
+    &__time {
+        font-size: 1rem;
+    }
+
+    &__like-icon {
+
+        &--is-liked {
+            color: $color-primary-dark !important;
+        }
+    }
 }

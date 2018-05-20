@@ -1,5 +1,8 @@
-﻿<!DOCTYPE html>
-
+﻿@inject IUserService UserService
+@{
+    var user = await UserService.GetUserByIdAsync(await UserService.GetCurrentUserIdAsync());
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,44 +22,47 @@
     <span class="img-overlay__close"> &times;</span>
 </div>
 <header>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+        @* <a asp-controller="Home" asp-action="Index" class="navbar-brand">Reactor</a> *@
         <div class="container">
-            <a asp-controller="Home" asp-action="Index" class="navbar-brand">Reactor</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ml-auto">
+              <div class="collapse navbar-collapse">
 
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Chat" asp-action="Index">Messages</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Friend" asp-action="List">
-                            <i class="fa fa-users"></i> Friends
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Friend" asp-action="FriendRequests">
-                            <i class="fa fa-users"></i> Friend Requests
-                        </a>
-                    `</li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">Notifications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="Profile" asp-action="Index" asp-route-username="@User.Identity.Name" class="nav-link">Welcome, @User.Identity.Name</a>
-                    </li>
-                </ul>
-            </div>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Reactor</a>
+
+            <ul class="navbar-nav ml-auto">
+
+                @await Component.InvokeAsync("Notifications")
+                
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Chat" title="chats" asp-action="Index">
+                        <i class="fa fa-envelope-o"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Friend" title="friends" asp-action="List">
+                        <i class="fa fa-users"></i>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" asp-controller="Profile" asp-action="Index" asp-route-username="@user.UserName">
+                        <i class="fa fa-user-o"></i> Welcome, @user.FullName
+                    </a>
+                </li>
+            </ul>
+        </div>
         </div>
     </nav>
-</header> 
+</header>
 <main>
     @RenderBody()
-    
+
 </main>
 <footer>
 
 </footer>
 <script type="text/javascript" src="~/assets/scripts/app-bundle.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/assets/scripts/vendor-bundle.js" asp-append-version="true"></script>
 <form asp-antiforgery="true"></form>
 </body>
 </html>

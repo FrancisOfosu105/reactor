@@ -1,5 +1,8 @@
 .chat {
   &-box {
+
+    position: relative;
+    
     &__header {
       background-color: $color-white;
       padding: 2rem;
@@ -27,6 +30,8 @@
       height: 44rem;
       overflow-y: scroll;
       @include clearfix;
+      
+      @include customScrollBar;
     }
 
     &__info {
@@ -35,10 +40,6 @@
 
     &__name {
       font-size: 1rem;
-    }
-
-    &__time {
-
     }
 
     &__img-left {
@@ -129,21 +130,25 @@
     }
     
     &__spinner{
-      @include center-content;
+      @include centerContent;
       color: $color-grey-dark;
       font-size: 2rem;
       display: none;
     }
 
-    &__Previous-chat-info{
+    &__previous-chat-info{
      text-align: center;
       background-color: $color-white;
       display: none;
+      position: absolute;
+      z-index: 10;
+      width: 100%;
+      
       p{
         font-size: 1.5rem;
         font-weight: 500;
-        color: $color-grey-light;
-      }
+        color: $color-grey-dark;
+      } 
     }
     
   }
@@ -167,6 +172,8 @@
     &__body{
       height: 50rem;
       overflow-y: scroll;
+      
+      @include customScrollBar;
     }
 
     &__list {

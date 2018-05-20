@@ -46,11 +46,11 @@ export default class Post {
 
         const $likeBtn = $(e.target);
 
-        const postId = $likeBtn.data('post-id');
+        const postId = $likeBtn.data("post-id");
 
         let $likeCounter = $(`.like-count-${postId}`);
 
-        let isLiked = $likeBtn.hasClass('post__like-icon--is-liked');
+        let isLiked = $likeBtn.hasClass("post__like-icon--is-liked");
 
         if (!isLiked)
             this.likePost(postId, $likeBtn, $likeCounter);
@@ -70,7 +70,7 @@ export default class Post {
 
             $likeBtn.addClass("post__like-icon--is-liked");
 
-            $likeBtn.html('Liked');
+            $likeBtn.html("Liked");
 
             //user and more people have liked the post.
             if (data.totalLikes >= 2)
@@ -90,7 +90,7 @@ export default class Post {
         }), data => {
             $likeBtn.removeClass("post__like-icon--is-liked");
 
-            $likeBtn.html('Like');
+            $likeBtn.html("Like");
 
             $likeCounter.html(`(${data.totalLikes})`);
         });
@@ -100,7 +100,7 @@ export default class Post {
     private getInitialPosts() {
 
 
-        let url = this.$postContainer.data('url');
+        let url = this.$postContainer.data("url");
 
         if (url) {
             $.ajax({
@@ -133,7 +133,7 @@ export default class Post {
     private loadMorePosts(pageIndex: number) {
         const $postLoadMoreElem = $("#post-loadMore");
 
-        let url = this.$postContainer.data('url');
+        let url = this.$postContainer.data("url");
 
         if (url) {
             if ($postLoadMoreElem.html()) {

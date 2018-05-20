@@ -1,51 +1,39 @@
 .home {
 
-  & .status {
-    border-radius: 4px;
-    border: 1px solid $color-grey-light;
-    padding: 2rem;
-    background-color: $color-white;
-    box-shadow: 0 1rem 4rem rgba($color-black,.22);
+    & .status {
+        border-radius: .2rem .2rem 0 0;
+        border: 1px solid $color-grey-light;
+        padding: 2rem;
+        background-color: $color-white;
+         
+        &__input {
+            border: 1px solid $color-grey-light;
+            width: 85%;
+            margin-left: 6rem;
+        }
 
-    &__input {
-      border: 1px solid $color-grey-light;
-      width: 85%;
-      margin-left: 6rem;
-    }
-    
-    &__photo-box{
-      width: 5rem;
-      height: 5rem;
-      position: absolute;
-    }
-    
-    &__photo{
-      max-width: 100%;
-      border-radius: .5rem;
-    }
-  }
+        &__photo-box {
+            width: 5rem;
+            height: 5rem;
+            position: absolute;
+        }
 
-  & .suggested {
-    &__name {
-      font-size: 1.7rem;
+        &__photo {
+            max-width: 100%;
+            border-radius: .5rem;
+        }
     }
 
-  }
-
-  & .status {
-    &__upload-icon {
-      margin-left: 6rem;
-      color: $color-primary;
+    & .suggested {
+        &__name {
+            font-size: 1.7rem;
+        }
     }
-  }
 
+    & .status {
+        &__upload-icon {
+            margin-left: 6rem;
+            color: $color-primary;
+        }
+    }
 }
-
-.navbar {
-  a.nav-link {
-    font-size: 1.6rem;
-    color: $color-white!important;
-  }
-  background-image: linear-gradient($color-primary,$color-primary-dark);
-}
-

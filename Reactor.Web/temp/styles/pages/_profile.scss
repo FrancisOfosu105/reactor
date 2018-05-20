@@ -1,114 +1,115 @@
 .profile {
-  &__bg-img{
-    width: 100%;
-    height: 100%;
-    opacity: .7;
-  }
-  
-  &__cover {
-    height: 65vh;
-    position: relative;
-    background-color: $color-black;
-  }
-  &__info {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: $color-white;
-  }
+    margin-top: -7rem;
 
-  &__photo {
-
-    width: 10rem;
-    height: 10rem;
-    border-radius: 50%;
-    margin-bottom: 1rem;
-
-  }
-
-  &__title {
-    text-transform: capitalize;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
-
-  &__description {
-    font-size: 1.4rem;
-    max-width: 25rem;
-  }
-  
-  &__follow{
-    position: absolute;
-    bottom: 3%;
-    right: 3%;
-
-    &--is-following{
-      background-color: $color-primary-dark !important;
-      color: $color-white !important;
+    &__bg-img {
+        width: 100%;
+        height: 100%;
+        opacity: .7;
     }
 
+    &__cover {
+        height: 65vh;
+        position: relative;
+        background-color: $color-black;
+    }
 
-    &-btn{
-      display: block;
-      color: $color-white !important;
-      font-size: 1.4rem;
-      border: 1px solid $color-primary-light !important;
-      padding: .7rem 1rem;
-      transition: all .3s ease-out;
-      
-      &:hover{
-        color: $color-white !important;
-        background-color: $color-primary;
-        text-decoration: none;
-        cursor: pointer;
-      }
+    &__info {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: $color-white;
     }
-  }
-  
-  &__stats{
-    background-color: $color-white !important;
-    padding: .5rem .8rem;
-    margin-bottom: 4rem;
-  text-align: center;
-  }
-  
-  &__list{
-    list-style: none;
-  }
-  
-  &__item{
-    display: inline-block;
-    padding: 0 2rem; 
-  }
-  
-  &__link{
-    color: $color-grey-dark;
-    font-size: 1.4rem;
-    &:hover{
-      
-    text-decoration: none;
-      color: $color-primary-light;
+
+    &__photo {
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        margin-bottom: 1rem;
     }
-  }
-  &__counter{
-    text-transform: uppercase;
-  }
-  
-  &__counter{
-    color: $color-primary-dark;
-    display: block;
-  }
-  &__icon{
-    color: $color-primary-dark;
-  }
-  
-  &__img-block{
-    margin-bottom: 2rem;
-    box-shadow: 0 1rem 4rem rgba($color-black,.22);
-  }
-  
-  
+
+    &__title {
+        text-transform: capitalize;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    &__description {
+        font-size: 1.4rem;
+        max-width: 25rem;
+    }
+
+    &__follow {
+        position: absolute;
+        bottom: 3%;
+        right: 3%;
+
+        &--is-following {
+            background-color: $color-primary-dark !important;
+            color: $color-white !important;
+        }
+
+
+        &-btn {
+            display: block;
+            color: $color-white !important;
+            font-size: 1.4rem;
+            border: 1px solid $color-primary-light !important;
+            padding: .7rem 1rem;
+            transition: all .3s ease-out;
+
+            &:hover {
+                color: $color-white !important;
+                background-color: $color-primary;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &__stats {
+        background-color: $color-white !important;
+        padding: .5rem .8rem;
+        margin-bottom: 4rem;
+        text-align: center;
+    }
+
+    &__list {
+        list-style: none;
+    }
+
+    &__item {
+        display: inline-block;
+        padding: 0 2rem;
+    }
+
+    &__link {
+        color: $color-grey-dark;
+        font-size: 1.4rem;
+
+        &:hover {
+            text-decoration: none;
+            color: $color-primary-light;
+        }
+    }
+
+    &__counter {
+        text-transform: uppercase;
+    }
+
+    &__counter {
+        color: $color-primary-dark;
+        display: block;
+    }
+
+    &__icon {
+        color: $color-primary-dark;
+    }
+
+    &__img-block {
+        margin-bottom: 2rem;
+        box-shadow: 0 1rem 4rem rgba($color-black,.22);
+    }
 }

@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Reactor.Core;
 using Reactor.Core.Domain.Users;
 using Reactor.Services.Friends;
+using Reactor.Services.Notifications;
 using Reactor.Services.Users;
 using Reactor.Web.Controllers;
 
@@ -17,6 +18,7 @@ namespace Reactor.Tests.Reactor.Web.Controllers
         private Mock<IUnitOfWork> _unitOfWork;
         private Mock<IFriendService> _friendService;
         private Mock<IUserService> _userService;
+        private Mock<INotificationService> _notificationService;
         private FriendController _friendController;
 
         [SetUp]
@@ -25,8 +27,9 @@ namespace Reactor.Tests.Reactor.Web.Controllers
             _unitOfWork = new Mock<IUnitOfWork>();
             _friendService = new Mock<IFriendService>();
             _userService = new Mock<IUserService>();
+            _notificationService = new Mock<INotificationService>();
 
-            _friendController = new FriendController(_friendService.Object, _userService.Object, _unitOfWork.Object);
+            _friendController = new FriendController(_friendService.Object, _userService.Object, _unitOfWork.Object, _notificationService.Object);
         }
 
         [Test]

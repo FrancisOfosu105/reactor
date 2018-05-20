@@ -4,6 +4,7 @@ import Post from "./modules/post";
 import Modal from "./modules/modal";
 import Follow from "./modules/follow";
 import Chat from "./modules/chat";
+import Notification from "./modules/notification";
 
 new FileInput();
 new DateTime();
@@ -11,6 +12,7 @@ new Post();
 new Modal();
 new Follow();
 new Chat();
+new Notification();
 
 
  

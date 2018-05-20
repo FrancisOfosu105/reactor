@@ -42,6 +42,11 @@ namespace Reactor.Services.Posts
             return _postRepository.Table.Include(p => p.Comments).FirstOrDefaultAsync(p => p.Id == postId);
         }
 
+        public Task<Post> GetPostWithUserAsync(int postId)
+        {
+            return _postRepository.Table.Include(p => p.CreatedBy).ThenInclude(u=>u.Notifications).FirstOrDefaultAsync(p => p.Id == postId);
+        }
+
 
         public async Task AddCommentToPostAsync(Comment comment)
         {
@@ -141,6 +146,11 @@ namespace Reactor.Services.Posts
         public async Task<int> GetTotalCommentsForPostAsnyc(int postId)
         {
             return await _commentRepository.Table.Where(c => c.PostId == postId).CountAsync();
+        }
+
+        public Task<Comment> GetCommentByIdAsync(int commentId)
+        {
+            return _commentRepository.Table.FirstOrDefaultAsync(c => c.Id == commentId);
         }
 
         public bool ShouldPostLoadMore(string userId = null)

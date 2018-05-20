@@ -17,6 +17,8 @@ namespace Reactor.Data.EntityConfiguration
             builder.HasMany(c => c.Messages)
                 .WithOne(m => m.Chat)
                 .HasForeignKey(m => m.ChatId);
+
+
         }
     }
 }

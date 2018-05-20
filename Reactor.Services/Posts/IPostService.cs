@@ -11,11 +11,13 @@ namespace Reactor.Services.Posts
 
         Task<Post> GetPostWithCommentsAsync(int postId);
 
+        Task<Post> GetPostWithUserAsync(int postId);
+
         bool ShouldPostLoadMore(string userId = null);
 
         Task<(IEnumerable<Comment> data, bool loadMore)> GetPagedCommentsByPostIdAsync(int postId, int pageIndex = 1);
 
-        Task AddCommentToPostAsync(Comment comment);    
+        Task AddCommentToPostAsync(Comment comment);
 
         Task<Post> GetPostByIdAsync(int postId);
 
@@ -32,7 +34,9 @@ namespace Reactor.Services.Posts
         Task<bool> HasUserLikePostAsync(int postId);
 
         Task<int> GetUserTotalPostsAsync(string userId);
-        
+
         Task<int> GetTotalCommentsForPostAsnyc(int postId);
+
+        Task<Comment> GetCommentByIdAsync(int commentId);
     }
 }

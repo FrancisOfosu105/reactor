@@ -8,10 +8,10 @@ export default class FileInput {
     }
 
     private configure() {
-        
+
         const that = this;
 
-        this.$fileInput.each(function() {
+        this.$fileInput.each(function () {
 
             const currentFileInputElem: any = this;
 

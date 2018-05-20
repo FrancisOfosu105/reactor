@@ -40,18 +40,21 @@ namespace Reactor.Services.Chats
             int pageIndex, int pageSize)
         {
             var query = _messageRepository.Table
-                .Include(c => c.Chat)
-                .Where(c =>
-                    c.ChatId == senderId && c.RecipientId == recipientId ||
-                    c.RecipientId == senderId && c.ChatId == recipientId)
-                .OrderByDescending(c => c.CreatedOn).AsQueryable();
+                    .Include(c => c.Chat)
+                    .Where(c =>
+                        c.ChatId == senderId && c.RecipientId == recipientId ||
+                        c.RecipientId == senderId && c.ChatId == recipientId)
+                    .OrderByDescending(c => c.CreatedOn)
+                .AsQueryable();
 
 
             var loadMore = query.ShouldEnableLoadMore(pageIndex, pageSize);
+            
 
             query = query.ApplyingPagination(pageIndex, pageSize);
-
+            
             query = query.OrderBy(m => m.CreatedOn);
+
 
             return (await query.ToListAsync(), loadMore);
         }

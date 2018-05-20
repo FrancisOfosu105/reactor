@@ -1,7 +1,8 @@
-const path = require('path');
+const path = require("path");
 module.exports = {
     entry: {
-        app: "./temp/scripts/app.ts"
+        app: "./temp/scripts/app.ts",
+        vendor: "./temp/scripts/vendor.js"
     },
     output: {
         path: path.resolve(__dirname, "./wwwroot/assets/scripts"),
@@ -17,7 +18,7 @@ module.exports = {
             {
                 test: /\.ts$/,
                 exclude: /(node_modules)/,
-                loaders: ['babel-loader', 'ts-loader']
+                loaders: ["babel-loader", "ts-loader"]
             }
         ]
     },

@@ -31,5 +31,11 @@ namespace Reactor.Core.Domain.Posts
             
             Likes = new List<Like>();
         }
+
+        public bool IsForCurrentUser(string userId)
+        {
+            return (string.Equals(CreatedById, userId, StringComparison.CurrentCultureIgnoreCase));
+        }
+
     }
 }

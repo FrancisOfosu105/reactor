@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reactor.Core;
+using Reactor.Core.Domain.Notifications;
 using Reactor.Services.Friends;
+using Reactor.Services.Notifications;
 using Reactor.Services.Users;
 
 namespace Reactor.Web.Controllers
@@ -14,12 +17,14 @@ namespace Reactor.Web.Controllers
         private readonly IFriendService _friendService;
         private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly INotificationService _notificationService;
 
-        public FriendController(IFriendService friendService, IUserService userService, IUnitOfWork unitOfWork)
+        public FriendController(IFriendService friendService, IUserService userService, IUnitOfWork unitOfWork, INotificationService notificationService)
         {
             _friendService = friendService;
             _userService = userService;
             _unitOfWork = unitOfWork;
+            _notificationService = notificationService;
         }
 
         // GET
@@ -46,13 +51,36 @@ namespace Reactor.Web.Controllers
             var requestedById = await _userService.GetCurrentUserIdAsync();
 
 
+            var requestedTo = await _userService.GetUserByIdAsync(requestedToId);
+
+            if (requestedTo == null)
+                return NotFound();
+
             if (await _friendService.FriendRequestExistsAsync(requestedById, requestedToId))
                 return RedirectToAction(nameof(HomeController.Index), "Home");
 
 
-            await _friendService.AddFriendRequestAsync(requestedById, (await _userService.GetUserByIdAsync(requestedToId)).Id);
+            await _friendService.AddFriendRequestAsync(requestedById,
+                (await _userService.GetUserByIdAsync(requestedToId)).Id);
+
+
+            var attributes = new List<NotificationAttribute>
+            {
+                new NotificationAttribute
+                {
+                    Name = "Link",
+                    Value = Url.Action(nameof(FriendController.FriendRequests), "Friend")
+                }
+            };
+
+            var notification =
+                new Notification(requestedTo, requestedById, NotificationType.SentFriendRequest, attributes);
+
+            requestedTo.CreateNotification(notification);
 
             await _unitOfWork.CompleteAsync();
+
+            await _notificationService.PushNotification(requestedTo.Id);
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
@@ -62,7 +90,27 @@ namespace Reactor.Web.Controllers
         public async Task<IActionResult> AcceptFriendRequest(string requestedById, string requestedToId)
         {
             await _friendService.AcceptFriendRequestAsync(requestedById, requestedToId);
+
+            var requestedBy = await _userService.GetUserByIdAsync(requestedById);
+
+            var attributes = new List<NotificationAttribute>
+            {
+                new NotificationAttribute
+                {
+                    Name = "Link",
+                    Value = Url.Action(nameof(FriendController.List), "Friend")
+                }
+            };
+
+            var notification = new Notification(requestedBy, requestedToId, NotificationType.AcceptedFriendRequest, attributes);
+
+            requestedBy.CreateNotification(notification);
+
+
             await _unitOfWork.CompleteAsync();
+
+            await _notificationService.PushNotification(requestedBy.Id);
+
 
             return RedirectToAction(nameof(List));
         }

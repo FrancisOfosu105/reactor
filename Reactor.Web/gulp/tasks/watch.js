@@ -10,7 +10,7 @@ gulp.task("default", ["styles","scripts" ,"fa", "fonts"], function () {
         gulp.start("styles");
     });
     
-    watch("./temp/scripts/**/*.ts",function () {
+    watch("./temp/scripts/**/*.{ts,js}",function () {
         gulp.start("scripts");
     })
 });

@@ -107,17 +107,17 @@ namespace Reactor.Web.Hubs
         }
 
 
-        public async Task<(IEnumerable<string> messages, bool loadMore)> GetChatHistory(string recipientId, int pageIndex, int pageSize)    
+        public async Task<(string messages, bool loadMore)> GetChatHistory(string recipientId, int pageIndex, int pageSize)    
         {
             var sender = await _userService.GetUserByUserNameAsync(Context.User.Identity.Name);
 
-            var result = await _chatService.GetChatMessagesAsync(sender.Id, recipientId, pageIndex, pageSize);
+            var (messages, loadMore) = await _chatService.GetChatMessagesAsync(sender.Id, recipientId, pageIndex, pageSize);
 
             var recipient = await _userService.GetUserByIdAsync(recipientId);
 
             var messageTemplates = new List<string>();
 
-            foreach (var message in result.messages)
+            foreach (var message in messages)
             {
                 if (message.ChatId == sender.Id)
                 {
@@ -147,7 +147,8 @@ namespace Reactor.Web.Hubs
                 }
             }
 
-            return (messageTemplates, result.loadMore);
+
+            return (string.Join("",messageTemplates), loadMore);
         }
 
         public async  Task IsTyping(string recipientId)

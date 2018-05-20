@@ -12,9 +12,10 @@ html{
 }
 
 body {
-  box-sizing: border-box;
-  background-color: #f5f8fa;
-
+    box-sizing: border-box;
+    background-color: #f5f8fa;
+    @include customScrollBar;
+    padding-top: 7rem;
 }
 
 .btn{
@@ -31,9 +32,3 @@ a{
   
 }
 
-.navbar-brand{
-  font-size: 2.5rem;
-    color: $color-white !important;
-  letter-spacing: .2rem;
-  font-weight: 700;
-}

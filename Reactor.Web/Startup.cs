@@ -12,9 +12,11 @@ using Reactor.Core.Domain.Follows;
 using Reactor.Core.Domain.Friends;
 using Reactor.Core.Domain.Likes;
 using Reactor.Core.Domain.Messages;
+using Reactor.Core.Domain.Notifications;
 using Reactor.Core.Domain.Photos;
 using Reactor.Core.Domain.Posts;
 using Reactor.Core.Domain.Users;
+using Reactor.Core.Hubs;
 using Reactor.Core.Repository;
 using Reactor.Data;
 using Reactor.Data.EfContext;
@@ -22,6 +24,7 @@ using Reactor.Data.Repository;
 using Reactor.Services.Chats;
 using Reactor.Services.Follows;
 using Reactor.Services.Friends;
+using Reactor.Services.Notifications;
 using Reactor.Services.Photos;
 using Reactor.Services.Posts;
 using Reactor.Services.Users;
@@ -77,6 +80,7 @@ namespace Reactor.Web
             services.AddScoped<IRepository<Follow>, FollowRepository>();
             services.AddScoped<IRepository<Message>, MessageRepository>();
             services.AddScoped<IRepository<Chat>, ChatRepository>();
+            services.AddScoped<IRepository<Notification>, NotificationRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -84,10 +88,11 @@ namespace Reactor.Web
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IPhotoService, PhotoService>();
-            services.AddTransient<IViewRenderService, ViewRenderService>();
-            services.AddTransient<IFollowService, FollowService>();
-            services.AddTransient<IChatService, ChatService>();
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IFollowService, FollowService>();
+            services.AddScoped<IChatService, ChatService>();
 
+            services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddTransient<CommonHelper>();
 
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -99,6 +104,7 @@ namespace Reactor.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
 
             app.UseAuthentication();
@@ -107,7 +113,11 @@ namespace Reactor.Web
 
             app.UseStaticFiles();
 
-            app.UseSignalR(configure => configure.MapHub<ChatHub>("/chathub"));
+            app.UseSignalR(configure =>
+            {
+                configure.MapHub<ChatHub>("/chathub");
+                configure.MapHub<NotificationHub>("/notificationhub");
+            });
 
             app.UseMvc(routes => routes.MapRoute(
                 name: "default",

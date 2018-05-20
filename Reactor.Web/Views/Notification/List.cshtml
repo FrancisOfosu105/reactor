@@ -1,0 +1,198 @@
+﻿@model IEnumerable<Reactor.Core.Domain.Notifications.Notification>
+@inject IUserService UserService
+@inject IPostService PostService
+@{
+    ViewBag.Title = "Notifications";
+    Layout = "_Layout";
+}
+
+<section class="notification">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="notification__title">
+                    <h2 class="d-inline-block">All notifications</h2>
+                    <a class="d-inline-block pull-right" href="#">
+                        Settings
+                    </a>
+                </div>
+
+                @if (Model.Any())
+                {
+                    foreach (var notification in Model)
+                    {
+                        var sender = await UserService.GetUserByIdAsync(notification.SenderId);
+
+                        <div class="notification__wrapper">
+                            <div class="notification__content">
+                                <div>
+                                    <a asp-controller="Profile" asp-action="Index" asp-route-username="@sender.UserName">
+                                        <img class="notification__photo" src="@sender.GetPicture()"/>
+                                    </a>
+
+                                    <time class="timeago pull-right" datetime="@notification.CreatedOn.ToString("o")"></time>
+                                </div>
+
+
+                                <p>
+                                    <strong class="notification__name">@sender.FullName</strong>
+
+                                    @switch (notification.Type)
+                                    {
+                                        case NotificationType.Like:
+
+                                            foreach (var attribute in notification.Attributes)
+                                            {
+                                                if (!attribute.Name.Equals("PostId"))
+                                                {
+                                                    continue;
+                                                }
+                                            }
+                                            <span class="notification__msg"> liked your <a href="#">post.</a></span>
+                                            break;
+
+                                        case NotificationType.Comment:
+                                            foreach (var attribute in notification.Attributes)
+                                            {
+                                                if (!attribute.Name.Equals("PostId"))
+                                                {
+                                                    continue;
+                                                }
+
+                                                <span class="notification__msg"> commented on your <a href="#">post.</a></span>
+                                            }
+
+                                            break;
+
+                                        case NotificationType.Following:
+                                            <span class="notification__msg">is now following you.</span>
+                                            break;
+
+                                        case NotificationType.UnFollowed:
+                                            <span class="notification__msg"> unfollowed you.</span>
+                                            break;
+
+
+                                        case NotificationType.SentFriendRequest:
+                                            <span class="notification__msg"> sent you a friend request.</span>
+                                            break;
+
+
+                                        case NotificationType.AcceptedFriendRequest:
+                                            <span class="notification__msg">is now your friend.</span>
+                                            break;
+
+
+                                        case NotificationType.RejectedFriendRequest:
+                                            <span class="notification__msg">rejected your friend request.</span>
+                                            break;
+                                    }
+
+                                </p>
+                            </div>
+                            <div class="notification__footer clearfix">
+
+                                @switch (notification.Type)
+                                {
+                                    case NotificationType.Comment:
+                                        foreach (var attribute in notification.Attributes)
+                                        {
+                                            if (!attribute.Name.Equals("CommentId"))
+                                            {
+                                                continue;
+                                            }
+
+                                            var comment = await PostService.GetCommentByIdAsync(int.Parse(attribute.Value));
+
+                                            <div class="notification__comment">
+                                                <p>
+                                                    <strong>@sender.FullName said: </strong> <span>@comment.Content</span>
+                                                </p>
+                                            </div>
+                                        }
+
+                                        break;
+
+
+                                    case NotificationType.Following:
+                                        foreach (var attribute in notification.Attributes)
+                                        {
+                                            <div class="notification__link">
+                                                <a href="@attribute.Value">Go to followers page.</a>
+
+                                            </div>
+                                        }
+
+                                        break;
+
+
+                                    case NotificationType.UnFollowed:
+                                        foreach (var attribute in notification.Attributes)
+                                        {
+                                            <div class="notification__link">
+                                                <a href="@attribute.Value">Go to followers page.</a>
+
+                                            </div>
+                                        }
+
+                                        break;
+
+                                    case NotificationType.SentFriendRequest:
+                                        foreach (var attribute in notification.Attributes)
+                                        {
+                                            <div class="notification__link">
+                                                <a href="@attribute.Value">View all friend requests.</a>
+
+                                            </div>
+                                        }
+
+                                        break;
+
+                                    case NotificationType.AcceptedFriendRequest:
+                                        foreach (var attribute in notification.Attributes)
+                                        {
+                                            <div class="notification__link">
+                                                <a href="@attribute.Value">View all your friends.</a>
+
+                                            </div>
+                                        }
+
+
+                                        break;
+                                    case NotificationType.RejectedFriendRequest:
+                                        foreach (var attribute in notification.Attributes)
+                                        {
+
+                                            <div class="notification__link">
+                                                <a href="@attribute.Value">View all your friends.</a>
+
+                                            </div>
+                                        }
+
+                                        break;
+                                }
+
+
+                                <form asp-action="DeleteNotification" asp-route-notificationId="@notification.Id" method="post">
+                                    <button class="pull-right btn btn-link notification__delete-btn" type="submit">Delete</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+
+                }
+                else
+                {
+                    <div class="notification__wrapper">
+                        <div class="notification__content">
+                            <div class="text-center">
+                                <h4>You have no notifications.</h4>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

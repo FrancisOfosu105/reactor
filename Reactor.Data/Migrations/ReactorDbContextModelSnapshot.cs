@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Reactor.Core.Domain.Friends;
+using Reactor.Core.Domain.Notifications;
 using Reactor.Data.EfContext;
 using System;
 
@@ -247,6 +248,54 @@ namespace Reactor.Data.Migrations
                     b.ToTable("Message");
                 });
 
+            modelBuilder.Entity("Reactor.Core.Domain.Notifications.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsRead");
+
+                    b.Property<string>("RecipientId")
+                        .IsRequired()
+                        .HasMaxLength(450);
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipientId");
+
+                    b.ToTable("Notification");
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Notifications.NotificationAttribute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.Property<int>("NotificationId");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NotificationId");
+
+                    b.ToTable("NotificationAttribute");
+                });
+
             modelBuilder.Entity("Reactor.Core.Domain.Photos.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -453,6 +502,22 @@ namespace Reactor.Data.Migrations
                     b.HasOne("Reactor.Core.Domain.Chats.Chat", "Chat")
                         .WithMany("Messages")
                         .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Notifications.Notification", b =>
+                {
+                    b.HasOne("Reactor.Core.Domain.Users.User", "Recipient")
+                        .WithMany("Notifications")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Notifications.NotificationAttribute", b =>
+                {
+                    b.HasOne("Reactor.Core.Domain.Notifications.Notification", "Notification")
+                        .WithMany("Attributes")
+                        .HasForeignKey("NotificationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
