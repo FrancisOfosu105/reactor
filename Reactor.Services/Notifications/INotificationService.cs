@@ -9,8 +9,12 @@ namespace Reactor.Services.Notifications
         Task<Notification> GetNotificationAsync(string recipientId, string senderId, NotificationType type);
 
         Task<Notification> GetNotificationByIdAsync(int id);
+        
+        bool ShouldNotificationLoadMore(string userId);
 
-        Task<IEnumerable<Notification>> GetNotificationsAsync(string userId);
+        Task MarkAllAsReadAsync(string userId);
+
+        Task<(IEnumerable<Notification> notifications, bool loadMore)> GetNotificationsAsync(string userId, int pageIndex = 1, int pageSize = 10);
 
         void RemoveNotification(Notification notification);
 

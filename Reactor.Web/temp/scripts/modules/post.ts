@@ -17,7 +17,7 @@ export default class Post {
     }
 
     private events() {
-        this.$window.on("scroll", this.windowScrollHander.bind(this));
+        this.$window.on("scroll", this.windowScrollHandler.bind(this));
 
         this.$body.on("keyup", "input.post__comment-input", this.keyPressHandler.bind(this));
 
@@ -30,7 +30,7 @@ export default class Post {
     }
 
 
-    private windowScrollHander() {
+    private windowScrollHandler() {
         const documentHeight = this.$document.height();
         const windowHeight = this.$window.height();
         const windowScrollTop = this.$window.scrollTop();
@@ -80,7 +80,6 @@ export default class Post {
             else
                 $likeCounter.html(`(you and ${data.totalLikes} person)`);
 
-
         });
     }
 
@@ -96,7 +95,6 @@ export default class Post {
         });
     }
 
-
     private getInitialPosts() {
 
 
@@ -110,23 +108,17 @@ export default class Post {
                     pageIndex: this.postPageIndex
 
                 }),
-                beforeSend: () => {
-                    $(".loader").addClass("loader--show");
-
-                },
                 success: data => {
-                    $(".loader").removeClass("loader--show");
-
+                    
                     this.$postContainer.append(data.posts);
 
                     //Re-initialize timeago
-                    commonHelper.addTimeago();
+                    commonHelper.updateTimeago();
                 }
 
             });
 
         }
-
 
     }
 
@@ -143,26 +135,25 @@ export default class Post {
                     data: commonHelper.addAntiForgeryToken({
                         pageIndex: pageIndex
                     }),
-                    beforeSend: () => {
-                        $(".loader").addClass("loader--show");
-                    },
                     success: data => {
 
-                        $(".loader").removeClass("loader--show");
-
-                        $("#post-container").append(data.posts);
+                       this.$postContainer.append(data.posts);
 
                         if (!data.loadMore) {
                             $("#post-loadMore").html("");
-                            $(".no-posts").removeClass("d-none");
+
+                            const div = `<div class="post"><div class="post__content text-center"><h4 style="font-size: 1.6rem">No more posts.</h4></div></div>`;
+
+                           this.$postContainer.append(div);
+
                         }
 
                         //Re-initialize timeago
-                        commonHelper.addTimeago();
+                        commonHelper.updateTimeago();
 
                     },
-                    error(jqXHR, textStatus, errorThrown) {
-
+                    error() {
+                        alert("An error occurred while loading the notifications. Please reload the page.")
                     }
                 });
             }
@@ -179,10 +170,14 @@ export default class Post {
     }
 
     private toggleComments(e: any) {
-        e.preventDefault();
+     
         const $anchorElem = $(e.target);
+     
         const $commentBox = $($anchorElem.data("comments-target"));
+     
         $commentBox.toggleClass("post__comments--show");
+        
+        return false;
     }
 
     private createComment($element: any) {
@@ -203,7 +198,7 @@ export default class Post {
                     selector.append(data.comment);
 
                     //Re-initialize timeago
-                    commonHelper.addTimeago();
+                    commonHelper.updateTimeago();
 
                     //update the comment count
                     $(`.comment-count-${data.postId}`).html(`(${data.totalComments})`);
@@ -216,10 +211,10 @@ export default class Post {
     }
 
     private loadPreviousComment(e: Event) {
-      
+
         const $loadBtn = $(e.target);
 
-        const pageIndex:any = parseInt($loadBtn.find("span").html());
+        const pageIndex: any = parseInt($loadBtn.find("span").html());
 
         const postId = $loadBtn.data("post-id");
         const $commentContainer = $(`.post__comments-container-${postId}`);
@@ -238,7 +233,7 @@ export default class Post {
                     $commentContainer.prepend(data.comments);
 
                     //Re-initialize timeago
-                    commonHelper.addTimeago();
+                    commonHelper.updateTimeago();
 
                     if (!data.loadMore)
                         $loadBtn.hide();

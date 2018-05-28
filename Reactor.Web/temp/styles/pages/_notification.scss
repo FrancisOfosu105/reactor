@@ -1,81 +1,80 @@
 ﻿.notification {
-    &__title,
-    &__wrapper {
-        background-color: $color-white;
-        border-radius: .2rem .2rem 0 0;
-        padding: 1rem 2rem;
-        border-bottom: 1px solid $color-grey-light;
+  &__title,
+  &__wrapper {
+    background-color: $color-white;
+    border-radius: .2rem .2rem 0 0;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid $color-grey-light;
+  }
+
+  &__wrapper {
+    transition: all .3s ease-out;
+    margin-bottom: 2rem;
+
+    &:hover {
+      .notification__delete-btn {
+        opacity: 1;
+        z-index: 10;
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  &__title {
+    h2 {
+      font-size: 1.4rem;
     }
 
-    &__wrapper {
-        margin-bottom: 2rem;
-        transition: all .3s ease-out;
+    a {
+      font-size: 1.3rem;
+    }
+  }
 
-        &:hover {
-            .notification__delete-btn {
-                opacity: 1;
-                z-index: 10;
-            }
-        }
+  &__photo {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%
+  }
+
+  &__name {
+    font-weight: 700;
+    font-size: 1.5rem;
+    display: inline-block;
+    margin-right: .5rem;
+  }
+
+  &__msg {
+    font-size: 1.4rem;
+    color: #97a0a9;
+    display: inline-block;
+  }
+
+  &__link {
+    text-align: center;
+
+    a {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__comment {
+    border: 1px solid #ccc;
+    padding: 1rem 2rem;
+    border-radius: .5rem;
+
+    strong {
+      font-size: 1.5rem;
     }
 
-    &__title {
-        h2 {
-            font-size: 1.4rem;
-        }
-
-        a {
-            font-size: 1.3rem;
-        }
+    span {
+      font-style: italic;
+      font-size: 1.5rem;
     }
+  }
 
-
-    &__photo {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 50%
-    }
-
-    &__name {
-        font-weight: 700;
-        font-size: 1.5rem;
-        display: inline-block;
-        margin-right: .5rem;
-    }
-
-    &__msg {
-        font-size: 1.4rem;
-        color: #97a0a9;
-        display: inline-block;
-    }
-
-    &__link {
-        text-align: center;
-
-        a {
-            font-size: 1.5rem;
-        }
-    }
-
-
-    &__comment {
-        border: 1px solid #ccc;
-        padding: 1rem 2rem;
-        border-radius: .5rem;
-
-        strong {
-            font-size: 1.5rem;
-        }
-
-
-        span {
-            font-style: italic;
-            font-size: 1.5rem;
-        }
-    }
-
-    &__delete-btn {
-        opacity: 0;
-        z-index: -10;
-    }
+  &__delete-btn {
+    opacity: 0;
+    z-index: -10;
+    font-size: 1.1rem;
+  }
 }

@@ -1,6 +1,7 @@
 ﻿import * as $ from "jquery";
 import * as signalR from "@aspnet/signalr";
-import commonHelper from "../modules/common-helper"; 
+import commonHelper from "../modules/common-helper";
+import {IChatContact} from "../models/chat.model"; 
 
 export default class Chat {
 
@@ -42,7 +43,7 @@ export default class Chat {
 
                     $chatBody.append(message);
 
-                    commonHelper.addTimeago();
+                    commonHelper.updateTimeago();
 
                     this.scrollChatDown();
 
@@ -59,7 +60,7 @@ export default class Chat {
             else {
                 $chatBody.append(message);
 
-                commonHelper.addTimeago();
+                commonHelper.updateTimeago();
 
                 this.scrollChatDown();
             }
@@ -182,7 +183,7 @@ export default class Chat {
 
                 $chatBody.append( data.item1);
 
-            commonHelper.addTimeago();
+            commonHelper.updateTimeago();
 
             this.scrollChatDown();
 
@@ -306,7 +307,7 @@ export default class Chat {
 
                     }
 
-                    commonHelper.addTimeago();
+                    commonHelper.updateTimeago();
 
                 }, err => console.error(err));
         }
@@ -342,8 +343,3 @@ export default class Chat {
     }
 }
 
-interface IChatContact {
-    userId: string;
-    fullName: String;
-    profilePicture: String;
-}

@@ -25,7 +25,7 @@ namespace Reactor.Core.Domain.Notifications
             Attributes = new List<NotificationAttribute>();
         }
 
-        public Notification(User recipient, string senderId, NotificationType type, List<NotificationAttribute> attributes)
+        public Notification(User recipient, string senderId, NotificationType type, ICollection<NotificationAttribute> attributes)
             : this()
         {
             Recipient = recipient ?? throw new ArgumentNullException(nameof(recipient));

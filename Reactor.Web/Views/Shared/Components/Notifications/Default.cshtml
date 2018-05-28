@@ -1,2 +1,56 @@
-﻿@model IEnumerable<Notification>
-@await Html.PartialAsync("Templates/_Notification", Model)
+﻿@model Reactor.Core.Models.NotificationTemplateModel
+
+<li class="nav-item dropdown" id="notifications" title="notifications">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+
+        <i class="fa fa-bell-o"></i>
+        @if (Model.Notifications.Count(n => !n.IsRead) != 0)
+        {
+            <span class="dropdown__badge">@Model.Notifications.Count(n => !n.IsRead)</span>
+        }
+    </a>
+
+    <ul class="dropdown__menu dropdown-menu">
+        <li class="dropdown__body">
+            <ul class="dropdown__list" id="miniNotificationContainer">
+                @if (Model.Notifications.Any())
+                {
+                    foreach (var notification in Model.Notifications)
+                    {
+                        @await Html.PartialAsync("Templates/_MiniNotification", notification)
+                    }
+                }
+                else
+                {
+                    <li class="dropdown__item text-center">
+                        <span class="" style="font-size: 1.6rem">You have no notifications.</span>
+                    </li>
+                }
+              
+              
+            </ul>
+        </li>
+        @if (Model.Notifications.Any())
+        {
+            <li class="dropdown__footer">
+                <a asp-controller="Notification" asp-action="List"> View all</a>
+            </li>
+        }
+        else
+        {
+            <li class="dropdown__footer">
+                <a asp-controller="Notification" asp-action="List"> Goto Notifications Page</a>
+            </li>
+        }
+        @if (Model.LoadMore)
+        {
+            <span class="d-none" id="miniNotificationLoadMore">@Model.LoadMore</span>
+        }
+        else
+        {
+            <span class="d-none" id="miniNotificationLoadMore"></span>
+        }
+
+    </ul>
+</li>
+

@@ -18,14 +18,14 @@ let addAntiForgeryToken = (data: any) => {
 };
 
 
-let addTimeago = () => {
+let updateTimeago = () => {
 
     const $time = $("time.timeago");
     timeago().render($time);
 };
 
 
-export default { addAntiForgeryToken, addTimeago };
+export default { addAntiForgeryToken, updateTimeago };
 
 
 

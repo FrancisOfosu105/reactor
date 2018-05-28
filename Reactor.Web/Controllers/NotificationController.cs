@@ -1,10 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Reactor.Core;
+using Reactor.Core.Models;
 using Reactor.Services.Notifications;
 using Reactor.Services.Users;
+using Reactor.Services.ViewRender;
 using Reactor.Web.Hubs;
+using Reactor.Web.Models.Templates;
 
 namespace Reactor.Web.Controllers
 {
@@ -13,30 +18,73 @@ namespace Reactor.Web.Controllers
         private readonly INotificationService _notificationService;
         private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IViewRenderService _renderService;
 
         public NotificationController(INotificationService notificationService, IUserService userService,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, IViewRenderService renderService)
         {
             _notificationService = notificationService;
             _userService = userService;
             _unitOfWork = unitOfWork;
+            _renderService = renderService;
         }
 
         [HttpGet("notifications")]
         public async Task<IActionResult> List()
         {
-            var notifications =
-                await _notificationService.GetNotificationsAsync(await _userService.GetCurrentUserIdAsync());
+            var userId = await _userService.GetCurrentUserIdAsync();
 
-            foreach (var notification in notifications)
-            {
-                notification.IsRead = true;
-            }
+            await _notificationService.MarkAllAsReadAsync(userId);
 
             await _unitOfWork.CompleteAsync();
 
+            return View(_notificationService.ShouldNotificationLoadMore(userId));
+        }
 
-            return View(notifications);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoadNotifications(int pageIndex, int pageSize, NotificationTemplateType type)
+        {
+            var (notifications, loadMore) = await _notificationService.GetNotificationsAsync(
+                await _userService.GetCurrentUserIdAsync(),
+                pageIndex, pageSize);
+
+            var model = new NotificationTemplateModel
+            {
+                LoadMore = loadMore,
+                Notifications = notifications
+            };
+
+            string template;
+
+            switch (type)
+            {
+                case NotificationTemplateType.Main:
+                    template = await _renderService.RenderViewToStringAsync("Templates/_MainNotification", model);
+                    break;
+                case NotificationTemplateType.Mini:
+
+                    var liCollection = new List<string>();
+
+                    foreach (var notification in notifications)
+                    {
+                        liCollection.Add(
+                            await _renderService.RenderViewToStringAsync("Templates/_MiniNotification", notification));
+                    }
+
+                    template = string.Join("", liCollection);
+                    break;
+                
+                default:
+                    throw new InvalidOperationException(nameof(type));
+            }
+
+            return Json(new
+            {
+                notifications = template,
+                loadMore,
+                type
+            });
         }
 
         [HttpPost]
@@ -54,6 +102,5 @@ namespace Reactor.Web.Controllers
 
             return RedirectToAction(nameof(List));
         }
-       
     }
 }

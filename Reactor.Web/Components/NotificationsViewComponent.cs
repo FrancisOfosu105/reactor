@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Reactor.Core.Models;
 using Reactor.Services.Notifications;
 using Reactor.Services.Users;
+using Reactor.Web.Models.Templates;
 
 namespace Reactor.Web.Components
 {
@@ -18,9 +20,16 @@ namespace Reactor.Web.Components
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var notifications = await _notificationService.GetNotificationsAsync(await _userService.GetCurrentUserIdAsync());
+            var (notifications, loadMore) =
+                await _notificationService.GetNotificationsAsync(await _userService.GetCurrentUserIdAsync());
 
-            return View(notifications);
+            var model = new NotificationTemplateModel
+            {
+                LoadMore = loadMore,
+                Notifications = notifications
+            };
+
+            return View(model);
         }
     }
 }

@@ -277,15 +277,21 @@ body {
     color: #28b485; }
 
 .loader {
-  text-align: center;
-  width: 100%;
-  font-size: 1.6rem;
-  display: none;
-  padding: 2rem; }
+  position: fixed;
+  top: 15%;
+  right: 10%;
+  background-color: #fff;
+  opacity: 0;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  transition: all .3s ease-in;
+  border-radius: 50%; }
   .loader__icon {
-    color: #28b485; }
+    width: 6rem; }
   .loader--show {
-    display: block; }
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1); }
 
 .img-overlay {
   position: fixed;
@@ -407,7 +413,7 @@ img[data-overlay] {
     .dropdown__footer a {
       color: #777; }
       .dropdown__footer a:hover, .dropdown__footer a:active {
-        text-decoration: none; }
+        text-decoration: underline; }
 
 .navbar {
   background-image: linear-gradient(180deg, #052767 0%, #3a0647 70%); }
@@ -720,11 +726,12 @@ img[data-overlay] {
   border-bottom: 1px solid #c6c8ca; }
 
 .notification__wrapper {
-  margin-bottom: 2rem;
-  transition: all .3s ease-out; }
+  transition: all .3s ease-out;
+  margin-bottom: 2rem; }
   .notification__wrapper:hover .notification__delete-btn {
     opacity: 1;
-    z-index: 10; }
+    z-index: 10;
+    font-size: 1.1rem; }
 
 .notification__title h2 {
   font-size: 1.4rem; }
@@ -765,4 +772,5 @@ img[data-overlay] {
 
 .notification__delete-btn {
   opacity: 0;
-  z-index: -10; }
+  z-index: -10;
+  font-size: 1.1rem; }

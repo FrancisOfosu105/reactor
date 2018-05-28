@@ -1,17 +1,17 @@
 const path = require("path");
-module.exports = {
+ const config = {
     entry: {
         app: "./temp/scripts/app.ts",
-        vendor: "./temp/scripts/vendor.js"
+        vendor: "./temp/scripts/vendor.ts"
     },
+        mode: "development",
     output: {
         path: path.resolve(__dirname, "./wwwroot/assets/scripts"),
         filename: "[name]-bundle.js"
     },
   
     resolve: {
-        // Add `.ts` and `.tsx` as a resolvable extension.
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: [".ts", ".js"]
     },
     module: {
         rules: [
@@ -21,6 +21,6 @@ module.exports = {
                 loaders: ["babel-loader", "ts-loader"]
             }
         ]
-    },
-    mode: "development"
+    }
 };
+ module.exports = config;
