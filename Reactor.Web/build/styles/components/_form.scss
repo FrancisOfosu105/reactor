@@ -1,0 +1,135 @@
+.form{
+  &__group{
+    &:not(:last-child){
+      margin-bottom: 1rem;
+    }  
+  }
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60rem;
+  font-size: 1.6rem;
+  
+
+  &__error{
+    text-align: center;
+    color: $color-danger;
+    font-size: 1.6rem;
+    font-weight: 500;
+    
+    ul{
+      list-style: none;
+    }
+  }
+  
+  &__title{
+    color: $color-white;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  
+  &__input{
+    font-size: 1.5rem;
+    padding: 1.2rem 2rem;
+    font-family: inherit;
+    background-color: rgba($color-white, .9);
+    border-radius: 2px;
+    color: inherit;
+    border: none;
+    border-bottom: 3px solid transparent;
+    width: 100%;
+    
+    &::-webkit-input-placeholder{
+      color: #999;
+    }
+    
+    &:focus{
+      outline: none;
+      box-shadow: 0 1rem 2rem rgba($color-black, 0.1);
+      border-bottom: 3px solid $color-primary;
+    }
+    
+    &:focus:invalid{
+      border-bottom: 3px solid $color-secondary-dark;
+    }
+    
+  }
+
+  &__checkbox-input{
+    display: none;
+  }
+
+  &__checkbox-label{
+    position: relative;
+    cursor: pointer;
+    padding-left: 4.5rem;
+  }
+  
+  &__checkbox-button{
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 5px solid $color-primary;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    &::after{
+      content: "";
+      display: block;
+      width: 1.5rem;
+      height: 1.5rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: $color-primary;
+      border-radius: 50%;
+      opacity: 0;
+      transition: all .5s;
+    }
+  }
+  
+  &__checkbox-input:checked + &__checkbox-label &__checkbox-button::after{
+    opacity: 1;
+  }
+  
+  &__input-file{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  &__input-file + label{
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $color-white;
+    background-color: $color-primary;
+    display: inline-block;
+    padding: .5rem 1rem;
+  }
+
+  &__input-file:focus + label,
+  &__input-file + label:hover
+  {
+    background-color: $color-primary-dark;
+  }
+
+  &__input-file + label{
+    cursor: pointer;
+  }
+
+  &__input-file:focus + label{
+    outline: 1px dotted $color-primary-light;
+    outline: -webkit-focus-ring-color auto 5px;
+  }
+
+}

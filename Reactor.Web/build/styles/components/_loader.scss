@@ -1,0 +1,20 @@
+.loader {
+  position: fixed;
+  top: 15%;
+  right: 10%;
+  background-color: $color-white;
+  opacity: 0;
+  transform: scale(.5);
+  transition: all .3s ease-in;
+  border-radius: 50%;
+
+  &__icon {
+    width: 6rem;
+  }
+
+  &--show {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+} 

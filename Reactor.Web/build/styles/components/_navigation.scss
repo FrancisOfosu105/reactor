@@ -1,0 +1,31 @@
+.navbar {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+
+    .navbar-brand {
+        font-size: 2.5rem;
+        color: $color-white !important;
+        letter-spacing: .2rem;
+        font-weight: 700;
+    }
+
+    a.nav-link {
+        font-size: 1.6rem;
+        color: rgba( $color-white,.5) !important;
+    }
+
+    .nav-item {
+        position: relative;
+
+        &:not(:last-child) {
+            margin-right: 2rem;
+        }
+
+        &.active {
+            a.nav-link {
+                color: $color-white !important;
+
+                font-weight:500;
+            }
+        }
+    }
+}

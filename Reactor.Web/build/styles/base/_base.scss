@@ -1,0 +1,34 @@
+*, 
+*::after, 
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html{
+  font-size:  62.5%;  
+  
+}
+
+body {
+    box-sizing: border-box;
+    background-color: #f5f8fa;
+    @include customScrollBar;
+    padding-top: 7rem;
+}
+
+.btn{
+  font-size: 1.4rem;
+}
+
+a{
+ &,&:hover{
+   
+  color: $color-primary-dark;
+ } 
+  
+  
+  
+}
+
