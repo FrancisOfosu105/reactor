@@ -4,6 +4,7 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="ViewModels\SettingsViewModel" />
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\assets\scripts" />
   </ItemGroup>

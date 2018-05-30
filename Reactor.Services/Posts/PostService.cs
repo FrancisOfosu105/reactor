@@ -126,10 +126,9 @@ namespace Reactor.Services.Posts
             }
         }
 
-        public async Task<int> GetTotalPostLikesExceptCurrentUserAsync(int postId)
+        public async Task<int> GetTotalPostLikesAsync(int postId)
         {
-            var userId = await _userService.GetCurrentUserIdAsync();
-            return await _likeRepository.Table.Where(l => l.PostId == postId && l.LikeById != userId).CountAsync();
+            return await _likeRepository.Table.Where(l => l.PostId == postId).CountAsync();
         }
 
         public async Task<bool> HasUserLikePostAsync(int postId)

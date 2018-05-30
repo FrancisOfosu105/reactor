@@ -56,7 +56,7 @@ namespace Reactor.Web.Controllers
 
             await _unitOfWork.CompleteAsync();
 
-            await _notificationService.PushNotification(followee.Id);
+            await _notificationService.PushNotification(followee.Id, notification.Id);
 
             return Ok();
         }
@@ -89,7 +89,7 @@ namespace Reactor.Web.Controllers
 
             await _unitOfWork.CompleteAsync();
 
-            await _notificationService.PushNotification(followee.Id);
+            await _notificationService.PushNotification(followee.Id, notification.Id);
 
             return Ok();
         }

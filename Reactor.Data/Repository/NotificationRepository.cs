@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 using Reactor.Core.Domain.Notifications;
 using Reactor.Core.Repository;
 using Reactor.Data.EfContext;

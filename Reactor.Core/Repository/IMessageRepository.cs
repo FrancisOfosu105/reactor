@@ -1,5 +1,4 @@
-﻿using Reactor.Core.Domain.Chats;
-using Reactor.Core.Domain.Messages;
+﻿using Reactor.Core.Domain.Messages;
 
 namespace Reactor.Core.Repository
 {

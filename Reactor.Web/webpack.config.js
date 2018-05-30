@@ -1,15 +1,18 @@
 const path = require("path");
- const config = {
+const config = {
     entry: {
-        app: "./temp/scripts/app.ts",
-        vendor: "./temp/scripts/vendor.ts"
+        app: "./build/scripts/app.ts"
     },
-        mode: "development",
+    mode: "development",
+    stats: {
+        colors: true,
+        reasons: true
+    },
     output: {
         path: path.resolve(__dirname, "./wwwroot/assets/scripts"),
-        filename: "[name]-bundle.js"
+        filename: "[name].js"
     },
-  
+
     resolve: {
         extensions: [".ts", ".js"]
     },
@@ -21,6 +24,21 @@ const path = require("path");
                 loaders: ["babel-loader", "ts-loader"]
             }
         ]
-    }
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendor",
+                    chunks: "initial",
+                },
+            },
+        },
+        runtimeChunk: {
+            name: "manifest",
+        },
+
+    },
 };
- module.exports = config;
+module.exports = config;

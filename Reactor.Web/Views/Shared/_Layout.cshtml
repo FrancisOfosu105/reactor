@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @* <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet"> *@
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
     <link rel="stylesheet" href="~/assets/styles/bootstrap.css"/>
     <link rel="stylesheet" href="~/assets/styles/font-awesome.css"/>
     <link rel="stylesheet" href="~/assets/styles/styles.css" asp-append-version="true"/>
@@ -23,7 +23,6 @@
 </div>
 <header>
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
-        @* <a asp-controller="Home" asp-action="Index" class="navbar-brand">Reactor</a> *@
         <div class="container">
             <div class="collapse navbar-collapse">
 
@@ -31,7 +30,10 @@
 
                 <ul class="navbar-nav ml-auto">
 
-                    @await Component.InvokeAsync("Notifications")
+                    <li class="nav-item dropdown" id="notifications" title="notifications">
+
+                        @await Component.InvokeAsync("Notifications")
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Chat" title="chats" asp-action="Index">
@@ -47,6 +49,12 @@
                     <li class="nav-item active">
                         <a class="nav-link" asp-controller="Profile" asp-action="Index" asp-route-username="@user.UserName">
                             <i class="fa fa-user-o"></i> Welcome, @user.FullName
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Settings" asp-action="Index">
+                            <i class="fa fa-cog"></i> Settings
                         </a>
                     </li>
                 </ul>
@@ -65,8 +73,9 @@
     <img class="loader__icon" src="~/assets/images/spinner.svg"/>
 </div>
 
-<script type="text/javascript" src="~/assets/scripts/app-bundle.js" asp-append-version="true"></script>
-<script type="text/javascript" src="~/assets/scripts/vendor-bundle.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/assets/scripts/manifest.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/assets/scripts/vendor.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/assets/scripts/app.js" asp-append-version="true"></script>
 <form asp-antiforgery="true"></form>
 </body>
 </html>

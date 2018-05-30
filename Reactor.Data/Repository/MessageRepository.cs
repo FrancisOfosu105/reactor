@@ -1,6 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Reactor.Core.Domain.Chats;
 using Reactor.Core.Domain.Messages;
 using Reactor.Core.Repository;
 using Reactor.Data.EfContext;

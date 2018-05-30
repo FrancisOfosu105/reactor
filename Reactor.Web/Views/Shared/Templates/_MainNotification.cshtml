@@ -2,12 +2,6 @@
 @inject IUserService UserService
 @inject IPostService PostService
 
-<div class="notification__title">
-    <h2 class="d-inline-block">All notifications</h2>
-    <a class="d-inline-block pull-right" href="#">
-        Settings
-    </a>
-</div>
 
 @if (Model.Notifications.Any())
 {
@@ -163,7 +157,7 @@
                         break;
                 }
 
-                <form asp-controller="Notification" asp-action="DeleteNotification" asp-route-notificationId="@notification.Id" method="post">
+                <form asp-controller="Notifications" asp-action="DeleteNotification" asp-route-notificationId="@notification.Id" method="post">
                     <button class="pull-right btn btn-link notification__delete-btn" type="submit">Delete</button>
                 </form>
             </div>

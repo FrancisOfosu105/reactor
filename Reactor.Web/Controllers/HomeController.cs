@@ -150,11 +150,14 @@ namespace Reactor.Web.Controllers
                     new Notification(post.CreatedBy, currentUserId, NotificationType.Comment, attributes);
 
                 post.CreatedBy.CreateNotification(notification);
+                
+                await _unitOfWork.CompleteAsync();
+                
+                await _notificationService.PushNotification(post.CreatedBy.Id, notification.Id);
             }
 
             await _unitOfWork.CompleteAsync();
 
-            await _notificationService.PushNotification(post.CreatedBy.Id);
 
             var model = new CommentViewModel
             {
@@ -230,15 +233,18 @@ namespace Reactor.Web.Controllers
                 var notification = new Notification(post.CreatedBy, currentUserId, NotificationType.Like, attributes);
 
                 post.CreatedBy.CreateNotification(notification);
+                
+                await _unitOfWork.CompleteAsync();
+                
+                await _notificationService.PushNotification(post.CreatedBy.Id, notification.Id);
             }
 
             await _unitOfWork.CompleteAsync();
 
-            await _notificationService.PushNotification(post.CreatedBy.Id);
 
             return Ok(new
             {
-                totalLikes = await _postService.GetTotalPostLikesExceptCurrentUserAsync(postId)
+                totalLikes = await _postService.GetTotalPostLikesAsync(postId)
             });
         }
 
@@ -265,7 +271,7 @@ namespace Reactor.Web.Controllers
 
             return Ok(new
             {
-                totalLikes = await _postService.GetTotalPostLikesExceptCurrentUserAsync(postId)
+                totalLikes = await _postService.GetTotalPostLikesAsync(postId)
             });
         }
     }

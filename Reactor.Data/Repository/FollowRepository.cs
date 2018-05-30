@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 using Reactor.Core.Domain.Follows;
 using Reactor.Core.Repository;
 using Reactor.Data.EfContext;

@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Reactor.Core;
 using Reactor.Core.Models;
 using Reactor.Services.Notifications;
 using Reactor.Services.Users;
 using Reactor.Services.ViewRender;
-using Reactor.Web.Hubs;
 using Reactor.Web.Models.Templates;
 
 namespace Reactor.Web.Controllers
 {
-    public class NotificationController : Controller
+    [Authorize]
+    public class NotificationsController : Controller
     {
         private readonly INotificationService _notificationService;
         private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IViewRenderService _renderService;
 
-        public NotificationController(INotificationService notificationService, IUserService userService,
+        public NotificationsController(INotificationService notificationService, IUserService userService,
             IUnitOfWork unitOfWork, IViewRenderService renderService)
         {
             _notificationService = notificationService;
@@ -33,7 +33,7 @@ namespace Reactor.Web.Controllers
         public async Task<IActionResult> List()
         {
             var userId = await _userService.GetCurrentUserIdAsync();
-
+            
             await _notificationService.MarkAllAsReadAsync(userId);
 
             await _unitOfWork.CompleteAsync();
@@ -45,7 +45,7 @@ namespace Reactor.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoadNotifications(int pageIndex, int pageSize, NotificationTemplateType type)
         {
-            var (notifications, loadMore) = await _notificationService.GetNotificationsAsync(
+            var (notifications, loadMore) = await _notificationService.GetPagedNotificationsAsync(
                 await _userService.GetCurrentUserIdAsync(),
                 pageIndex, pageSize);
 
@@ -101,6 +101,17 @@ namespace Reactor.Web.Controllers
             await _unitOfWork.CompleteAsync();
 
             return RedirectToAction(nameof(List));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MarkAllAsRead()
+        {
+            await _notificationService.MarkAllAsReadAsync(await _userService.GetCurrentUserIdAsync());
+
+            await _unitOfWork.CompleteAsync();
+            
+            return NoContent();
         }
     }
 }

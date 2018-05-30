@@ -29,7 +29,7 @@ namespace Reactor.Services.Posts
 
         Task UnLikePostAsync(int postId);
 
-        Task<int> GetTotalPostLikesExceptCurrentUserAsync(int postId);
+        Task<int> GetTotalPostLikesAsync(int postId);
 
         Task<bool> HasUserLikePostAsync(int postId);
 

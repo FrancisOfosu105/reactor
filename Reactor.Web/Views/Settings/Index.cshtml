@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "_SettingsLayout";
+    ViewBag.Title = "Basic Settings";
+}
+
+<h2>Basic Settings</h2>
+<div class="">
+    <form asp-action="Index">
+        <div class="form__group">
+            <div>
+                <img src=""/>
+            </div>
+            <div>
+                <input type="file" id="file" class="form__input-file js-inputfile" accept=".jpg,.jpeg,.png,.gif"/>
+                <label for="file"><i class="fa fa-user"></i>&nbsp; <span>Upload a profile picture</span></label>
+            </div>
+
+        </div>
+        <div class="form__group">
+            <input type="text" class="form__input" placeholder="Username" required/>
+        </div>
+
+        <div class="form__group">
+            <input type="text" class="form__input" placeholder="First Name" required/>
+        </div>
+        <div class="form__group">
+            <input type="text" class="form__input" placeholder="Last Name" required/>
+        </div>
+
+        <div class="form__group">
+            <button type="submit" class="btn btn-outline-success">Save Changes</button>
+        </div>
+
+    </form>
+</div>

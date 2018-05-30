@@ -80,7 +80,7 @@ namespace Reactor.Web.Controllers
 
             await _unitOfWork.CompleteAsync();
 
-            await _notificationService.PushNotification(requestedTo.Id);
+            await _notificationService.PushNotification(requestedTo.Id, notification.Id);
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
@@ -109,7 +109,7 @@ namespace Reactor.Web.Controllers
 
             await _unitOfWork.CompleteAsync();
 
-            await _notificationService.PushNotification(requestedBy.Id);
+            await _notificationService.PushNotification(requestedBy.Id, notification.Id);
 
 
             return RedirectToAction(nameof(List));

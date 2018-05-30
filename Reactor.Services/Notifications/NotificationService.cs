@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Reactor.Core.Domain.Notifications;
-using Reactor.Core.Domain.Users;
 using Reactor.Core.Extensions;
 using Reactor.Core.Hubs;
 using Reactor.Core.Models;
@@ -55,7 +54,7 @@ namespace Reactor.Services.Notifications
             }
         }
 
-        public async Task<(IEnumerable<Notification> notifications, bool loadMore)> GetNotificationsAsync(string userId,
+        public async Task<(IEnumerable<Notification> notifications, bool loadMore)> GetPagedNotificationsAsync(string userId,
             int pageIndex = 1, int pageSize = 10)
         {
             var query = _notificationRepository.Table
@@ -76,20 +75,21 @@ namespace Reactor.Services.Notifications
             _notificationRepository.Remove(notification);
         }
 
-        public async Task PushNotification(string recipientId)
+        public async Task PushNotification(string recipientId, int notificationId)
         {
-            var (data, loadMore) = await GetNotificationsAsync(recipientId);
+            var model = await GetNotificationByIdAsync(notificationId);
+
+            var totalNotifications = await GetTotalUnReadNotificationsAsync(recipientId);
+            
+            var notification = await _renderService.RenderViewToStringAsync("Templates/_MiniNotification", model);  
+
+            await _hub.Clients.User(recipientId).SendAsync("notify", notification, totalNotifications);
+        }
 
 
-            var model = new NotificationTemplateModel
-            {
-                LoadMore = loadMore,
-                Notifications = data
-            };
-
-            var notifications = await _renderService.RenderViewToStringAsync("Components/Notifications/Default", model);
-
-            await _hub.Clients.User(recipientId).SendAsync("notify", notifications);
+        public async Task<int> GetTotalUnReadNotificationsAsync(string recipientId)
+        {
+            return await  _notificationRepository.Table.Where(n => n.RecipientId == recipientId && !n.IsRead).CountAsync();
         }
 
         private IQueryable<Notification> GetNotificationsByRecipientId(string recipientId)

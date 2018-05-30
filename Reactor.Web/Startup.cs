@@ -111,7 +111,10 @@ namespace Reactor.Web
 
             app.UseNoTrailingSlash();
 
+            app.UseResponseCompression();
+            
             app.UseStaticFiles();
+
 
             app.UseSignalR(configure =>
             {

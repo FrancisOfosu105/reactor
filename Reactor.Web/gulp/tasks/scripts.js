@@ -1,15 +1,25 @@
-var gulp = require('gulp'),
-    webpack = require('webpack');
+const gulp = require('gulp'),
+    webpack = require('webpack'),
+    del = require('del');
 
-gulp.task("scripts", function (callback) {
+gulp.task("scripts",["DeleteScriptFiles"], function (callback) {
     webpack(require('../../webpack.config'), function (err, stats) {
         if (err)
-            console.log(err.toString());
+            console.error(err.toString());
+
+        if (stats.hasErrors()) {
+            return console.error(stats.toString("errors-only"));
+        }
         
-        console.log(stats.toString());
+        console.info(stats.toString());
         
         callback();
         
     });
 
+});
+
+
+gulp.task('DeleteScriptFiles', function () {
+    return del('./wwwroot/assets/scripts/*');
 });

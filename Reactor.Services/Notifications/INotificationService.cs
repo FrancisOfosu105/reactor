@@ -14,10 +14,12 @@ namespace Reactor.Services.Notifications
 
         Task MarkAllAsReadAsync(string userId);
 
-        Task<(IEnumerable<Notification> notifications, bool loadMore)> GetNotificationsAsync(string userId, int pageIndex = 1, int pageSize = 10);
+        Task<(IEnumerable<Notification> notifications, bool loadMore)> GetPagedNotificationsAsync(string userId, int pageIndex = 1, int pageSize = 10);
 
         void RemoveNotification(Notification notification);
 
-        Task PushNotification(string recipientId);
+        Task PushNotification(string recipientId, int notificationId);    
+
+        Task<int> GetTotalUnReadNotificationsAsync(string recipientId);
     }
 }

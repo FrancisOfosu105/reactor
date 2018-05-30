@@ -8,5 +8,7 @@ namespace Reactor.Core.Models
         public bool LoadMore { get; set; }
         
         public IEnumerable<Notification> Notifications { get; set; }
+
+        public int TotalUnReadNotifications { get; set; }
     }
 }

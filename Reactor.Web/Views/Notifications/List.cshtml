@@ -3,13 +3,20 @@
 @inject IPostService PostService
 @{
     ViewBag.Title = "Notifications";
-    Layout = "_Layout";
+ 
 }
 
 <section class="notification">
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
+                
+                <div class="notification__title">
+                    <h2 class="d-inline-block">All notifications</h2>
+                    <a class="d-inline-block pull-right" href="#">
+                        Settings
+                    </a>
+                </div>
                 <div id="mainNotificationContainer"></div>
 
                 @if (Model)
