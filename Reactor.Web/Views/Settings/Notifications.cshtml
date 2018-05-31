@@ -1,0 +1,72 @@
+﻿@model Reactor.Web.ViewModels.SettingsViewModel.NotificationViewModel
+
+@{
+    ViewBag.Title = "Notifications Settings";
+    Layout = "_SettingsLayout";
+}
+
+<h2  class="settings__main-title">Notifications Settings</h2>
+<form asp-action="Notifications" method="post">
+    <div class="settings__content">
+        <h3 class="settings__sub-title">Posts</h3>
+        <div class="form__group">
+            <span class="switch">
+                <input type="checkbox" class="switch-lg" asp-for="NotifyWhenUserCommentOnPost">    
+                <label asp-for="NotifyWhenUserCommentOnPost">When a user comments on your post</label>
+            </span>
+        </div>
+        <div class="form__group">
+            <span class="switch">
+                <input type="checkbox" class="switch-lg" asp-for="NotifyWhenUserLikePost">    
+                <label asp-for="NotifyWhenUserLikePost">When a user like your post</label>
+            </span>
+        </div>
+
+    </div>
+    <div class="settings__content">
+        <h3 class="settings__sub-title">Following</h3>
+        <div class="form__group">
+            <span class="switch">
+                <input type="checkbox" class="switch-lg" asp-for="NotifyWhenUserFollow">    
+                <label asp-for="NotifyWhenUserFollow">When a user follow you</label>
+            </span>
+        </div>
+    
+        <div class="form__group">
+            <span class="switch">
+                <input type="checkbox" class="switch-lg" asp-for="NotifyWhenUserUnFollow">    
+                <label asp-for="NotifyWhenUserUnFollow">When a user unfollow you</label>
+            </span>
+        </div>
+    </div>
+   
+    <div class="settings__content">
+        <h3 class="settings__sub-title">Friends</h3>
+        <div class="form__group">
+            <span class="switch">
+                <input type="checkbox" class="switch-lg" asp-for="NotifyWhenUserSendFriendRequest">    
+                <label asp-for="NotifyWhenUserSendFriendRequest">When a user send you a friend request</label>
+            </span>
+        </div>
+    
+        <div class="form__group">
+            <span class="switch">
+                <input type="checkbox" class="switch-lg" asp-for="NotifyWhenUserAcceptFriendRequest">    
+                <label asp-for="NotifyWhenUserAcceptFriendRequest">When a user accept your friend request</label>
+            </span>
+        </div>
+    
+        <div class="form__group">
+            <span class="switch">
+                <input type="checkbox" class="switch-lg" asp-for="NotifyWhenUserRejectFriendRequest">    
+                <label asp-for="NotifyWhenUserRejectFriendRequest">When a user reject your friend request</label>
+            </span>
+        </div>
+    </div>
+   
+    <div class="settings__content">
+        <div class="form__group">
+            <button type="submit" class="btn btn-outline-secondary">Save Changes</button>
+        </div>
+    </div>
+</form>

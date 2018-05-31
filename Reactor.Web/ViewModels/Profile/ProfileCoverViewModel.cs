@@ -1,10 +1,12 @@
-﻿namespace Reactor.Web.Models.Profile
+﻿namespace Reactor.Web.ViewModels.Profile
 {
-    public class ProfileCoverModel
+    public class ProfileCoverViewModel
     {
         public string FullName { get; set; }
         
         public string ProfilePicture { get; set; }
+        
+        public string ProfileCoverPicture { get; set; }    
 
         public int TotalPosts { get; set; }
 
@@ -15,5 +17,7 @@
         public int TotalFollowees { get; set; }
 
         public bool IsFollowingUser { get; set; }
+
+        public string Description { get; set; }
     }
 }

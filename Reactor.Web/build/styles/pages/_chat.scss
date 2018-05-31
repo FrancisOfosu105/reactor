@@ -6,7 +6,7 @@
     &__header {
       background-color: $color-white;
       padding: 2rem;
-      border-bottom: .1rem solid $color-grey-light;
+      border-bottom: .1rem solid $color-grey-light-1;
 
     }
 
@@ -120,7 +120,7 @@
       width: 100%;
       height: 4rem;
       border: none;
-      border-top: 1px solid $color-grey-light;
+      border-top: 1px solid $color-grey-light-1;
       padding: 1rem 2rem;
       font-size: 1.5rem;
 
@@ -182,7 +182,7 @@
 
     &__item {
       &:not(:last-child) {
-        border-bottom: 1px solid $color-grey-light;
+        border-bottom: 1px solid $color-grey-light-1;
         padding-bottom: 1rem;
       }
 

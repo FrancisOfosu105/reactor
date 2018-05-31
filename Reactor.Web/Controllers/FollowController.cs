@@ -38,27 +38,34 @@ namespace Reactor.Web.Controllers
 
             await _followService.FollowUserAsync(followee.Id);
 
+            var userSetting = await _userService.GetUserSettingAsync(followee.Id);
 
-            var attributes = new List<NotificationAttribute>
+            if (userSetting.NotifyWhenUserFollow)   
             {
-                new NotificationAttribute
+                var attributes = new List<NotificationAttribute>
                 {
-                    Name = "Link",
-                    Value = Url.Action(nameof(ProfileController.GetUserFollowers), "Profile",
-                        new {username = followee.UserName})
-                }
-            };
+                    new NotificationAttribute
+                    {
+                        Name = "Link",
+                        Value = Url.Action(nameof(ProfileController.GetUserFollowers), "Profile",
+                            new {username = followee.UserName})
+                    }
+                };
 
-            var notification = new Notification(followee, await _userService.GetCurrentUserIdAsync(),
-                NotificationType.Following, attributes);
+                var notification = new Notification(followee, await _userService.GetCurrentUserIdAsync(),
+                    NotificationType.Following, attributes);
 
-            followee.CreateNotification(notification);
+                followee.CreateNotification(notification);
+
+                await _unitOfWork.CompleteAsync();
+
+                await _notificationService.PushNotification(followee.Id, notification.Id);
+
+            }
 
             await _unitOfWork.CompleteAsync();
-
-            await _notificationService.PushNotification(followee.Id, notification.Id);
-
-            return Ok();
+            
+            return NoContent();
         }
 
         [HttpPost]
@@ -66,32 +73,41 @@ namespace Reactor.Web.Controllers
         public async Task<IActionResult> UnFollowUser([FromForm] string followeeUserName)
         {
             var followee = await _userService.GetUserByUserNameAsync(followeeUserName);
+            
 
             if (followee == null)
                 return NotFound();
 
             await _followService.UnFollowUserAsync(followee.Id);
+            
+            var userSetting = await _userService.GetUserSettingAsync(followee.Id);
 
-            var attributes = new List<NotificationAttribute>
+            if (userSetting.NotifyWhenUserUnFollow)
             {
-                new NotificationAttribute
+                var attributes = new List<NotificationAttribute>
                 {
-                    Name = "Link",
-                    Value = Url.Action(nameof(ProfileController.GetUserFollowers), "Profile",
-                        new {username = followee.UserName})
-                }
-            };
+                    new NotificationAttribute
+                    {
+                        Name = "Link",
+                        Value = Url.Action(nameof(ProfileController.GetUserFollowers), "Profile",
+                            new {username = followee.UserName})
+                    }
+                };
 
-            var notification = new Notification(followee, await _userService.GetCurrentUserIdAsync(),
-                NotificationType.UnFollowed, attributes);
+                var notification = new Notification(followee, await _userService.GetCurrentUserIdAsync(),
+                    NotificationType.UnFollowed, attributes);
 
-            followee.CreateNotification(notification);
+                followee.CreateNotification(notification);
+                
+                await _unitOfWork.CompleteAsync();
+
+                await _notificationService.PushNotification(followee.Id, notification.Id);
+            }
 
             await _unitOfWork.CompleteAsync();
 
-            await _notificationService.PushNotification(followee.Id, notification.Id);
 
-            return Ok();
+            return NoContent();
         }
     }
 }

@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Reactor.Core.Domain.Notifications;
 using Reactor.Core.Extensions;
 using Reactor.Core.Hubs;
-using Reactor.Core.Models;
 using Reactor.Core.Repository;
 using Reactor.Services.ViewRender;
 

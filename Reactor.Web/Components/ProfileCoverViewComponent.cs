@@ -4,7 +4,7 @@ using Reactor.Services.Follows;
 using Reactor.Services.Photos;
 using Reactor.Services.Posts;
 using Reactor.Services.Users;
-using Reactor.Web.Models.Profile;
+using Reactor.Web.ViewModels.Profile;
 
 namespace Reactor.Web.Components
 {
@@ -28,15 +28,17 @@ namespace Reactor.Web.Components
             var user = await _userService.GetUserByUserNameAsync(username);
 
          
-                var model = new ProfileCoverModel
+                var model = new ProfileCoverViewModel
                 {
                     FullName = user.FullName,
-                    ProfilePicture = user.GetPicture(),
+                    ProfilePicture = user.GetProfilePicture(),
                     TotalPhotos = await _photoService.GetUserTotalPhotosAsync(user.Id),
                     TotalPosts = await _postService.GetUserTotalPostsAsync(user.Id),
                     IsFollowingUser = await _followService.IsFollowingUserAsync(user.Id),
                     TotalFollowees = await _followService.GetUserTotalFolloweesAsync(user.Id),
-                    TotalFollowers = await _followService.GetUserTotalFollowersAsync(user.Id)
+                    TotalFollowers = await _followService.GetUserTotalFollowersAsync(user.Id),
+                    Description = user.Description,
+                    ProfileCoverPicture = user.GetProfileCoverPicture()
                 };
 
             return View(model);

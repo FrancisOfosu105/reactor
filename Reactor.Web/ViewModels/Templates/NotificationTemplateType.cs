@@ -1,4 +1,4 @@
-﻿namespace Reactor.Web.Models.Templates
+﻿namespace Reactor.Web.ViewModels.Templates
 {
     public enum NotificationTemplateType
     {

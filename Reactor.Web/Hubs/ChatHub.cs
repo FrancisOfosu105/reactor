@@ -10,7 +10,7 @@ using Reactor.Core.Domain.Messages;
 using Reactor.Services.Chats;
 using Reactor.Services.Users;
 using Reactor.Services.ViewRender;
-using Reactor.Web.Models.Chat;
+using Reactor.Web.ViewModels.Chat;
 
 namespace Reactor.Web.Hubs
 {
@@ -64,7 +64,7 @@ namespace Reactor.Web.Hubs
                     FullName = "me",
                     Message = message.Content,
                     Position = MessagePosition.Left,
-                    ProfilePicture = sender.GetPicture(),
+                    ProfilePicture = sender.GetProfilePicture(),
                 };
 
                 var recipientChatModel = new ChatModel
@@ -73,7 +73,7 @@ namespace Reactor.Web.Hubs
                     FullName = sender.FullName,
                     Message = message.Content,
                     Position = MessagePosition.Right,
-                    ProfilePicture = sender.GetPicture(),
+                    ProfilePicture = sender.GetProfilePicture(),
                 };
 
 
@@ -127,7 +127,7 @@ namespace Reactor.Web.Hubs
                         FullName = "me",
                         Message = message.Content,
                         Position = MessagePosition.Left,
-                        ProfilePicture = sender.GetPicture(),
+                        ProfilePicture = sender.GetProfilePicture(),
                     };
 
                     messageTemplates.Add(await PrepareMessageTemplate(senderChatModel));
@@ -140,7 +140,7 @@ namespace Reactor.Web.Hubs
                         FullName = recipient.FullName,
                         Message = message.Content,
                         Position = MessagePosition.Right,
-                        ProfilePicture = recipient.GetPicture(),
+                        ProfilePicture = recipient.GetProfilePicture(),
                     };
 
                     messageTemplates.Add(await PrepareMessageTemplate(recipientChatModel));

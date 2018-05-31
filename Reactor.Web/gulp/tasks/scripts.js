@@ -2,7 +2,7 @@ const gulp = require('gulp'),
     webpack = require('webpack'),
     del = require('del');
 
-gulp.task("scripts",["DeleteScriptFiles"], function (callback) {
+gulp.task("scripts", function (callback) {
     webpack(require('../../webpack.config'), function (err, stats) {
         if (err)
             console.error(err.toString());

@@ -49,6 +49,8 @@ namespace Reactor.Data.EfContext
             builder.ApplyConfiguration(new NotificationConfiguration());
 
             builder.ApplyConfiguration(new NotificationAttributeConfiguration());
+            
+            builder.ApplyConfiguration(new UserSettingConfiguration());
 
         }
     }

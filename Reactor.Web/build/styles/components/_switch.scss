@@ -21,7 +21,7 @@ $custom-control-indicator-disabled-bg: #e9ecef;
 $custom-control-description-disabled-color: #868e96;
 $white: white;
 $theme-colors: (
-        'primary': #08d
+        'primary': $color-primary-dark
 );
 
 //
@@ -68,6 +68,8 @@ $switch-transition: .2s all !default;
       user-select: none;
       vertical-align: middle;
       text-indent: calc(calc(#{$switch-height} * 2) + .5rem);
+      font-size: 1.4rem;
+      font-weight: 700;
     }
 
     + label::before,

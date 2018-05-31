@@ -19,7 +19,8 @@ namespace Reactor.Web.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly INotificationService _notificationService;
 
-        public FriendController(IFriendService friendService, IUserService userService, IUnitOfWork unitOfWork, INotificationService notificationService)
+        public FriendController(IFriendService friendService, IUserService userService, IUnitOfWork unitOfWork,
+            INotificationService notificationService)
         {
             _friendService = friendService;
             _userService = userService;
@@ -63,7 +64,11 @@ namespace Reactor.Web.Controllers
             await _friendService.AddFriendRequestAsync(requestedById,
                 (await _userService.GetUserByIdAsync(requestedToId)).Id);
 
+            var userSetting = await _userService.GetUserSettingAsync(requestedTo.Id);
 
+            if (!userSetting.NotifyWhenUserSendFriendRequest)
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            
             var attributes = new List<NotificationAttribute>
             {
                 new NotificationAttribute
@@ -93,6 +98,11 @@ namespace Reactor.Web.Controllers
 
             var requestedBy = await _userService.GetUserByIdAsync(requestedById);
 
+            var userSetting = await _userService.GetUserSettingAsync(requestedBy.Id);
+
+            if (!userSetting.NotifyWhenUserAcceptFriendRequest)
+                return RedirectToAction(nameof(List));
+
             var attributes = new List<NotificationAttribute>
             {
                 new NotificationAttribute
@@ -102,7 +112,8 @@ namespace Reactor.Web.Controllers
                 }
             };
 
-            var notification = new Notification(requestedBy, requestedToId, NotificationType.AcceptedFriendRequest, attributes);
+            var notification = new Notification(requestedBy, requestedToId, NotificationType.AcceptedFriendRequest,
+                attributes);
 
             requestedBy.CreateNotification(notification);
 
@@ -110,7 +121,6 @@ namespace Reactor.Web.Controllers
             await _unitOfWork.CompleteAsync();
 
             await _notificationService.PushNotification(requestedBy.Id, notification.Id);
-
 
             return RedirectToAction(nameof(List));
         }

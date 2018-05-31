@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
-namespace Reactor.Web.Models.Home
+namespace Reactor.Web.ViewModels.Home
 {
     public class HomeModel
     {

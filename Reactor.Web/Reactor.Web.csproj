@@ -4,7 +4,6 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\SettingsViewModel" />
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\assets\scripts" />
   </ItemGroup>
@@ -26,9 +25,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\assets\styles\pages\chat.css" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="**\*.ts" Exclude="$(GlobalExclude)" />
     <Content Remove="node_modules\**" />
   </ItemGroup>
@@ -40,5 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="node_modules\**" />
+    <None Remove="npm-debug.log" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 const gulp = require('gulp'),
     watch = require('gulp-watch');
 
-gulp.task("default", ["styles","scripts" ,"fa", "fonts"], function () {
+gulp.task("default", ["styles","scripts" ,"fa", "fonts", "DeleteScriptFiles"], function () {
     watch([
         "./build/styles/**/*.scss"
         // "./node_modules/bootstrap/scss/**/*.scss"

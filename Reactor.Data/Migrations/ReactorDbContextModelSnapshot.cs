@@ -2,6 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Reactor.Core.Domain.Friends;
+using Reactor.Core.Domain.Notifications;
 using Reactor.Data.EfContext;
 using System;
 
@@ -343,6 +348,9 @@ namespace Reactor.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(500);
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -352,8 +360,14 @@ namespace Reactor.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
+                    b.Property<string>("From")
+                        .HasMaxLength(256);
+
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Lives")
                         .HasMaxLength(256);
 
                     b.Property<bool>("LockoutEnabled");
@@ -372,6 +386,9 @@ namespace Reactor.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("ProfileCoverPictureUrl")
+                        .HasMaxLength(256);
+
                     b.Property<string>("ProfilePictureUrl")
                         .HasMaxLength(256);
 
@@ -380,6 +397,9 @@ namespace Reactor.Data.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("WorkAt")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -393,6 +413,37 @@ namespace Reactor.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Users.UserSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("NotifyWhenUserAcceptFriendRequest");
+
+                    b.Property<bool>("NotifyWhenUserCommentOnPost");
+
+                    b.Property<bool>("NotifyWhenUserFollow");
+
+                    b.Property<bool>("NotifyWhenUserLikePost");
+
+                    b.Property<bool>("NotifyWhenUserRejectFriendRequest");
+
+                    b.Property<bool>("NotifyWhenUserSendFriendRequest");
+
+                    b.Property<bool>("NotifyWhenUserUnFollow");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserSetting");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -529,6 +580,14 @@ namespace Reactor.Data.Migrations
                     b.HasOne("Reactor.Core.Domain.Users.User", "CreatedBy")
                         .WithMany("Posts")
                         .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reactor.Core.Domain.Users.UserSetting", b =>
+                {
+                    b.HasOne("Reactor.Core.Domain.Users.User", "User")
+                        .WithOne("UserSetting")
+                        .HasForeignKey("Reactor.Core.Domain.Users.UserSetting", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

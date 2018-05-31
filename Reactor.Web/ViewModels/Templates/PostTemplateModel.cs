@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Reactor.Core.Domain.Posts;
 
-namespace Reactor.Web.Models.Templates
+namespace Reactor.Web.ViewModels.Templates
 {
     public class PostTemplateModel
     {

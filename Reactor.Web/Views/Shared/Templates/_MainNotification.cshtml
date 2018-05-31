@@ -12,8 +12,8 @@
         <div class="notification__wrapper">
             <div class="notification__content">
                 <div>
-                    <a asp-controller="Profile" asp-action="Index" asp-route-username="@sender.UserName">
-                        <img class="notification__photo" src="@sender.GetPicture()"/>
+                    <a asp-controller="Profile" asp-action="Profile" asp-route-username="@sender.UserName">
+                        <img class="notification__photo" src="@sender.GetProfilePicture()"/>
                     </a>
 
                     <time class="timeago pull-right" datetime="@notification.CreatedOn.ToString("o")"></time>

@@ -1,16 +1,19 @@
-﻿@model ProfileCoverModel
+﻿@model Reactor.Web.ViewModels.Profile.ProfileCoverViewModel
 @inject CommonHelper CommonHelper
 @inject IUserService UserService
 
 <div class="profile__cover">
-    <img src="~/assets/images/bg-profile.jpeg" class="profile__bg-img"/>
-    
+    <img src="@Model.ProfileCoverPicture" class="profile__bg-img"/>
+
     <div class="profile__info">
         <img src="@Model.ProfilePicture" class="profile__photo" alt="Profile-Picture"/>
         <h2 class="profile__title">@Model.FullName</h2>
-        <p class="profile__description">
-            I wish i was a little bit taller, wish i was a baller, wish i had a girl… also.
-        </p>
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <p class="profile__description">
+                @Model.Description
+            </p>
+        }
     </div>
 
     @if (!await UserService.IsProfilePageForCurrentUserAsync(CommonHelper.GetUserNameFromUrl()))
@@ -41,7 +44,7 @@
 <div class="profile__stats">
     <ul class="profile__list">
         <li class="profile__item">
-            <a class="profile__link" asp-controller="Profile" asp-action="Index" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
+            <a class="profile__link" asp-controller="Profile" asp-action="Profile" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
 
                 <span class="fa fa-edit profile__icon"></span>
                 Posts

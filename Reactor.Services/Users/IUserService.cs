@@ -21,5 +21,9 @@ namespace Reactor.Services.Users
         Task<string> GetUserProfilePictureAsync();
 
         Task<bool> IsProfilePageForCurrentUserAsync(string username);
+
+        Task InsertUserSettingAsync(UserSetting userSetting);
+
+        Task<UserSetting> GetUserSettingAsync(string id = null);
     }
 }

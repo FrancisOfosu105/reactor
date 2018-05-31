@@ -17,7 +17,7 @@
 <body>
 <div class="img-overlay">
     <div class="img-overlay__photo-box">
-        <img src="" class="img-overlay__photo"/>
+        <img src="" class="img-overlay__photo" alt="overlay"/>
     </div>
     <span class="img-overlay__close"> &times;</span>
 </div>
@@ -47,13 +47,13 @@
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" asp-controller="Profile" asp-action="Index" asp-route-username="@user.UserName">
+                        <a class="nav-link" asp-controller="Profile" asp-action="Profile" asp-route-username="@user.UserName">
                             <i class="fa fa-user-o"></i> Welcome, @user.FullName
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Settings" asp-action="Index">
+                        <a class="nav-link" asp-controller="Settings" asp-action="Basic">
                             <i class="fa fa-cog"></i> Settings
                         </a>
                     </li>
@@ -70,12 +70,11 @@
 
 </footer>
 <div class="loader">
-    <img class="loader__icon" src="~/assets/images/spinner.svg"/>
+    <img class="loader__icon" src="~/assets/images/spinner.svg" alt="Spinner"/>
 </div>
 
 <script type="text/javascript" src="~/assets/scripts/manifest.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/assets/scripts/vendor.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/assets/scripts/app.js" asp-append-version="true"></script>
-<form asp-antiforgery="true"></form>
 </body>
 </html>

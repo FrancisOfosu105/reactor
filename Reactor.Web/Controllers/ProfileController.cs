@@ -6,8 +6,8 @@ using Reactor.Services.Photos;
 using Reactor.Services.Posts;
 using Reactor.Services.Users;
 using Reactor.Services.ViewRender;
-using Reactor.Web.Models.Profile;
-using Reactor.Web.Models.Templates;
+using Reactor.Web.ViewModels.Profile;
+using Reactor.Web.ViewModels.Templates;
 
 namespace Reactor.Web.Controllers
 {
@@ -33,18 +33,25 @@ namespace Reactor.Web.Controllers
 
         // GET
         [HttpGet("{username}")]
-        public async Task<IActionResult> Index(string username)
+        public async Task<IActionResult> Profile(string username)
         {
             var user = await _userService.GetUserByUserNameAsync(username);
 
             if (user == null)
                 return NotFound();
 
-
-            return View(new ProfileModel
+            var model = new ProfileViewModel
             {
-                PostLoadMore =  _postService.ShouldPostLoadMore(user.Id)
-            });
+                PostLoadMore = _postService.ShouldPostLoadMore(user.Id),
+                TotalFollowers = await _followService.GetUserTotalFollowersAsync(user.Id),
+                TotalFollowees = await _followService.GetUserTotalFolloweesAsync(user.Id),
+                From = user.From,
+                Lives = user.Lives,
+                WorkAt = user.WorkAt,
+                IsProfilePageForUser = await _userService.IsProfilePageForCurrentUserAsync(username)
+            };
+
+            return View(model);
         }
 
 

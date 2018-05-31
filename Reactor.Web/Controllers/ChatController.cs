@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reactor.Services.Chats;
 using Reactor.Services.Users;
-using Reactor.Web.Models.Chat;
+using Reactor.Web.ViewModels.Chat;
 
 namespace Reactor.Web.Controllers
 {
@@ -50,7 +50,7 @@ namespace Reactor.Web.Controllers
                     chatContacts.Add(new ChatContact
                     {
                         FullName = friend.RequestedTo.FullName,
-                        ProfilePicture = friend.RequestedTo.GetPicture(),
+                        ProfilePicture = friend.RequestedTo.GetProfilePicture(),
                         UserId = friend.RequestedTo.Id
                     });
                 }
@@ -59,7 +59,7 @@ namespace Reactor.Web.Controllers
                     chatContacts.Add(new ChatContact
                     {
                         FullName = friend.RequestedBy.FullName,
-                        ProfilePicture = friend.RequestedBy.GetPicture(),
+                        ProfilePicture = friend.RequestedBy.GetProfilePicture(),
                         UserId = friend.RequestedBy.Id
                     });
                 }

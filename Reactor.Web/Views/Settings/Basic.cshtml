@@ -1,0 +1,75 @@
+﻿@model Reactor.Web.ViewModels.SettingsViewModel.BasicViewModel
+@{
+    Layout = "_SettingsLayout";
+    ViewBag.Title = "Basic Settings";
+}
+
+    <h2 class="settings__main-title">Basic Settings</h2>
+<form asp-action="Basic" method="post" enctype="multipart/form-data">
+    <h3 class="settings__sub-title text-center">Profile Picture</h3>
+    <div class="form__group text-center">
+        <div class="mb-2">
+            <img src="@Model.GetPicture()" class="settings__profile-pic"/>
+        </div>
+        <div>
+            <input type="file" class="form__input-file js-inputfile" asp-for="ProfilePicture" accept=".jpg,.jpeg,.png,.gif"/>
+            <label asp-for="ProfilePicture"><i class="fa fa-user"></i>&nbsp; <span>upload a picture</span></label>
+        </div>
+
+    </div>
+    
+    <h3 class="settings__sub-title text-center">Profile Cover Picture</h3>
+    <div class="form__group text-center">
+        <div class="mb-2  settings__profile-cover-container">
+            <img src="@Model.GetCoverPicture()" class="settings__profile-cover"/>
+        </div>
+        <div>
+            <input type="file" class="form__input-file js-inputfile" asp-for="ProfileCoverPicture" accept=".jpg,.jpeg,.png,.gif"/>
+            <label asp-for="ProfileCoverPicture"><i class="fa fa-user"></i>&nbsp; <span>upload picture</span></label>
+        </div>
+
+    </div>
+    
+    <div asp-validation-summary="ModelOnly" class="form__error"></div>
+   
+    <h3 class="settings__sub-title text-center">Personal Information</h3>
+    <div class="form__group">
+        <input type="text" class="form__input" placeholder="Username" asp-for="UserName"/>
+        <span asp-validation-for="UserName" class="form__error"></span>
+    </div>
+
+    <div class="form__group">
+        <input type="text" class="form__input" placeholder="First Name" required asp-for="FirstName"/>
+        <span asp-validation-for="FirstName" class="form__error"></span>
+    </div>
+    <div class="form__group">
+        <input type="text" class="form__input" placeholder="Last Name" required asp-for="LastName"/>
+        <span asp-validation-for="LastName" class="form__error"></span>
+    </div>
+
+    <div class="form__group">
+        <input type="email" class="form__input" placeholder="Email" required asp-for="Email"/>
+        <span asp-validation-for="Email" class="form__error"></span>
+    </div>
+
+    <div class="form__group">
+        <input type="text" class="form__input" placeholder="Lives at" asp-for="Lives"/>
+    </div>
+
+    <div class="form__group">
+        <input type="text" class="form__input" placeholder="From" asp-for="From"/>
+    </div>
+
+    <div class="form__group">
+        <input type="text" class="form__input" placeholder="Work At" asp-for="WorkAt"/>
+    </div>
+
+    <div class="form__group">
+        <textarea type="text" class="form__input" placeholder="Say something brief about yourself" asp-for="Description"></textarea>
+    </div>
+
+    <div class="form__group">
+        <button type="submit" class="btn btn-outline-success">Save Changes</button>
+    </div>
+
+</form>

@@ -41,6 +41,7 @@
     color: inherit;
     border: none;
     border-bottom: 3px solid transparent;
+    border: .1rem solid $color-grey-light-2;
     width: 100%;
     
     &::-webkit-input-placeholder{

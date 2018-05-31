@@ -1,11 +1,11 @@
-﻿@model Reactor.Web.Models.Comments.CommentViewModel
+﻿@model Reactor.Web.ViewModels.Comments.CommentViewModel
 
 @foreach (var comment in Model.Comments)
 {
     <div class="post__comment-list-box">
         <div class="post__comment-author">
-            <a asp-controller="Profile" asp-action="Index" asp-route-username="@comment.CommentBy.UserName">
-                <img src="@comment.CommentBy.GetPicture()" class="post__comment-author-photo"/>
+            <a asp-controller="Profile" asp-action="Profile" asp-route-username="@comment.CommentBy.UserName">
+                <img src="@comment.CommentBy.GetProfilePicture()" class="post__comment-author-photo"/>
             </a>
         </div>
 
@@ -13,7 +13,7 @@
 
             <p class="d-inline">
                 <h4 class="d-inline-block">
-                    <a asp-controller="Profile" asp-action="Index" asp-route-username="@comment.CommentBy.UserName">
+                    <a asp-controller="Profile" asp-action="Profile" asp-route-username="@comment.CommentBy.UserName">
                         @comment.CommentBy.FullName:
                     </a>
                 </h4>

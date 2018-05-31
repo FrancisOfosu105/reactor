@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Reactor.Web.Models.Chat
+namespace Reactor.Web.ViewModels.Chat
 {
     public class ChatConnection
     {

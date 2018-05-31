@@ -1,4 +1,4 @@
-﻿@model Reactor.Web.Models.Templates.PostTemplateModel
+﻿@model Reactor.Web.ViewModels.Templates.PostTemplateModel
 @inject IPostService PostService
 
 @if (Model.Posts.Any())
@@ -8,15 +8,15 @@
         <div class="post">
             <div class="post__content">
                 <div class="post__photo-box">
-                    <a asp-controller="Profile" asp-action="Index" asp-route-username="@post.CreatedBy.UserName">
+                    <a asp-controller="Profile" asp-action="Profile" asp-route-username="@post.CreatedBy.UserName">
 
-                        <img class="post__photo" alt="@post.Id image" src="@post.CreatedBy.GetPicture()"/>
+                        <img class="post__photo" alt="@post.Id image" src="@post.CreatedBy.GetProfilePicture()"/>
                     </a>
                 </div>
 
                 <div class="post__text-container">
                     <h2 class="post__author d-inline-block">
-                        <a asp-controller="Profile" asp-action="Index" asp-route-username="@post.CreatedBy.UserName">
+                        <a asp-controller="Profile" asp-action="Profile" asp-route-username="@post.CreatedBy.UserName">
                             @post.CreatedBy.FullName
                         </a>
                     </h2>

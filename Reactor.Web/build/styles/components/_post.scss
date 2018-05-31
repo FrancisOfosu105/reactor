@@ -1,6 +1,6 @@
 .post {
     border-radius: .2rem .2rem 0 0;
-    border: 1px solid $color-grey-light;
+    border: 1px solid $color-grey-light-1;
     background-color: $color-white;
     font-size: 1.4rem;
     position: relative;
@@ -41,7 +41,7 @@
         width: 100%;
         border-radius: 2rem;
         padding: .7rem 2rem;
-        border: 1px solid $color-grey-light;
+        border: 1px solid $color-grey-light-1;
 
         &:focus {
             outline: none;
@@ -54,7 +54,7 @@
 
     &__comments-list {
         margin-left: 5rem;
-        border: 1px solid $color-grey-light;
+        border: 1px solid $color-grey-light-1;
         border-radius: 2rem;
         padding: .7rem 1rem;
 

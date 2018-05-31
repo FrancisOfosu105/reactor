@@ -12,9 +12,9 @@ using Reactor.Services.Photos;
 using Reactor.Services.Posts;
 using Reactor.Services.Users;
 using Reactor.Services.ViewRender;
-using Reactor.Web.Models.Comments;
-using Reactor.Web.Models.Home;
-using Reactor.Web.Models.Templates;
+using Reactor.Web.ViewModels.Comments;
+using Reactor.Web.ViewModels.Home;
+using Reactor.Web.ViewModels.Templates;
 
 namespace Reactor.Web.Controllers
 {
@@ -79,7 +79,7 @@ namespace Reactor.Web.Controllers
 
             if (model.Files != null)
             {
-                await _photoService.Upload(model.Files, post.Id);
+                await _photoService.UploadAsync(model.Files, post.Id);
                 await _unitOfWork.CompleteAsync();
             }
 
@@ -129,31 +129,36 @@ namespace Reactor.Web.Controllers
             await _postService.AddCommentToPostAsync(comment);
 
             await _unitOfWork.CompleteAsync();
+            
+            var userSetting = await _userService.GetUserSettingAsync(post.CreatedBy.Id);
 
             //Notify the user who created the post
             if (!post.IsForCurrentUser(currentUserId))
             {
-                var attributes = new List<NotificationAttribute>
+                if (userSetting.NotifyWhenUserCommentOnPost)
                 {
-                    new NotificationAttribute
+                    var attributes = new List<NotificationAttribute>
                     {
-                        Name = "CommentId",
-                        Value = comment.Id.ToString()
-                    },
-                    new NotificationAttribute
-                    {
-                        Name = "PostId",
-                        Value = post.Id.ToString()
-                    }
-                };
-                var notification =
-                    new Notification(post.CreatedBy, currentUserId, NotificationType.Comment, attributes);
+                        new NotificationAttribute
+                        {
+                            Name = "CommentId",
+                            Value = comment.Id.ToString()
+                        },
+                        new NotificationAttribute
+                        {
+                            Name = "PostId",
+                            Value = post.Id.ToString()
+                        }
+                    };
+                    var notification =
+                        new Notification(post.CreatedBy, currentUserId, NotificationType.Comment, attributes);
 
-                post.CreatedBy.CreateNotification(notification);
+                    post.CreatedBy.CreateNotification(notification);
                 
-                await _unitOfWork.CompleteAsync();
+                    await _unitOfWork.CompleteAsync();
                 
-                await _notificationService.PushNotification(post.CreatedBy.Id, notification.Id);
+                    await _notificationService.PushNotification(post.CreatedBy.Id, notification.Id);
+                }
             }
 
             await _unitOfWork.CompleteAsync();
@@ -217,32 +222,38 @@ namespace Reactor.Web.Controllers
                 return NotFound();
 
             await _postService.LikePostAsync(postId);
+            
+            var userSetting = await _userService.GetUserSettingAsync(post.CreatedBy.Id);
 
+            
             //Notify the user who created the post
             if (!post.IsForCurrentUser(currentUserId))
             {
-                var attributes = new List<NotificationAttribute>
+                if (userSetting.NotifyWhenUserLikePost)
                 {
-                    new NotificationAttribute
+                    var attributes = new List<NotificationAttribute>
                     {
-                        Name = "PostId",
-                        Value = post.Id.ToString()
-                    }
-                };
+                        new NotificationAttribute
+                        {
+                            Name = "PostId",
+                            Value = post.Id.ToString()
+                        }
+                    };
 
-                var notification = new Notification(post.CreatedBy, currentUserId, NotificationType.Like, attributes);
+                    var notification = new Notification(post.CreatedBy, currentUserId, NotificationType.Like, attributes);
 
-                post.CreatedBy.CreateNotification(notification);
+                    post.CreatedBy.CreateNotification(notification);
                 
-                await _unitOfWork.CompleteAsync();
+                    await _unitOfWork.CompleteAsync();
                 
-                await _notificationService.PushNotification(post.CreatedBy.Id, notification.Id);
+                    await _notificationService.PushNotification(post.CreatedBy.Id, notification.Id);
+                }
             }
 
             await _unitOfWork.CompleteAsync();
 
 
-            return Ok(new
+            return Json(new
             {
                 totalLikes = await _postService.GetTotalPostLikesAsync(postId)
             });
@@ -269,7 +280,7 @@ namespace Reactor.Web.Controllers
 
             await _unitOfWork.CompleteAsync();
 
-            return Ok(new
+            return Json(new
             {
                 totalLikes = await _postService.GetTotalPostLikesAsync(postId)
             });

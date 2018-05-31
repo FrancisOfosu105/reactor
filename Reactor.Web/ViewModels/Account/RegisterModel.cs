@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
-namespace Reactor.Web.Models.Account
+namespace Reactor.Web.ViewModels.Account
 {
     public class RegisterModel
     {

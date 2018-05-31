@@ -3,14 +3,19 @@
     Layout = "_Layout";
 }
 
-<div class="container">
+<section class="container settings">
     <div class="row">
         <div class="col-md-3">
-            <h4>Menu Goes Here</h4>
+            <ul class="settings__menu-list">
+                <li class="settings__menu-item settings__menu-item--active"><a class="settings__menu-link" asp-controller="Settings" asp-action="Basic">Basic</a></li>
+                <li class="settings__menu-item"><a class="settings__menu-link" asp-controller="Settings" asp-action="Notifications">Notifications</a></li>
+            </ul>
         </div>
         <div class="col-md-9">
-            @RenderBody()
+            <div class="settings__wrapper">
+                @RenderBody()
+            </div>
         </div>
 
     </div>
-</div>
+</section>

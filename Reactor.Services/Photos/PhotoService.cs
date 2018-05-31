@@ -22,7 +22,7 @@ namespace Reactor.Services.Photos
             _photoRepository = photoRepository;
         }
 
-        public async Task Upload(IFormFileCollection files, int postId)
+        public async Task UploadAsync(IFormFileCollection files, int postId)
         {
             CreateDirectory(Path.Combine(_host.WebRootPath, "uploads/posts"));
 
@@ -40,7 +40,7 @@ namespace Reactor.Services.Photos
             }
         }
 
-        public async Task<string> Upload(IFormFile file)
+        public async Task<string> UploadAsync(IFormFile file)
         {
             CreateDirectory(Path.Combine(_host.WebRootPath, "uploads/profiles"));
 
@@ -83,6 +83,22 @@ namespace Reactor.Services.Photos
             {
                 Directory.CreateDirectory(storageLocation);
             }
+        }
+
+        public void RemovePhotoFromDisk(string profilePictureUrl)
+        {
+            if (string.IsNullOrEmpty(profilePictureUrl))
+                return;
+
+            var index = profilePictureUrl.IndexOf('/');
+            var profilePath = profilePictureUrl.Substring(index + 1);
+
+            var path = Path.Combine(_host.WebRootPath, profilePath);
+
+            var fileInfo = new FileInfo(path);
+
+            if (fileInfo.Exists)
+                File.Delete(path);
         }
     }
 }

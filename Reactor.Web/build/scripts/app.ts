@@ -19,18 +19,24 @@ new Follow();
 * Lazy loading Hack
 * Will improve it later
 * */
-const index = window.location.pathname.lastIndexOf('/');
-const url = window.location.pathname.substr(index + 1);
+
+const url = window.location.pathname;
 switch (url) {
-    case "chat":
+    case "/chat":
         import("./modules/chat").then((module: any) => {
             new module.default();
         });
         break;
-    case "notifications":
+    case "/notifications":
         import("./modules/notification").then((module: any) => {
             new module.default();
         });
         break;
+    case "/settings/basic":
+        import("jquery-validation");
+        import("jquery-validation-unobtrusive");
+        break;
 } 
- 
+
+console.log(url);
+  

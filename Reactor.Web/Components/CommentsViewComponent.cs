@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Reactor.Services.Posts;
-using Reactor.Web.Models.Comments;
+using Reactor.Web.ViewModels.Comments;
 
 namespace Reactor.Web.Components
 {

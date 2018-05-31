@@ -1,12 +1,13 @@
-﻿@inject IPostService PostService
+﻿@model Reactor.Core.Domain.Users.User
+@inject IPostService PostService
 @inject IFollowService FollowService    
 <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="box">
         <div class="box__header-bg">
-            <img class="box__bg-img" src="~/assets/images/bg-profile.jpeg"/>
+            <img class="box__bg-img" src="@Model.GetProfileCoverPicture()"/>
             <div class="box__profile-min">
-                <a asp-controller="Profile" asp-action="Index" asp-route-username="@Model.UserName">
-                    <img src="@Model.GetPicture()" class="box__profile-img"/>
+                <a asp-controller="Profile" asp-action="Profile" asp-route-username="@Model.UserName">
+                    <img src="@Model.GetProfilePicture()" class="box__profile-img"/>
 
                 </a>
                 
@@ -16,7 +17,7 @@
           
             <div class="box__profile-content">
                 <h2 class="box__profile-name">
-                    <a asp-controller="Profile" asp-action="Index" asp-route-username="@Model.UserName">
+                    <a asp-controller="Profile" asp-action="Profile" asp-route-username="@Model.UserName">
                         @Model.FullName</a>
                 </h2>
                 <span class="text-muted box__profile-other">@@@Model.UserName</span>

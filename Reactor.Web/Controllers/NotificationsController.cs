@@ -8,7 +8,7 @@ using Reactor.Core.Models;
 using Reactor.Services.Notifications;
 using Reactor.Services.Users;
 using Reactor.Services.ViewRender;
-using Reactor.Web.Models.Templates;
+using Reactor.Web.ViewModels.Templates;
 
 namespace Reactor.Web.Controllers
 {

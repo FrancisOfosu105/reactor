@@ -19,6 +19,16 @@ namespace Reactor.Core.Domain.Users
 
         public string ProfilePictureUrl { get; set; }
 
+        public string ProfileCoverPictureUrl { get; set; }
+
+        public string Description { get; set; }
+
+        public string Lives { get; set; }
+
+        public string From { get; set; }
+
+        public string WorkAt { get; set; }
+
         public ICollection<Friend> SentFriendRequests { get; set; }
 
         public ICollection<Friend> ReceievedFriendRequests { get; set; }
@@ -36,6 +46,8 @@ namespace Reactor.Core.Domain.Users
         public ICollection<Like> Likes { get; set; }
 
         public ICollection<Notification> Notifications { get; private set; }
+
+        public UserSetting UserSetting { get; set; }
 
         public User()
         {
@@ -74,15 +86,20 @@ namespace Reactor.Core.Domain.Users
             return friends;
         }
 
-        public string GetPicture()
+        public string GetProfilePicture()
         {
             return ProfilePictureUrl ?? "/assets/images/no-profile.svg";
+        }
+
+
+        public string GetProfileCoverPicture()
+        {
+            return ProfileCoverPictureUrl ?? "/assets/images/no-profile-cover.jpg";
         }
 
         public void CreateNotification(Notification notification)
         {
             Notifications.Add(notification);
-
         }
 
         public void RemoveNotification(Notification notification)

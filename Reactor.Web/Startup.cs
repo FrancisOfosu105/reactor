@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -32,7 +33,7 @@ using Reactor.Services.ViewRender;
 using Reactor.Web.Hubs;
 using Reactor.Web.Infrastructure.Extensions;
 using Reactor.Web.Infrastructure.Helpers;
-using Reactor.Web.Models.Chat;
+using Reactor.Web.ViewModels.Chat;
 
 namespace Reactor.Web
 {
@@ -52,6 +53,8 @@ namespace Reactor.Web
             services.AddMvc();
 
             services.AddSignalR();
+
+            services.AddAutoMapper();
 
             services.AddNoTrailingSlash(options => options.RemoveTrailingSlash = true);
 
@@ -81,6 +84,7 @@ namespace Reactor.Web
             services.AddScoped<IRepository<Message>, MessageRepository>();
             services.AddScoped<IRepository<Chat>, ChatRepository>();
             services.AddScoped<IRepository<Notification>, NotificationRepository>();
+            services.AddScoped<IRepository<UserSetting>, UserSettingRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

@@ -11,7 +11,7 @@ namespace Reactor.Data.EfContext
         public ReactorDbContext CreateDbContext(string[] args)
         {
             //Environment Variable
-            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
 
             //Configuration
             var configuration = new ConfigurationBuilder()

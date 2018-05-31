@@ -1,4 +1,4 @@
-﻿@model Reactor.Web.Models.Comments.CommentViewModel
+﻿@model Reactor.Web.ViewModels.Comments.CommentViewModel
 @inject IUserService UserService
 <div class="post__comments" id="post__comments-@(Model.PostId)">
         @if (Model.LoadMore)
@@ -20,7 +20,7 @@
     </div>
 
     <div class="post__commenter">
-        <a asp-controller="Profile" asp-action="Index" asp-route-username="@UserService.GetCurrentUserNameAsync()">
+        <a asp-controller="Profile" asp-action="Profile" asp-route-username="@UserService.GetCurrentUserNameAsync()">
             
             <img src="@await UserService.GetUserProfilePictureAsync()" class="post__photo"/>
             

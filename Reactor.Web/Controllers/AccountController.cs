@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Reactor.Core.Domain.Users;
 using Reactor.Services.Photos;
-using Reactor.Web.Models.Account;
+using Reactor.Web.ViewModels.Account;
 
 namespace Reactor.Web.Controllers
 {
@@ -107,7 +107,7 @@ namespace Reactor.Web.Controllers
 
             if (model.File != null)
             {
-                var photoLocation = await _photoService.Upload(model.File);
+                var photoLocation = await _photoService.UploadAsync(model.File);
                 user.ProfilePictureUrl = photoLocation;
             }
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Reactor.Web.Models.Account
+namespace Reactor.Web.ViewModels.Account
 {
     public class LoginModel
     {

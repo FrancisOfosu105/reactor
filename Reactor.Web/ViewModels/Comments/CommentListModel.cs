@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Reactor.Core.Domain.Comments;
 
-namespace Reactor.Web.Models.Comments
+namespace Reactor.Web.ViewModels.Comments
 {
     public class CommentViewModel
     {
