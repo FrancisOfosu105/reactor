@@ -1,6 +1,4 @@
-﻿import * as $ from  "jquery";
-
-export default class Modal {
+﻿export default class Modal {
     private $imgOverlayContainer = $(".img-overlay");
     private $imgOverlayImg = $(".img-overlay__photo");
     private $closeOverBtn = $(".img-overlay__close");

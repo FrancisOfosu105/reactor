@@ -46,33 +46,25 @@
         <li class="profile__item">
             <a class="profile__link" asp-controller="Profile" asp-action="Profile" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
 
-                <span class="fa fa-edit profile__icon"></span>
-                Posts
-                <span class="profile__counter">@Model.TotalPosts</span>
+                <span class="fa fa-globe profile__icon"></span>
+             
+                <span class="profile__page-name">Stream</span>
             </a>
         </li>
 
         <li class="profile__item">
             <a class="profile__link" asp-controller="Profile" asp-action="GetUserPhotos" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
                 <span class="fa fa-image profile__icon"></span>
-                Photos
-                <span class="profile__counter">@Model.TotalPhotos</span>
+                <span class="profile__page-name">Photos</span>
+                <span class="profile__counter">222</span>
             </a>
         </li>
+        
         <li class="profile__item">
-            <a class="profile__link" asp-controller="Profile" asp-action="GetUserFollowers" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
-
+            <a class="profile__link" asp-controller="Profile" asp-action="GetUserPhotos" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
                 <span class="fa fa-users profile__icon"></span>
-                Followers
-                <span class="profile__counter">@Model.TotalFollowers</span>
-            </a>
-        </li>
-        <li class="profile__item">
-            <a class="profile__link" asp-controller="Profile" asp-action="GetUserFollowees" asp-route-username="@CommonHelper.GetUserNameFromUrl()">
-
-                <span class="fa fa-support profile__icon"> </span>
-                Following
-                <span class="profile__counter">@Model.TotalFollowees</span>
+                <span class="profile__page-name">Friends</span>
+                <span class="profile__counter">10</span>
             </a>
         </li>
     </ul>

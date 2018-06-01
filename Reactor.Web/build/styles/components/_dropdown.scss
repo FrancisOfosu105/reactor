@@ -21,6 +21,9 @@
         left: auto;
         top: 4.5rem;
         list-style: none;
+        a{
+            font-size: 1.1rem;
+        }
     }
 
     &__list {
@@ -87,6 +90,10 @@
             top: 0;
             right: 1.4rem;
         }
+        
+        span{
+            font-size: 1.3rem;
+        }
     }
 
     &__footer {
@@ -96,7 +103,7 @@
 
         a {
             color: $color-grey-dark;
-
+            font-size: 1.3rem;
             &:hover,
             &:active {
                 text-decoration: underline;

@@ -1,5 +1,4 @@
-﻿import * as $ from "jquery";
-import commonHelper from "../modules/common-helper";
+﻿import commonHelper from "../modules/common-helper";
 
 export default class Follow {
     private $followButton = $(".profile__follow-btn");
@@ -30,7 +29,7 @@ export default class Follow {
 
     private follow(followeeUserName: string) {
         if (followeeUserName) {
-            $.post(`${this.$baseUrl}/followuser`, commonHelper.addAntiForgeryToken({
+            $.post(`${this.$baseUrl}/followuser`, commonHelper.antiForgeryToken.add({
                 followeeUserName: followeeUserName
             }), () => {
                 location.reload();
@@ -40,7 +39,7 @@ export default class Follow {
 
     private unFollow(followeeUserName: any) {
         if (followeeUserName) {
-            $.post(`${this.$baseUrl}/unfollowuser`, commonHelper.addAntiForgeryToken({
+            $.post(`${this.$baseUrl}/unfollowuser`, commonHelper.antiForgeryToken.add({
                 followeeUserName: followeeUserName
             }), () => {
                 location.reload();

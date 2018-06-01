@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require('webpack');
 const config = {
     entry: {
         app: "./build/scripts/app.ts"
@@ -40,5 +41,11 @@ const config = {
         },
 
     },
+    plugins:[
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
+    ]
 };
 module.exports = config;

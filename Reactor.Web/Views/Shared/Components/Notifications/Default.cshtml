@@ -1,8 +1,9 @@
 ﻿@model Reactor.Core.Models.NotificationTemplateModel
+<li class="nav-item dropdown" id="notifications">
 
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+    <a class="nav-link dropdown-toggle"  data-toggle="dropdown" href="#" id="notificationsDropdown">
 
-        <i class="fa fa-bell-o"></i>
+        <i class="fa fa-bell" data-toggle="tooltip" data-placement="bottom" title="notifications"></i>
         @if (Model.TotalUnReadNotifications > 0)
         {
             <span class="dropdown__badge notification-badge">@Model.TotalUnReadNotifications</span>
@@ -13,7 +14,7 @@
         }
     </a>
 
-    <ul class="dropdown__menu dropdown-menu">
+    <ul class="dropdown__menu dropdown-menu" aria-labelledby="notificationsDropdown">
         <li class="dropdown__body">
             <ul class="dropdown__list miniNotificationContainer">
                 @if (Model.Notifications.Any())
@@ -26,7 +27,7 @@
                 else
                 {
                     <li class="dropdown__item text-center noMiniNotification">
-                        <span class="" style="font-size: 1.6rem">You have no notifications.</span>
+                        <span class="">You have no notifications.</span>
                     </li>
                 }
               
@@ -55,3 +56,4 @@
         }
 
     </ul>
+</li>

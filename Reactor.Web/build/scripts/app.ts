@@ -5,7 +5,10 @@ import Modal from "./modules/modal";
 import Follow from "./modules/follow";
 import AjaxLoader from "./modules/ajax-loader";
 import Header from "./modules/header";
+import commonHelper from "./modules/common-helper";
 import "bootstrap";
+import Chat from "./modules/chat";
+
 
 new Header();
 new AjaxLoader();
@@ -14,6 +17,7 @@ new DateTime();
 new Post();
 new Modal();
 new Follow();
+new Chat();
 
 /*
 * Lazy loading Hack
@@ -22,11 +26,6 @@ new Follow();
 
 const url = window.location.pathname;
 switch (url) {
-    case "/chat":
-        import("./modules/chat").then((module: any) => {
-            new module.default();
-        });
-        break;
     case "/notifications":
         import("./modules/notification").then((module: any) => {
             new module.default();
@@ -38,5 +37,4 @@ switch (url) {
         break;
 } 
 
-console.log(url);
-  
+commonHelper.tooltip.init();

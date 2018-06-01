@@ -1,7 +1,20 @@
 .chat {
+  margin-top: -14px;
+  
+  &__header{
+    border-bottom:1px solid rgba($color-black, .2);
+    box-sizing: border-box;
+    padding: 8px;
+    text-align: center;
+    h3{
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+  }
   &-box {
-
+    background-color: $color-white;
     position: relative;
+    height: 58rem;
     
     &__header {
       background-color: $color-white;
@@ -21,7 +34,13 @@
     }
     
     &__wrapper{
-      position: relative;
+ 
+    }
+    
+    &__footer{
+      position: absolute;
+      bottom: 1px;
+      width: 100%;
     }
 
     &__body {
@@ -30,18 +49,17 @@
       height: 44rem;
       overflow-y: scroll;
       @include clearfix;
-      
-      @include customScrollBar;
     }
 
-    &__info {
-      @include clearfix;
-    }
-
+ 
     &__name {
       font-size: 1rem;
     }
 
+    &__time{
+      clear: both;
+      font-size: 1rem;
+    }
     &__img-left {
       position: absolute;
       left: -1rem;
@@ -63,56 +81,50 @@
       margin-top: .7rem;
       border-radius: 5rem;
       padding: 1rem 2rem;
-      color: $color-white;
       font-size: 1.4rem;
       display: block;
       position: relative;
-
+      max-width: 85%;
     }
 
     &__container {
-      margin-bottom: 2rem;
       position: relative;
 
       &-left {
 
         .chat-box__message {
-          margin-left: 5rem;
-          background-color: $color-secondary-dark;
-
-          &::before {
-
-            position: absolute;
-            right: 98.7%;
-            top: 20%;
-            border: .9rem solid transparent;
-            border-right-color: $color-secondary-dark;
-            content: ' ';
-            height: 0;
-            width: 0;
-            pointer-events: none;
-
-          }
+          background-color: $color-grey-light-1;
+          clear: left;
+          float: left;
+          word-wrap: break-word;
+          border-bottom-left-radius: 3em;
+          border-top-left-radius: 1.3em;
         }
       }
 
       &-right {
 
         .chat-box__message {
-          margin-right: 5rem;
-          background-color: $color-primary-dark;
-          &::after {
-            width: 0;
-            height: 0;
-            content: "";
-            position: absolute;
-            border: .9rem solid transparent;
-            border-left-color: $color-primary-dark;
-            left: 98.7%;
-            top: 20%;
-          }
+          background-color: $color-primary;
+          color: $color-white;
+          clear: right;
+          float: right;
+          word-wrap: break-word;
+          border-bottom-right-radius: 3em;
+          border-top-right-radius: 1.3em;
+      
         }
       }
+
+    }
+
+    &__inner-left{
+      margin-left: 5rem;
+
+    }
+
+    &__inner-right{
+      margin-right: 5rem;
 
     }
 
@@ -120,7 +132,8 @@
       width: 100%;
       height: 4rem;
       border: none;
-      border-top: 1px solid $color-grey-light-1;
+      border-top:1px solid rgba($color-black, .2);
+      border-bottom:1px solid rgba($color-black, .2);
       padding: 1rem 2rem;
       font-size: 1.5rem;
 
@@ -153,9 +166,14 @@
     
   }
 
+  
+  //Contacts
   &-contact {
+    margin-top: -1px;
     background-color: $color-white;
     margin-bottom: 2rem;
+    border:1px solid rgba($color-black, .2);
+    height: 58rem;
 
     &__input {
       width: 100%;
@@ -172,8 +190,6 @@
     &__body{
       height: 50rem;
       overflow-y: scroll;
-      
-      @include customScrollBar;
     }
 
     &__list {

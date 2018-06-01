@@ -63,7 +63,7 @@ namespace Reactor.Web.Hubs
                     CreatedOn = message.CreatedOn,
                     FullName = "me",
                     Message = message.Content,
-                    Position = MessagePosition.Left,
+                    Position = MessagePosition.Right,
                     ProfilePicture = sender.GetProfilePicture(),
                 };
 
@@ -72,7 +72,7 @@ namespace Reactor.Web.Hubs
                     CreatedOn = message.CreatedOn,
                     FullName = sender.FullName,
                     Message = message.Content,
-                    Position = MessagePosition.Right,
+                    Position = MessagePosition.Left,
                     ProfilePicture = sender.GetProfilePicture(),
                 };
 
@@ -126,7 +126,7 @@ namespace Reactor.Web.Hubs
                         CreatedOn = message.CreatedOn,
                         FullName = "me",
                         Message = message.Content,
-                        Position = MessagePosition.Left,
+                        Position = MessagePosition.Right,
                         ProfilePicture = sender.GetProfilePicture(),
                     };
 
@@ -139,7 +139,7 @@ namespace Reactor.Web.Hubs
                         CreatedOn = message.CreatedOn,
                         FullName = recipient.FullName,
                         Message = message.Content,
-                        Position = MessagePosition.Right,
+                        Position = MessagePosition.Left,
                         ProfilePicture = recipient.GetProfilePicture(),
                     };
 

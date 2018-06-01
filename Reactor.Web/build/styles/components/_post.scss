@@ -1,6 +1,6 @@
 .post {
-    border-radius: .2rem .2rem 0 0;
-    border: 1px solid $color-grey-light-1;
+    border-radius: .5rem;
+    border:  1px solid rgba($color-black, 0.2);
     background-color: $color-white;
     font-size: 1.4rem;
     position: relative;
@@ -53,11 +53,13 @@
     }
 
     &__comments-list {
-        margin-left: 5rem;
-        border: 1px solid $color-grey-light-1;
-        border-radius: 2rem;
+        border-radius: 3rem;
         padding: .7rem 1rem;
-
+        background-color: $color-grey-light-1;
+        clear: left;
+        float: left;
+        word-wrap: break-word;
+        line-height: 1.9rem;
         h4 {
             font-weight: 700;
             font-size: 1.4rem;
@@ -70,6 +72,12 @@
                 cursor: pointer;
             }
         }
+    }
+    
+    &__comment-single{
+        margin-left: 5rem;
+        @include clearfix;
+
     }
 
     &__comment-author {
@@ -84,13 +92,14 @@
 
     &__icons {
         margin: 2rem 0;
-        color: $color-grey-dark;
+        border-bottom: 1px solid $color-grey-light-2;
+        padding-bottom: 1rem;
 
         a {
             color: $color-grey-dark;
 
             &:hover {
-                text-decoration: underline;
+                text-decoration: none;
                 cursor: pointer;
             }
         }
@@ -112,13 +121,23 @@
     }
 
     &__time {
+        clear: both;
         font-size: 1rem;
     }
 
     &__like-icon {
+        font-weight: 700;
 
         &--is-liked {
-            color: $color-primary-dark !important;
+            color: $color-primary !important;
         }
+
+        &:hover{
+            text-decoration: none;
+        }
+    }
+    
+    &__comment-icon{
+        font-weight: 700;
     }
 }

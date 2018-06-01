@@ -8,6 +8,7 @@
 //base
 @import "./base/_base";
 @import "./base/_typography";
+@import "./base/_animations";
 
 
 
@@ -20,6 +21,7 @@
 @import "./components/_dropdown";
 @import "./components/_navigation";
 @import "./components/_switch";
+@import "./components/_button.scss";
 
 //pages
 @import "./pages/_account"; 

@@ -1,5 +1,3 @@
-import * as $ from "jquery";
-
 export default class FileInput {
     private $fileInput = $(".js-inputfile");
 

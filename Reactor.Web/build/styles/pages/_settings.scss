@@ -13,7 +13,7 @@
     padding: 1rem 2rem;
     
     &--active{
-      border-right: .4rem solid $color-primary-dark;
+      border-right: .4rem solid $color-primary;
     }
   }
   
@@ -29,8 +29,6 @@
   
   &__content
   {
-    width: 40%;
-    margin-left: 30%;
     
     &:not(:last-child){
       margin-bottom: 2rem;
@@ -48,11 +46,13 @@
     border-bottom: 1px solid $color-grey-light-2;
     padding-bottom: 1.5rem;
     margin-bottom: 2rem;
+    font-size: 1.6rem;
+    text-transform: uppercase;
   }
   
   &__sub-title{
     font-size: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     font-weight: 700;
   }
   

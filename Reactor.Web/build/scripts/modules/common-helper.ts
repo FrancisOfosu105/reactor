@@ -1,22 +1,26 @@
-﻿import * as $ from "jquery";
-import tago from "timeago.js";
+﻿import tago from "timeago.js";
+import "jquery-slimscroll";
 
-const addAntiForgeryToken = (data: any) => {
-    if (!data) {
-        data = {}; 
+const tokenInput = $("input[name=__RequestVerificationToken]");
+
+const antiForgeryToken = {
+    add: (data) => {
+        if (!data) {
+            data = {};
+        }
+
+
+        if (tokenInput.length) {
+            data.__RequestVerificationToken = tokenInput.val();
+
+        }
+
+        return data;
+    },
+    token: () => {
+        return tokenInput.val();
     }
-
-    const tokenInput = $("input[name=__RequestVerificationToken]");
-
-
-    if (tokenInput.length) {
-        data.__RequestVerificationToken = tokenInput.val();
-
-    }
-
-    return data;
 };
-
 
 const timeago = {
 
@@ -27,8 +31,21 @@ const timeago = {
 
 };
 
+const tooltip = {
+    init: () => {
+        const $allTooltips: any = $('[data-toggle="tooltip"]');
 
-export default {addAntiForgeryToken, timeago};
+        //Tooltip
+        $allTooltips.tooltip();
+    },
+    reInitialize: () => {
+        const $allTooltips: any = $('[data-toggle="tooltip"]');
+
+        $allTooltips.tooltip();
+    }
+};
+
+export default {antiForgeryToken, timeago, tooltip};
 
 
 

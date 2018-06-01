@@ -1,5 +1,4 @@
 ﻿import * as signalR from "@aspnet/signalr";
-import * as $ from "jquery";
 import commonHelper from "./common-helper";
 import {NotificationTemplateType} from "../models/notification.model";
 
@@ -25,10 +24,26 @@ export default class Header {
 
     private events() {
 
+        const $li = $('li.nav-item');
 
-        $("#notifications").on('show.bs.dropdown', this.markAllNotificationsAsRead);
+        $li.on('shown.bs.dropdown', (e) => {
+            const $elem = $(e.target);
+            $elem.find('i').addClass('text-white');
+
+        });
+
+        $li.on('hidden.bs.dropdown', (e) => {
+            const $elem = $(e.target);
+            $elem.find('i').removeClass('text-white');
+        });
+
+
+        $("#notifications").on('shown.bs.dropdown', this.markAllNotificationsAsRead);
 
         this.$miniNotificationContainer.on('scroll', this.miniNotificationScrollHandler);
+
+        $("#logOut").on('click', this.logout);
+
 
     }
 
@@ -40,7 +55,7 @@ export default class Header {
                 this.$notificationBadge.removeClass('d-none');
 
             const $notificationDrodownLi = $('#notifications .dropdown__item');
-            
+
             if ($notificationDrodownLi.length == 1) {
                 const $noMiniNotification = $('.noMiniNotification');
                 $noMiniNotification.remove();
@@ -48,7 +63,7 @@ export default class Header {
 
 
             this.$notificationBadge.text(totalNotifications);
-            
+
             this.$miniNotificationContainer.prepend(notification);
 
             commonHelper.timeago.reInitialize();
@@ -80,7 +95,7 @@ export default class Header {
         $.ajax({
             method: "POST",
             url: `${this.notificationsUrl}/loadnotifications`,
-            data: commonHelper.addAntiForgeryToken({
+            data: commonHelper.antiForgeryToken.add({
                 pageIndex: pageIndex,
                 pageSize: 10,
                 type: type
@@ -94,7 +109,7 @@ export default class Header {
                     if (!data.loadMore) {
                         $(".miniNotificationLoadMore").html("");
 
-                        let li = `<li class="dropdown__item text-center noMiniNotification"><span style="font-size: 1.6rem">No more notifications</span>                                         </li>`;
+                        let li = `<li class="dropdown__item text-center noMiniNotification"><span style="font-size: 1.3rem">No more notifications</span></li>`;
 
                         this.$miniNotificationContainer.append(li);
                     }
@@ -109,9 +124,15 @@ export default class Header {
     }
 
     private markAllNotificationsAsRead = () => {
-        $.post(`${this.notificationsUrl}/markallasread`, commonHelper.addAntiForgeryToken({}), () => {
+        $.post(`${this.notificationsUrl}/markallasread`, commonHelper.antiForgeryToken.add({}), () => {
             this.$notificationBadge.addClass('d-none');
         });
+    };
+
+    private logout = () => {
+        let form = `<form action="/account/logout" method="post"><input name="__RequestVerificationToken" type="hidden" value="${commonHelper.antiForgeryToken.token()}" /></form>`;
+        $(form).appendTo(document.body).submit();
+        
     }
 
 }

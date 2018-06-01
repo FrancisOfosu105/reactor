@@ -67,9 +67,11 @@
                 </div>
                 <div>
                     <a href="#" class="post__comment-icon" data-comments-target="#post__comments-@(post.Id)">
-                        <i class="fa fa-comment-o"></i> Comments <span class="comment-count-@(post.Id)">(@post.Comments.Count)</span>
+                        <i class="fa fa-comment-o"></i> Comments
 
                     </a>
+                    
+                    <span class="comment-count-@(post.Id)">(@post.Comments.Count)</span>
                 </div>
             </div>
             @await Component.InvokeAsync("Comments", new {postId = post.Id})

@@ -38,7 +38,7 @@ export default class Notification {
         $.ajax({
             method: "POST",
             url: `${this.notificationsUrl}/loadnotifications`,
-            data: commonHelper.addAntiForgeryToken({
+            data: commonHelper.antiForgeryToken.add({
                 pageIndex: 1,
                 pageSize: 10,
                 type: NotificationTemplateType.Main
@@ -61,7 +61,7 @@ export default class Notification {
         $.ajax({
             method: "POST",
             url: `${this.notificationsUrl}/loadnotifications`,
-            data: commonHelper.addAntiForgeryToken({
+            data: commonHelper.antiForgeryToken.add({
                 pageIndex: pageIndex,
                 pageSize: 10,
                 type: type

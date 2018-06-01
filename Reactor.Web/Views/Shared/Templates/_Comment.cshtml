@@ -8,19 +8,24 @@
                 <img src="@comment.CommentBy.GetProfilePicture()" class="post__comment-author-photo"/>
             </a>
         </div>
+        <div class="post__comment-single">
+            <div class="post__comments-list">
 
-        <div class="post__comments-list">
+                <p class="d-inline">
+                    <h4 class="d-inline-block">
+                        <a asp-controller="Profile" asp-action="Profile" asp-route-username="@comment.CommentBy.UserName">
+                            @comment.CommentBy.FullName:
+                        </a>
+                    </h4>
+                    @comment.Content
+                </p>
 
-            <p class="d-inline">
-                <h4 class="d-inline-block">
-                    <a asp-controller="Profile" asp-action="Profile" asp-route-username="@comment.CommentBy.UserName">
-                        @comment.CommentBy.FullName:
-                    </a>
-                </h4>
-                @comment.Content
-                <time class="d-inline-block pull-right post__time timeago" datetime="@comment.CreatedOn.ToString("o")"></time>
-            </p>
+            </div>
+            <div>
+                <time class="d-inline-block pull-left post__time timeago" datetime="@comment.CreatedOn.ToString("o")"></time>
 
+            </div>
         </div>
+     
     </div>
 }

@@ -116,12 +116,13 @@
     background-color: $color-primary;
     display: inline-block;
     padding: .5rem 1rem;
+    border-radius: 10rem;
   }
-
+ 
   &__input-file:focus + label,
   &__input-file + label:hover
   {
-    background-color: $color-primary-dark;
+    background-color: rgba($color-primary, .5);
   }
 
   &__input-file + label{
@@ -129,8 +130,7 @@
   }
 
   &__input-file:focus + label{
-    outline: 1px dotted $color-primary-light;
-    outline: -webkit-focus-ring-color auto 5px;
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.2);
   }
 
 }

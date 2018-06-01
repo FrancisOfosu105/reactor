@@ -1,6 +1,4 @@
-﻿import * as $ from 'jquery';
-
-export default class AjaxLoader {
+﻿export default class AjaxLoader {
     constructor(){
         this.configure();
     }

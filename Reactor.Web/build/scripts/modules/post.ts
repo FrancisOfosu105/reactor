@@ -1,5 +1,4 @@
-﻿import * as $ from "jquery";
-import commonHelper from "../modules/common-helper";
+﻿import commonHelper from "../modules/common-helper";
 
 export default class Post {
     private postPageIndex = 1;
@@ -64,7 +63,7 @@ export default class Post {
 
     private likePost(postId: number, $likeBtn: any, $likeCounter: any) {
 
-        $.post(`${this.baseUrl}/likepost`, commonHelper.addAntiForgeryToken({
+        $.post(`${this.baseUrl}/likepost`, commonHelper.antiForgeryToken.add({
             postId: postId
         }), data => {
 
@@ -88,7 +87,7 @@ export default class Post {
     }
 
     private unLikePost(postId: number, $likeBtn: any, $likeCounter: any) {
-        $.post(`${this.baseUrl}/unlikepost`, commonHelper.addAntiForgeryToken({
+        $.post(`${this.baseUrl}/unlikepost`, commonHelper.antiForgeryToken.add({
             postId: postId
         }), data => {
             $likeBtn.removeClass("post__like-icon--is-liked");
@@ -108,7 +107,7 @@ export default class Post {
             $.ajax({
                 url: url,
                 method: "POST",
-                data: commonHelper.addAntiForgeryToken({
+                data: commonHelper.antiForgeryToken.add({
                     pageIndex: this.postPageIndex
 
                 }),
@@ -136,7 +135,7 @@ export default class Post {
                 $.ajax({
                     method: "POST",
                     url: url,
-                    data: commonHelper.addAntiForgeryToken({
+                    data: commonHelper.antiForgeryToken.add({
                         pageIndex: pageIndex
                     }),
                     success: data => {
@@ -191,7 +190,7 @@ export default class Post {
 
         if (comment.length >= 1) {
             $.post(`${this.baseUrl}/addcomment`,
-                commonHelper.addAntiForgeryToken({
+                commonHelper.antiForgeryToken.add({
                     postId: postId,
                     content: comment
                 }),
@@ -226,7 +225,7 @@ export default class Post {
 
         if ($loadMore.html()) {
             $.post(`${this.baseUrl}/previouscomments`,
-                commonHelper.addAntiForgeryToken({
+                commonHelper.antiForgeryToken.add({
                     postId: postId,
                     pageIndex: pageIndex
                 }),

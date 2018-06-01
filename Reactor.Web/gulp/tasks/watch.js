@@ -3,8 +3,8 @@ const gulp = require('gulp'),
 
 gulp.task("default", ["styles","scripts" ,"fa", "fonts", "DeleteScriptFiles"], function () {
     watch([
-        "./build/styles/**/*.scss"
-        // "./node_modules/bootstrap/scss/**/*.scss"
+        "./build/styles/**/*.scss",
+        "./node_modules/bootstrap/scss/**/*.scss"
     ], function () {
 
         gulp.start("styles");

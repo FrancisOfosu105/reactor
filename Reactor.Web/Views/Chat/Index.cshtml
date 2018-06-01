@@ -1,23 +1,24 @@
-﻿<section class="chat container-fluid">
+﻿<section class="chat">
     <div class="row no-gutters">
-        <div class="col-md-5">
+        <div class="col-md-3">
             <div class="chat-contact">
-                <div class="chat-contact__header">
-                    <input type="text" placeholder="Search for a friend" class="chat-contact__input" role="search"/>
+                <div class="chat__header">
+                    <h3>Chat Contacts</h3>
                 </div>
 
                 <div class="chat-contact__body">
-                    <ul class="chat-contact__list">
+                     <input type="text" placeholder="Search for a friend" class="chat-contact__input" role="search"/> 
 
+                    <ul class="chat-contact__list">
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-9">
             <div class="chat-box">
                 <div class="chat-box__wrapper d-none">
-                    <div class="chat-box__header">
-                        <h2 class="chat-box__recipient">You and <span></span></h2>
+                    <div class="chat__header">    
+                <h3 class="chat-box__recipient">You and <span></span></h3>
                     </div>
                     
                     <div class="chat-box__previous-chat-info">
@@ -46,4 +47,3 @@
 
 </section>
 
-@await Html.PartialAsync("_AntiForgery");

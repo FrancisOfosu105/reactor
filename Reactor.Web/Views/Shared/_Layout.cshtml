@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="~/assets/styles/bootstrap.css"/>
+    <link rel="stylesheet" href="~/assets/styles/bootstrap.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/assets/styles/font-awesome.css"/>
     <link rel="stylesheet" href="~/assets/styles/styles.css" asp-append-version="true"/>
     <title>@ViewData["Title"] - Reactor</title>
@@ -22,22 +22,24 @@
     <span class="img-overlay__close"> &times;</span>
 </div>
 <header>
-    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light navigation">
         <div class="container">
             <div class="collapse navbar-collapse">
 
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">Reactor</a>
 
                 <ul class="navbar-nav ml-auto">
-
-                    <li class="nav-item dropdown" id="notifications" title="notifications">
-
-                        @await Component.InvokeAsync("Notifications")
+                    <li class="nav-item navigation__item">
+                        <a class="nav-link" asp-controller="Profile"  asp-action="Profile" asp-route-username="@user.UserName">
+                            <img src="@user.GetProfilePicture()" class="navigation__profile-pic"/>
+                            <span class="navigation__profile-name">@user.FullName</span>
+                        </a>
                     </li>
+                    @await Component.InvokeAsync("Notifications")
 
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Chat" title="chats" asp-action="Index">
-                            <i class="fa fa-envelope-o"></i>
+                        <a class="nav-link" asp-controller="Chat"  asp-action="Index">
+                            <i class="fa fa-envelope" title="chats" data-toggle="tooltip" data-placement="bottom"></i>
                         </a>
                     </li>
 
@@ -46,16 +48,15 @@
                             <i class="fa fa-users"></i>
                         </a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-controller="Profile" asp-action="Profile" asp-route-username="@user.UserName">
-                            <i class="fa fa-user-o"></i> Welcome, @user.FullName
+                    <li class="nav-item dropdown">
+                        <a href="#"  class="nav-link dropdown-toggle" id="settingsDropdown" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" role="button">
+                            <i class="fa fa-cog" data-toggle="tooltip" data-placement="bottom" title="settings"></i>  <i class="fa fa-caret-down"></i>
                         </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Settings" asp-action="Basic">
-                            <i class="fa fa-cog"></i> Settings
-                        </a>
+                        
+                        <ul class="dropdown-menu dropdown__menu " aria-labelledby="settingsDropdown">
+                            <li><a asp-controller="Settings" asp-action="Basic" class="dropdown-item">Settings</a></li>
+                            <li><a href="#" id="logOut" class="dropdown-item">Log out</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -70,9 +71,12 @@
 
 </footer>
 <div class="loader">
+    <div class="loader__content">
+        
     <img class="loader__icon" src="~/assets/images/spinner.svg" alt="Spinner"/>
+    </div>
 </div>
-
+@await Html.PartialAsync("_AntiForgery")
 <script type="text/javascript" src="~/assets/scripts/manifest.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/assets/scripts/vendor.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/assets/scripts/app.js" asp-append-version="true"></script>

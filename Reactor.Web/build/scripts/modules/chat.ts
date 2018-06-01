@@ -1,7 +1,6 @@
-﻿import * as $ from "jquery";
-import * as signalR from "@aspnet/signalr";
+﻿import * as signalR from "@aspnet/signalr";
 import commonHelper from "../modules/common-helper";
-import {IChatContact} from "../models/chat.model"; 
+import {IChatContact} from "../models/chat.model";
 
 export default class Chat {
 
@@ -17,15 +16,21 @@ export default class Chat {
     private pageIndex: number = 1;
 
     constructor() {
-        
-        this.getChatContacts();
+
+        const url = window.location.pathname;
+        if (url == "/chat") {
+            this.getChatContacts();
+        }
 
         this.setup();
 
         this.events();
+
     }
 
     private setup() {
+
+     
 
         this.chatConnection.onclose = e => console.log("connection is closed");
 
@@ -34,7 +39,7 @@ export default class Chat {
 
             let $isTypingDiv = this.$chatBox.find(".chat-box__body .is-typing");
             $isTypingDiv.remove();
-            
+
             if (senderId != null) {
 
                 let $chatBox = $(`.chat-box[data-chat-id = ${senderId}]`);
@@ -55,7 +60,6 @@ export default class Chat {
                         chatContact.addClass("chat-contact__new-message");
 
                 }
-
             }
             else {
                 $chatBody.append(message);
@@ -87,7 +91,7 @@ export default class Chat {
         });
 
         this.chatConnection.on("typingNewMessage", (senderId) => {
-    
+
             let recipientContactName = $(`[data-chat-id="${senderId}"] .chat-contact__name`).text();
 
             let div = ` <div class="is-typing">
@@ -145,7 +149,7 @@ export default class Chat {
 
         if (e.keyCode === 13) {
 
-            let message:any = $(e.target).val();
+            let message: any = $(e.target).val();
 
             let chatId = $(".chat-box").attr("data-chat-id");
 
@@ -181,9 +185,12 @@ export default class Chat {
 
             $chatBody.html("");
 
-                $chatBody.append( data.item1);
+            $chatBody.append(data.item1);
+
+            commonHelper.tooltip.reInitialize();
 
             commonHelper.timeago.reInitialize();
+
 
             this.scrollChatDown();
 
@@ -232,7 +239,7 @@ export default class Chat {
 
         let $chatContact = $(".chat-contact__list");
 
-        $.post("/chat/getchatcontact", commonHelper.addAntiForgeryToken({}), (data: IChatContact[]) => {
+        $.post("/chat/getchatcontact", commonHelper.antiForgeryToken.add({}), (data: IChatContact[]) => {
 
 
             if (data.length) {
@@ -248,6 +255,10 @@ export default class Chat {
                 $chatContact.append(li);
             }
         });
+
+        $('.chat-contact__body').slimScroll({
+            height: "50rem"
+        });
     }
 
     private searchContact(name: string) {
@@ -256,7 +267,7 @@ export default class Chat {
 
         $chatContact.html("");
 
-        $.post("/chat/getchatcontact", commonHelper.addAntiForgeryToken({
+        $.post("/chat/getchatcontact", commonHelper.antiForgeryToken.add({
             name: name
         }), (data: IChatContact[]) => {
 
@@ -293,8 +304,8 @@ export default class Chat {
                     $chatSpinner.hide();
 
 
-                        $chatBody.prepend(data.item1);
-                        
+                    $chatBody.prepend(data.item1);
+
                     if (data.item2) {
                         this.$chatloadMore.text(data.item2);
                         $chatBody[0].scrollTop = 100;
@@ -340,6 +351,11 @@ export default class Chat {
         let $chatBody = this.$chatBox.find(".chat-box__body");
 
         $chatBody.scrollTop($chatBody[0].scrollHeight);
+
+        $chatBody.slimScroll({
+            height: "50rem",
+            start: 'bottom'
+        });
     }
 }
 
