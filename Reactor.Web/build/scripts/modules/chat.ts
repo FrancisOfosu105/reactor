@@ -1,10 +1,11 @@
 ﻿import * as signalR from "@aspnet/signalr";
 import commonHelper from "../modules/common-helper";
 import {IChatContact} from "../models/chat.model";
+import {LogLevel} from "@aspnet/signalr";
 
 export default class Chat {
 
-    private chatConnection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
+    private chatConnection = new signalR.HubConnectionBuilder().configureLogging(LogLevel.Error).withUrl("/chathub").build();
 
     private $chatBox = $(".chat-box");
     private $chatContact = $(".chat-contact");

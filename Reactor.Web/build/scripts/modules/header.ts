@@ -1,10 +1,11 @@
 ﻿import * as signalR from "@aspnet/signalr";
 import commonHelper from "./common-helper";
 import {NotificationTemplateType} from "../models/notification.model";
+import {LogLevel} from "@aspnet/signalr";
 
 export default class Header {
 
-    private readonly notificationConnection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
+    private readonly notificationConnection = new signalR.HubConnectionBuilder().configureLogging(LogLevel.Error).withUrl("/notificationHub").build();
 
     private readonly $miniNotificationContainer = $('.miniNotificationContainer');
 
