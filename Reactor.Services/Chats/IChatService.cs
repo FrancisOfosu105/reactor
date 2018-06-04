@@ -15,5 +15,8 @@ namespace Reactor.Services.Chats
         
         Task<(IEnumerable<Message> messages, bool loadMore)> GetChatMessagesAsync(string senderId, string recipientId,int pageIndex, int pageSize);
 
+        Task MarkAsReadAsync(string chatId);
+        
+        Task<List<int>> GetUnReadMessageIdsAsync(string chatId);
     }
 }

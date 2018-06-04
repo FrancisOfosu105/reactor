@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Reactor.Web.ViewModels.Account
 {
-    public class RegisterModel
+    public class RegisterViewModel
     {
         [Required]
         [Display(Name="User Name")]
@@ -30,5 +30,7 @@ namespace Reactor.Web.ViewModels.Account
         public string ConfirmPassword { get; set; }
 
         public IFormFile File { get; set; }
+        
+        public string ReturnUrl { get; set; }
     }
 }

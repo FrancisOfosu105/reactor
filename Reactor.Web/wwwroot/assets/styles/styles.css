@@ -14,7 +14,8 @@ html {
 body {
   box-sizing: border-box;
   background-color: #f5f8fa;
-  padding-top: 7rem; }
+  padding-top: 7rem;
+  overflow-x: hidden; }
   body::-webkit-scrollbar {
     width: 1rem; }
   body::-webkit-scrollbar-track {
@@ -830,7 +831,7 @@ img[data-overlay] {
       font-size: 1.6rem; }
       .chat-box__recipient span {
         text-transform: capitalize;
-        color: #28b485; }
+        color: #4267B2; }
     .chat-box__footer {
       position: absolute;
       bottom: 1px;
@@ -838,7 +839,6 @@ img[data-overlay] {
     .chat-box__body {
       background-color: #fff;
       padding: 2rem;
-      height: 44rem;
       overflow-y: scroll; }
       .chat-box__body::after {
         display: table;
@@ -1075,9 +1075,9 @@ img[data-overlay] {
   font-weight: 700; }
 
 .settings__profile-pic {
-  width: 20rem;
+  width: 15rem;
   height: 15rem;
-  border-radius: .5rem; }
+  border-radius: 50%; }
 
 .settings__profile-cover-container {
   background-color: #0D1423;

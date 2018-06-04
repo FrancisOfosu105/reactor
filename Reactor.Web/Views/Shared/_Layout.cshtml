@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
     <link rel="stylesheet" href="~/assets/styles/bootstrap.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/assets/styles/font-awesome.css"/>
+    <link rel="stylesheet" href="~/assets/styles/emojionearea.css"/>
     <link rel="stylesheet" href="~/assets/styles/styles.css" asp-append-version="true"/>
     <title>@ViewData["Title"] - Reactor</title>
 </head>
@@ -76,9 +77,9 @@
     <img class="loader__icon" src="~/assets/images/spinner.svg" alt="Spinner"/>
     </div>
 </div>
-@await Html.PartialAsync("_AntiForgery")
-<script type="text/javascript" src="~/assets/scripts/manifest.js" asp-append-version="true"></script>
-<script type="text/javascript" src="~/assets/scripts/vendor.js" asp-append-version="true"></script>
-<script type="text/javascript" src="~/assets/scripts/app.js" asp-append-version="true"></script>
+<partial name="_AntiForgery"/>
+<script type="text/javascript" src="~/assets/scripts/manifest.bundle.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/assets/scripts/vendor.bundle.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/assets/scripts/app.bundle.js" asp-append-version="true"></script>
 </body>
 </html>

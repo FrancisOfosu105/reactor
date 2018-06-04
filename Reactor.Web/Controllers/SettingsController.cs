@@ -74,7 +74,7 @@ namespace Reactor.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Notifications()
         {
-            var userSetting = await _userService.GetUserSettingAsync();
+            var userSetting = await _userService.GetUserSettingUserIdAsync();
 
             var model = _mapper.Map<UserSetting, NotificationViewModel>(userSetting);
 
@@ -90,7 +90,7 @@ namespace Reactor.Web.Controllers
                 return View(model);
             }
 
-            var userSetting = await _userService.GetUserSettingAsync();
+            var userSetting = await _userService.GetUserSettingUserIdAsync();
 
             _mapper.Map(model, userSetting);
 

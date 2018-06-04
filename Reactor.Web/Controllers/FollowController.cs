@@ -38,7 +38,7 @@ namespace Reactor.Web.Controllers
 
             await _followService.FollowUserAsync(followee.Id);
 
-            var userSetting = await _userService.GetUserSettingAsync(followee.Id);
+            var userSetting = await _userService.GetUserSettingUserIdAsync(followee.Id);
 
             if (userSetting.NotifyWhenUserFollow)   
             {
@@ -80,7 +80,7 @@ namespace Reactor.Web.Controllers
 
             await _followService.UnFollowUserAsync(followee.Id);
             
-            var userSetting = await _userService.GetUserSettingAsync(followee.Id);
+            var userSetting = await _userService.GetUserSettingUserIdAsync(followee.Id);
 
             if (userSetting.NotifyWhenUserUnFollow)
             {

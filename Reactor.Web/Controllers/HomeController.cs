@@ -130,7 +130,7 @@ namespace Reactor.Web.Controllers
 
             await _unitOfWork.CompleteAsync();
             
-            var userSetting = await _userService.GetUserSettingAsync(post.CreatedBy.Id);
+            var userSetting = await _userService.GetUserSettingUserIdAsync(post.CreatedBy.Id);
 
             //Notify the user who created the post
             if (!post.IsForCurrentUser(currentUserId))
@@ -223,7 +223,7 @@ namespace Reactor.Web.Controllers
 
             await _postService.LikePostAsync(postId);
             
-            var userSetting = await _userService.GetUserSettingAsync(post.CreatedBy.Id);
+            var userSetting = await _userService.GetUserSettingUserIdAsync(post.CreatedBy.Id);
 
             
             //Notify the user who created the post

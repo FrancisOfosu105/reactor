@@ -97,24 +97,10 @@ namespace Reactor.Services.Users
             await _userSettingRepository.AddAsync(userSetting);
         }
 
-        public async Task<UserSetting> GetUserSettingAsync(string id = null)
+        public async Task<UserSetting> GetUserSettingUserIdAsync(string id = null)
         {
             var userId = id ?? await GetCurrentUserIdAsync();
-
-            var userSetting = await _userSettingRepository.Table.FirstOrDefaultAsync(u => u.UserId == userId);
-
-            if (userSetting != null)
-                return await _userSettingRepository.Table.FirstOrDefaultAsync(u => u.UserId == userId);
-
-            userSetting = new UserSetting
-            {
-                UserId = userId
-            };
-
-            await InsertUserSettingAsync(userSetting);
-
-            await _unitOfWork.CompleteAsync();
-
+         
             return await _userSettingRepository.Table.FirstOrDefaultAsync(u => u.UserId == userId);
         }
     }

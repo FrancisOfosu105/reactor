@@ -5,7 +5,10 @@ import {LogLevel} from "@aspnet/signalr";
 
 export default class Chat {
 
-    private chatConnection = new signalR.HubConnectionBuilder().configureLogging(LogLevel.Error).withUrl("/chathub").build();
+    private chatConnection = new signalR.HubConnectionBuilder()
+        .configureLogging(LogLevel.Error)
+        .withUrl("/chathub")
+        .build();
 
     private $chatBox = $(".chat-box");
     private $chatContact = $(".chat-contact");
@@ -18,8 +21,7 @@ export default class Chat {
 
     constructor() {
 
-        const url = window.location.pathname;
-        if (url == "/chat") {
+        if (window.location.pathname == "/chat") {
             this.getChatContacts();
         }
 
@@ -31,43 +33,60 @@ export default class Chat {
 
     private setup() {
 
-     
 
         this.chatConnection.onclose = e => console.log("connection is closed");
 
-        this.chatConnection.on("addChatMessage", (message: string, senderId: string) => {
+
+        this.chatConnection.on("messageSeen", (messageId: number) => {
+            const $messageSeen = $(`.message-seen-${messageId}`);
+            $messageSeen.removeClass('d-none');
+            this.scrollChatDown();
+            console.log($messageSeen)
+
+        });
+
+
+        this.chatConnection.on("addChatMessage", (message: string, messageId: number, chatId: string) => {
+
+
             let $chatBody = this.$chatBox.find(".chat-box__body");
+            let $chatContact = $(`.chat-contact__item[data-chat-id=${chatId}]`);
 
-            let $isTypingDiv = this.$chatBox.find(".chat-box__body .is-typing");
-            $isTypingDiv.remove();
+            //recipient chat box
+            if (chatId != null) {
 
-            if (senderId != null) {
+                let $chatBox = $(`.chat-box[data-chat-id = ${chatId}]`);
 
-                let $chatBox = $(`.chat-box[data-chat-id = ${senderId}]`);
-
+                //check whether the chat window is created or active
                 if ($chatBox.length) {
 
                     $chatBody.append(message);
 
+                    commonHelper.tooltip.reInitialize();
+
                     commonHelper.timeago.reInitialize();
 
-                    this.scrollChatDown();
+                    this.markAsRead(chatId, messageId).then();
+
 
                 } else {
-
-                    let chatContact = $(`.chat-contact__item[data-chat-id=${senderId}]`);
-
-                    if (chatContact.length)
-                        chatContact.addClass("chat-contact__new-message");
+                    //Append new message flag to the contact
+                    if ($chatContact.length)
+                        $chatContact.addClass("chat-contact__new-message");
 
                 }
             }
+            // sender chat box
             else {
+
                 $chatBody.append(message);
+
+                commonHelper.tooltip.reInitialize();
 
                 commonHelper.timeago.reInitialize();
 
                 this.scrollChatDown();
+
             }
 
         });
@@ -91,23 +110,6 @@ export default class Chat {
 
         });
 
-        this.chatConnection.on("typingNewMessage", (senderId) => {
-
-            let recipientContactName = $(`[data-chat-id="${senderId}"] .chat-contact__name`).text();
-
-            let div = ` <div class="is-typing">
-            <p class=""><strong>${recipientContactName}</strong> is typing...</p>
-            </div>`;
-
-            console.log(senderId);
-
-
-            if (this.$chatBox.find(".chat-box__body .is-typing").length === 0) {
-                this.$chatBox.find(".chat-box__body").append(div);
-            }
-
-        });
-
         this.startConnection();
 
     }
@@ -119,97 +121,65 @@ export default class Chat {
 
     private events() {
 
-        this.$chatBox.find(".chat-box__input").on("keyup", this.chatInputKeyUpHandler.bind(this));
+        $('body').on("keyup", ".emojionearea-editor", this.chatInputKeyUpHandler);
 
+        this.$chatContact.find(".chat-contact__input").on("keyup", this.contactSearchInputKeyUpHandler);
 
-        this.$chatBox.find(".chat-box__input").on("keyup", this.isUserTyping.bind(this));
+        this.$chatContact.on("click", ".chat-contact__name", this.createChatSession);
 
-        this.$chatContact.find(".chat-contact__input").on("keyup", this.contactSearchInputKeyUpHandler.bind(this));
-
-        this.$chatContact.on("click", ".chat-contact__name", this.createChat.bind(this));
-
-        this.$chatBox.find(".chat-box__body").on("scroll", this.chatBodyScrollHandler.bind(this));
+        this.$chatBox.find(".chat-box__body").on("scroll", this.chatBodyScrollHandler);
 
     }
 
-    private chatBodyScrollHandler() {
+    private chatBodyScrollHandler = () => {
 
         if (this.$chatBox.find(".chat-box__body").scrollTop() === 0) {
             this.pageIndex++;
             this.loadPreviousChat();
         }
-    }
+    };
 
-    private isUserTyping() {
-        let recipientId = $(".chat-box").attr("data-chat-id");
-
-        this.chatConnection.invoke("isTyping", recipientId);
-    }
-
-    private chatInputKeyUpHandler(e: any) {
+    private chatInputKeyUpHandler = (e: any) => {
 
         if (e.keyCode === 13) {
 
-            let message: any = $(e.target).val();
+            let message: string = $(e.target).html();
+            if (message.length >= 1) {
 
-            let chatId = $(".chat-box").attr("data-chat-id");
+                let chatId = $(".chat-box").attr("data-chat-id");
 
-            this.sendMessage(message, chatId);
+                this.sendMessage(message, chatId);
 
-            $(e.target).val("");
+                $(e.target).html("");
+            }
         }
-    }
+    };
 
-    private contactSearchInputKeyUpHandler(e: any) {
+    private contactSearchInputKeyUpHandler = (e: any) => {
 
         let input: any = $(e.target).val();
 
         this.searchContact(input);
-    }
+    };
 
-    private getChatHistory(recipientId: string) {
-
-        this.chatConnection.invoke("getChatHistory", recipientId, 1, this.pageSize).then((data) => {
-
-
-            let $chatBody = $(".chat-box__body");
-
-            let $chatLoadMore = $(".chat-loadMore");
-
-            if (data.item2) {
-                $chatLoadMore.text(data.item2);
-                this.$chatInfo.show();
-            } else {
-                $chatLoadMore.text("");
-            }
-
-
-            $chatBody.html("");
-
-            $chatBody.append(data.item1);
-
-            commonHelper.tooltip.reInitialize();
-
-            commonHelper.timeago.reInitialize();
-
-
-            this.scrollChatDown();
-
-        }, err => console.error(err));
-    }
-
-    private createChat(e: any) {
-
-        //reset the ff
-        this.pageIndex = 1;
-        this.$chatloadMore.text("");
-        this.$chatInfo.hide();
-
+    private createChatSession = (e: any) => {
         let $chatContactNameElem = $(e.target);
 
         let $chatContactListItem = $chatContactNameElem.parent().parent();
 
         let chatId = $chatContactListItem.data("chat-id");
+
+        const $chatSessionExist = $(`.chat-box[data-chat-id=${chatId}]`);
+
+        if ($chatSessionExist.length) {
+            return;
+        }
+
+        //reset the ff
+        this.pageIndex = 1;
+        this.$chatloadMore.text("");
+        this.$chatInfo.hide();
+      
 
         this.$chatBox.attr("data-chat-id", chatId);
 
@@ -223,17 +193,65 @@ export default class Chat {
         this.$chatBox.find(".chat-box__recipient span").html(chatContactName);
 
         this.getChatHistory(chatId);
+    };
+
+
+    private getChatHistory(recipientId: string) {
+
+        //Mark the messages as read before retrieving the messages
+        this.markAsRead(recipientId).then(() => {
+            this.chatConnection.invoke("getChatHistory", recipientId, 1, this.pageSize).then((data) => {
+
+
+                let $chatBody = $(".chat-box__body");
+
+                let $chatLoadMore = $(".chat-loadMore");
+
+                if (data.item2) {
+                    $chatLoadMore.text(data.item2);
+                    this.$chatInfo.show();
+                } else {
+                    $chatLoadMore.text("");
+                }
+
+ 
+                $chatBody.html("");
+
+                $chatBody.append(data.item1);
+
+                commonHelper.tooltip.reInitialize();
+
+                commonHelper.timeago.reInitialize();
+
+                commonHelper.emoji.init();
+
+
+               let $chatInput =  $(".emojionearea-editor");
+                //clear the input field
+                $chatInput.html("");
+                $chatInput.focus();
+                
+                this.scrollChatDown();
+
+
+            }, err => console.error(err));
+        }, err => console.error(err));
+
     }
+
 
     private sendMessage(message: string, recipientId: string) {
 
-
+        //Emoji plugin adds extra html to message which is not need
+        //Work around is to replace it with nothing
+        message = message.replace("<div><br></div>","");
+        
         this.chatConnection.invoke("sendMessage", {
             recipientId: recipientId,
             content: message
         })
             .catch(err => console.log(err));
-
+     
     }
 
     private getChatContacts() {
@@ -351,12 +369,17 @@ export default class Chat {
 
         let $chatBody = this.$chatBox.find(".chat-box__body");
 
-        $chatBody.scrollTop($chatBody[0].scrollHeight);
 
+        $chatBody.scrollTop($chatBody[0].scrollHeight);
         $chatBody.slimScroll({
-            height: "50rem",
+            height: "49.5rem",
             start: 'bottom'
         });
+    }
+
+    private markAsRead(recipientId: string, messageId?: number) {
+
+        return this.chatConnection.invoke("markMessagesAsRead", recipientId, messageId);
     }
 }
 

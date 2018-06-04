@@ -16,6 +16,7 @@ body {
     background-color: #f5f8fa;
     @include customScrollBar;
     padding-top: 7rem;
+  overflow-x: hidden;
 }
 
 .btn{

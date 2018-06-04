@@ -36,4 +36,16 @@
     <None Remove="node_modules\**" />
     <None Remove="npm-debug.log" />
   </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\category_icons\activity.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\category_icons\diversity.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\category_icons\flags.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\category_icons\food.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\category_icons\nature.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\category_icons\objects.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\category_icons\people.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\category_icons\recent.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\category_icons\symbols.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\category_icons\travel.svg" />
+  </ItemGroup>
 </Project>

@@ -1,28 +1,32 @@
 ﻿@model IEnumerable<Reactor.Core.Domain.Users.User>
-<div class="box suggested">
-    <div class="box__header">
-        <h2 class="box__title">Suggested friends</h2>
-    </div>
-@foreach (var user in Model)
+@if (Model.Any())
 {
-      
-        <div class="box__content pb-5">
-            <div class="d-flex">
-                <div class="mr-3">
-                    <img src="@user.GetProfilePicture()" class="rounded-circle" width="50" height="50"/>
-
-                </div>
-                <div>
-                    <span class="d-block font-weight-bold suggested__name">@user.FullName</span>
-
-                    <form asp-controller="Friend" asp-action="AddFriendRequest" method="post" asp-route-requestedToId="@user.Id">
-                        <button class="button button--blue button--sm button--animated" type="submit"><i class="fa fa-user-plus"></i> send request</button>
-                    </form>
-                </div>
-
-            </div>
+    <div class="box suggested">
+        <div class="box__header">
+            <h2 class="box__title">Suggested friends</h2>
         </div>
+        @foreach (var user in Model)
+        {
+      
+            <div class="box__content pb-5">
+                <div class="d-flex">
+                    <div class="mr-3">
+                        <img src="@user.GetProfilePicture()" class="rounded-circle" width="50" height="50"/>
+
+                    </div>
+                    <div>
+                        <span class="d-block font-weight-bold suggested__name">@user.FullName</span>
+
+                        <form asp-controller="Friend" asp-action="AddFriendRequest" method="post" asp-route-requestedToId="@user.Id">
+                            <button class="button button--blue button--sm button--animated" type="submit"><i class="fa fa-user-plus"></i> send request</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        }
+
+    </div>
 
 }
-
-</div>

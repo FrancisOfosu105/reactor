@@ -8,6 +8,7 @@ using Reactor.Core.Domain.Friends;
 using Reactor.Core.Domain.Likes;
 using Reactor.Core.Domain.Notifications;
 using Reactor.Core.Domain.Posts;
+using Reactor.Core.Helpers;
 
 namespace Reactor.Core.Domain.Users
 {
@@ -88,7 +89,7 @@ namespace Reactor.Core.Domain.Users
 
         public string GetProfilePicture()
         {
-            return ProfilePictureUrl ?? "/assets/images/no-profile.svg";
+            return ProfilePictureUrl ?? $"/assets/images/avatars/{CommonHelper.GenerateRandomValue(limit: 5)}.jpg";
         }
 
 

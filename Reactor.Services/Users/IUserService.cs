@@ -24,6 +24,6 @@ namespace Reactor.Services.Users
 
         Task InsertUserSettingAsync(UserSetting userSetting);
 
-        Task<UserSetting> GetUserSettingAsync(string id = null);
+        Task<UserSetting> GetUserSettingUserIdAsync(string id = null);
     }
 }

@@ -17,7 +17,7 @@
         public bool NotifyWhenUserSendFriendRequest { get; set; }
         
         public bool NotifyWhenUserAcceptFriendRequest { get; set; }
-        
+
         public bool NotifyWhenUserRejectFriendRequest { get; set; }    
     }
 }

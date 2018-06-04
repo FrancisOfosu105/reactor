@@ -6,9 +6,8 @@ import Follow from "./modules/follow";
 import AjaxLoader from "./modules/ajax-loader";
 import Header from "./modules/header";
 import commonHelper from "./modules/common-helper";
-import "bootstrap";
 import Chat from "./modules/chat";
-
+import "bootstrap";
 
 new Header();
 new AjaxLoader();
@@ -32,8 +31,10 @@ switch (url) {
         });
         break;
     case "/settings/basic":
+         
         import("jquery-validation");
-        import("jquery-validation-unobtrusive");
+        import( "jquery-validation-unobtrusive");
+        
         break;
 } 
 

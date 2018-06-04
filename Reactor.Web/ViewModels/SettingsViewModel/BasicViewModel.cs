@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using Reactor.Core.Helpers;
 
 namespace Reactor.Web.ViewModels.SettingsViewModel
 {
@@ -31,7 +32,7 @@ namespace Reactor.Web.ViewModels.SettingsViewModel
         
         public string GetPicture()    
         {
-            return ProfilePictureUrl ?? "/assets/images/no-profile.svg";
+            return ProfilePictureUrl ?? $"/assets/images/avatars/{CommonHelper.GenerateRandomValue(limit: 5)}.jpg";
         }
 
 

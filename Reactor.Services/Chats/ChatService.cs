@@ -40,23 +40,41 @@ namespace Reactor.Services.Chats
             int pageIndex, int pageSize)
         {
             var query = _messageRepository.Table
-                    .Include(c => c.Chat)
-                    .Where(c =>
-                        c.ChatId == senderId && c.RecipientId == recipientId ||
-                        c.RecipientId == senderId && c.ChatId == recipientId)
-                    .OrderByDescending(c => c.CreatedOn)
+                .Include(c => c.Chat)
+                .Where(c =>
+                    c.ChatId == senderId && c.RecipientId == recipientId ||
+                    c.RecipientId == senderId && c.ChatId == recipientId)
+                .OrderByDescending(c => c.CreatedOn)
                 .AsQueryable();
 
 
             var loadMore = query.ShouldEnableLoadMore(pageIndex, pageSize);
-            
+
 
             query = query.ApplyingPagination(pageIndex, pageSize);
-            
+
             query = query.OrderBy(m => m.CreatedOn);
 
 
             return (await query.ToListAsync(), loadMore);
+        }
+
+        public async Task MarkAsReadAsync(string chatId)
+        {
+            var unReadMessages =
+                await _messageRepository.Table.Where(m => m.ChatId == chatId && m.UnRead).ToListAsync();
+
+            foreach (var message in unReadMessages)
+            {
+                message.MarkAsRead();
+            }
+            
+        }
+
+        public async Task<List<int>> GetUnReadMessageIdsAsync(string chatId)
+        {
+            return await _messageRepository.Table.Where(m => m.ChatId == chatId && m.UnRead).Select(m => m.Id)
+                .ToListAsync();
         }
     }
 }

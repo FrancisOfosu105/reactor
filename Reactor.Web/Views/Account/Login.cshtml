@@ -1,11 +1,11 @@
-﻿@model Reactor.Web.ViewModels.Account.LoginModel
+﻿@model Reactor.Web.ViewModels.Account.LoginViewModel
 @{
     ViewData["Title"] = "Register a new account";
     Layout = "_AccountLayout";
 }
 <div class="form">
     <h2 class="form__title">Login into your account</h2>
-    <form asp-action="Login" asp-antiforgery="true" asp-route-returnUrl="@ViewData["returnUrl"]">
+    <form asp-action="Login" asp-antiforgery="true" asp-route-returnUrl="@Model.ReturnUrl" method="post">
         <div asp-validation-summary="ModelOnly" class="form__error"></div>
         <div class="form__group">
             <div class="form-group">

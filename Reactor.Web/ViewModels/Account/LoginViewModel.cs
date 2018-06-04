@@ -2,7 +2,7 @@
 
 namespace Reactor.Web.ViewModels.Account
 {
-    public class LoginModel
+    public class LoginViewModel
     {
         [Required]
         [Display(Name="User Name")]
@@ -12,6 +12,8 @@ namespace Reactor.Web.ViewModels.Account
         public string Password { get; set; }
 
         public bool RemmemberMe { get; set; }
+        
+        public string ReturnUrl { get; set; }
 
     }
 }

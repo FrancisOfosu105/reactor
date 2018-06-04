@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ using Reactor.Core.Domain.Notifications;
 using Reactor.Core.Domain.Photos;
 using Reactor.Core.Domain.Posts;
 using Reactor.Core.Domain.Users;
+using Reactor.Core.Helpers;
 using Reactor.Core.Hubs;
 using Reactor.Core.Repository;
 using Reactor.Data;
@@ -32,7 +34,6 @@ using Reactor.Services.Users;
 using Reactor.Services.ViewRender;
 using Reactor.Web.Hubs;
 using Reactor.Web.Infrastructure.Extensions;
-using Reactor.Web.Infrastructure.Helpers;
 using Reactor.Web.ViewModels.Chat;
 
 namespace Reactor.Web
@@ -50,7 +51,7 @@ namespace Reactor.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSignalR();
 
@@ -113,7 +114,7 @@ namespace Reactor.Web
 
             app.UseAuthentication();
 
-            app.UseNoTrailingSlash();
+//            app.UseNoTrailingSlash();
 
             app.UseResponseCompression();
             

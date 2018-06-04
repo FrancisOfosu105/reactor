@@ -64,7 +64,7 @@ namespace Reactor.Web.Controllers
             await _friendService.AddFriendRequestAsync(requestedById,
                 (await _userService.GetUserByIdAsync(requestedToId)).Id);
 
-            var userSetting = await _userService.GetUserSettingAsync(requestedTo.Id);
+            var userSetting = await _userService.GetUserSettingUserIdAsync(requestedTo.Id);
 
             if (!userSetting.NotifyWhenUserSendFriendRequest)
                 return RedirectToAction(nameof(HomeController.Index), "Home");
@@ -98,7 +98,7 @@ namespace Reactor.Web.Controllers
 
             var requestedBy = await _userService.GetUserByIdAsync(requestedById);
 
-            var userSetting = await _userService.GetUserSettingAsync(requestedBy.Id);
+            var userSetting = await _userService.GetUserSettingUserIdAsync(requestedBy.Id);
 
             if (!userSetting.NotifyWhenUserAcceptFriendRequest)
                 return RedirectToAction(nameof(List));

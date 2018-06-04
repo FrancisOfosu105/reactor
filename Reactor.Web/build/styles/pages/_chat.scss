@@ -29,7 +29,7 @@
 
       span {
         text-transform: capitalize;
-        color: $color-primary-dark;
+        color: $color-primary;
       }
     }
     
@@ -46,7 +46,6 @@
     &__body {
       background-color: $color-white;
       padding: 2rem;
-      height: 44rem;
       overflow-y: scroll;
       @include clearfix;
     }

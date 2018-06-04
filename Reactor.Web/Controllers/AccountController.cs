@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Reactor.Core;
 using Reactor.Core.Domain.Users;
 using Reactor.Services.Photos;
+using Reactor.Services.Users;
 using Reactor.Web.ViewModels.Account;
 
 namespace Reactor.Web.Controllers
@@ -18,16 +20,20 @@ namespace Reactor.Web.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IPhotoService _photoService;
+        private readonly IUserService _userService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public AccountController(
             UserManager<User> userManager,
             ILogger<AccountController> logger,
-            SignInManager<User> signInManager, IPhotoService photoService)
+            SignInManager<User> signInManager, IPhotoService photoService, IUserService userService, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _logger = logger;
             _signInManager = signInManager;
             _photoService = photoService;
+            _userService = userService;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -41,17 +47,24 @@ namespace Reactor.Web.Controllers
             //clear existing cookies to ensure a clean login process
             HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ViewData["returnUrl"] = returnUrl;
+            var model = new LoginViewModel
+            {
+                ReturnUrl = returnUrl
+            };
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel model, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                model.ReturnUrl = returnUrl;
+                return View(model);
+            }
 
             var member = await _userManager.FindByNameAsync(model.UserName) ??
                          await _userManager.FindByEmailAsync(model.UserName);
@@ -59,6 +72,7 @@ namespace Reactor.Web.Controllers
             if (member == null)
             {
                 ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                model.ReturnUrl = returnUrl;
                 return View(model);
             }
 
@@ -76,28 +90,39 @@ namespace Reactor.Web.Controllers
 
             ModelState.AddModelError(string.Empty, "Invalid username or password");
 
+            model.ReturnUrl = returnUrl;
+
             return View(model);
         }
 
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register()
+        public IActionResult Register(string returnUrl = null)
         {
             if (_signInManager.IsSignedIn(User))
                 return RedirectToAction(nameof(HomeController.Index), "Home");
-            
-            return View();
+
+            var model = new RegisterViewModel
+            {
+                ReturnUrl = returnUrl
+            };
+            return View(model);
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                model.ReturnUrl = returnUrl;
 
-            var user = new User 
+                return View();
+            }
+
+            var user = new User
             {
                 UserName = model.UserName,
                 FirstName = model.FirstName,
@@ -116,11 +141,33 @@ namespace Reactor.Web.Controllers
 
             if (result.Succeeded)
             {
-                _logger.LogInformation($"Member with username: {model.UserName} has been registered.");
-                return RedirectToAction(nameof(Login));
+             
+                var userSetting = new UserSetting
+                {
+                    NotifyWhenUserAcceptFriendRequest = true,
+                    NotifyWhenUserCommentOnPost = true,
+                    NotifyWhenUserFollow = true,
+                    NotifyWhenUserLikePost = true,
+                    NotifyWhenUserRejectFriendRequest = true,
+                    NotifyWhenUserSendFriendRequest = true,
+                    NotifyWhenUserUnFollow = true,
+                    UserId = user.Id
+                };
+
+                await _userService.InsertUserSettingAsync(userSetting);
+                
+                await _unitOfWork.CompleteAsync();
+                
+                _logger.LogInformation($"User with username: {model.UserName} has been registered.");
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return !string.IsNullOrEmpty(returnUrl)
+                    ? RedirectToLocal(returnUrl)
+                    : RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
             AddErrors(result);
+
+            model.ReturnUrl = returnUrl;
 
             return View(model);
         }

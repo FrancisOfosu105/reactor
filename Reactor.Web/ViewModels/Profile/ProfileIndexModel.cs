@@ -9,21 +9,21 @@
 
         public string From
         {
-            get => _from ?? "To Do";
+            get => _from ?? DefaultValue;
 
             set => _from = value;
         }
 
         public string Lives
         {
-            get => _lives ?? "To Do";
+            get => _lives ?? DefaultValue;
 
             set => _lives = value;
         }
 
         public string WorkAt
         {
-            get => _workAt ?? "To Do";
+            get => _workAt ?? DefaultValue;
 
             set => _workAt = value;
         }
@@ -33,5 +33,7 @@
         public int TotalFollowees { get; set; }
 
         public bool IsProfilePageForUser { get; set; }
+
+        private string DefaultValue => "unknown";
     }
 }

@@ -12,8 +12,11 @@ namespace Reactor.Web.ViewModels.Chat
 
         public string FullName { get; set; }
 
-        public MessagePosition Position { get; set; }    
+        public MessagePosition Position { get; set; }
+
+        public bool IsRead { get; set; }
         
+        public int  MessageId { get; set; }
     }
 
     public enum MessagePosition

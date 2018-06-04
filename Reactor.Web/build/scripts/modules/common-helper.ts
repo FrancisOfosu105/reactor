@@ -1,5 +1,8 @@
 ﻿import tago from "timeago.js";
 import "jquery-slimscroll";
+import "emojionearea";
+import "jquery-textcomplete";
+
 
 const tokenInput = $("input[name=__RequestVerificationToken]");
 
@@ -45,7 +48,20 @@ const tooltip = {
     }
 };
 
-export default {antiForgeryToken, timeago, tooltip};
+const emoji = {
+    init: () => {
+        const $input: any = $('.chat-box__input');
+
+        $input.emojioneArea({
+            placeholder: "Type something here",
+            searchPlaceholder: "search the emojis",
+            filtersPosition: "bottom",
+            searchPosition: "bottom",
+        });
+    }
+};
+
+export default {antiForgeryToken, timeago, tooltip, emoji};
 
 
 

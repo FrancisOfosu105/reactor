@@ -14,7 +14,7 @@
     <div class="post__comments-container-@(Model.PostId)">
         @if (Model.Comments.Any())
         {
-            @await Html.PartialAsync("Templates/_Comment", Model)
+            <partial name="Templates/_Comment" model="Model"/>
             <span class="d-none" id="comment-loadMore-@Model.PostId">@Model.LoadMore</span>
         }
     </div>

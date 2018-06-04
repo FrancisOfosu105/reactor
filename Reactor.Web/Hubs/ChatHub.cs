@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 using Reactor.Core;
 using Reactor.Core.Domain.Chats;
 using Reactor.Core.Domain.Messages;
+using Reactor.Core.Domain.Users;
 using Reactor.Services.Chats;
 using Reactor.Services.Users;
 using Reactor.Services.ViewRender;
@@ -58,29 +59,6 @@ namespace Reactor.Web.Hubs
 
             if (senderDetail != null)
             {
-                var senderChatModel = new ChatModel
-                {
-                    CreatedOn = message.CreatedOn,
-                    FullName = "me",
-                    Message = message.Content,
-                    Position = MessagePosition.Right,
-                    ProfilePicture = sender.GetProfilePicture(),
-                };
-
-                var recipientChatModel = new ChatModel
-                {
-                    CreatedOn = message.CreatedOn,
-                    FullName = sender.FullName,
-                    Message = message.Content,
-                    Position = MessagePosition.Left,
-                    ProfilePicture = sender.GetProfilePicture(),
-                };
-
-
-                var senderMessageTemplate = await PrepareMessageTemplate(senderChatModel);
-
-                var recipientMessageTemplate = await PrepareMessageTemplate(recipientChatModel);
-
                 if (!await _chatService.DoesChatExistAsync(sender.Id))
                 {
                     var chat = new Chat
@@ -97,21 +75,34 @@ namespace Reactor.Web.Hubs
 
                 await _unitOfWork.CompleteAsync();
 
-                //Recipient
-                await Clients.User(recipient.Id)
-                    .SendAsync("addChatMessage", recipientMessageTemplate, sender.Id);
+                var senderChatModel = PrepareChatModel(message, sender, MessagePosition.Right, "me");
+
+                var recipientChatModel = PrepareChatModel(message, sender, MessagePosition.Left);
+
+                var senderMessageTemplate = await PrepareMessageTemplate(senderChatModel);
+
+                var recipientMessageTemplate = await PrepareMessageTemplate(recipientChatModel);
+
+                //Send message to the recipient if and only if is online
+                if (GetUserDetail(recipient.Id) != null)
+                {
+                    await Clients.User(recipient.Id)
+                        .SendAsync("addChatMessage", recipientMessageTemplate, message.Id, sender.Id);
+                }
 
                 //Caller
-                await Clients.User(sender.Id).SendAsync("addChatMessage", senderMessageTemplate, null);
+                await Clients.User(sender.Id).SendAsync("addChatMessage", senderMessageTemplate, message.Id, null);
             }
         }
 
 
-        public async Task<(string messages, bool loadMore)> GetChatHistory(string recipientId, int pageIndex, int pageSize)    
+        public async Task<(string messages, bool loadMore)> GetChatHistory(string recipientId, int pageIndex,
+            int pageSize)
         {
             var sender = await _userService.GetUserByUserNameAsync(Context.User.Identity.Name);
 
-            var (messages, loadMore) = await _chatService.GetChatMessagesAsync(sender.Id, recipientId, pageIndex, pageSize);
+            var (messages, loadMore) =
+                await _chatService.GetChatMessagesAsync(sender.Id, recipientId, pageIndex, pageSize);
 
             var recipient = await _userService.GetUserByIdAsync(recipientId);
 
@@ -128,6 +119,7 @@ namespace Reactor.Web.Hubs
                         Message = message.Content,
                         Position = MessagePosition.Right,
                         ProfilePicture = sender.GetProfilePicture(),
+                        IsRead = message.IsRead
                     };
 
                     messageTemplates.Add(await PrepareMessageTemplate(senderChatModel));
@@ -141,6 +133,7 @@ namespace Reactor.Web.Hubs
                         Message = message.Content,
                         Position = MessagePosition.Left,
                         ProfilePicture = recipient.GetProfilePicture(),
+                        IsRead = message.IsRead
                     };
 
                     messageTemplates.Add(await PrepareMessageTemplate(recipientChatModel));
@@ -148,19 +141,12 @@ namespace Reactor.Web.Hubs
             }
 
 
-            return (string.Join("",messageTemplates), loadMore);
-        }
-
-        public async  Task IsTyping(string recipientId)
-        {
-            var senderId = await _userService.GetCurrentUserIdAsync();
-            
-            await Clients.User(recipientId).SendAsync("typingNewMessage", senderId);
+            return (string.Join("", messageTemplates), loadMore);
         }
 
         public override async Task OnConnectedAsync()
         {
-            var newconnectedUser =  await _userService.GetUserByUserNameAsync(Context.User.Identity.Name);
+            var newconnectedUser = await _userService.GetUserByUserNameAsync(Context.User.Identity.Name);
 
             if (GetUserDetail(newconnectedUser.Id) == null)
             {
@@ -171,12 +157,12 @@ namespace Reactor.Web.Hubs
             }
 
             var connectedFriends = await GetConnectedFriendsDetailAsync(newconnectedUser.Id);
-       
+
             foreach (var connectedFriend in connectedFriends)
             {
                 await Clients.User(connectedFriend.UserId)
                     .SendAsync("onlineContact", newconnectedUser.Id);
-                
+
                 await Clients.User(newconnectedUser.Id)
                     .SendAsync("onlineContact", connectedFriend.UserId);
             }
@@ -192,16 +178,41 @@ namespace Reactor.Web.Hubs
                 _chatConnection.RemoveUserDetail(GetUserDetail(disconnectedUser.Id));
 
             var connectedFriends = await GetConnectedFriendsDetailAsync(disconnectedUser.Id);
-      
+
             foreach (var connectedFriend in connectedFriends)
             {
-              await Clients.User(connectedFriend.UserId)
+                await Clients.User(connectedFriend.UserId)
                     .SendAsync("offlineContact", disconnectedUser.Id);
             }
 
             await base.OnDisconnectedAsync(exception);
         }
 
+        public async Task MarkMessagesAsRead(string recipientId, int? messageId)
+        {
+            
+            var unReadMessageIds = await _chatService.GetUnReadMessageIdsAsync(recipientId);
+
+            await _chatService.MarkAsReadAsync(recipientId);
+
+            await _unitOfWork.CompleteAsync();
+
+            if (messageId != null)
+            {
+                var sender = await _userService.GetUserByUserNameAsync(Context.User.Identity.Name);
+
+                await Clients.User(recipientId).SendAsync("messageSeen", messageId);
+                await Clients.User(sender.Id).SendAsync("messageSeen", messageId);
+            }
+
+            if (unReadMessageIds.Any())
+            {
+                foreach (var id in unReadMessageIds)
+                    await Clients.User(recipientId).SendAsync("messageSeen", id);
+            }
+        }
+
+        
         #endregion
 
         #region helpers
@@ -219,17 +230,31 @@ namespace Reactor.Web.Hubs
         private async Task<IEnumerable<UserDetail>> GetConnectedFriendsDetailAsync(string userId)
         {
             var user = await _userService.GetUserWithFriendsAsync(userId);
-            
+
             var friends = user.ApprovedFriends();
 
             var friendIds = (from friend in friends
                 select friend.RequestedBy.UserName == Context.User.Identity.Name
                     ? friend.RequestedTo.Id
                     : friend.RequestedBy.Id).ToList();
-            
+
             var connectedFriends = _chatConnection.UserDetails.Where(u => friendIds.Any(id => id == u.UserId));
 
             return connectedFriends;
+        }
+
+        private static ChatModel PrepareChatModel(Message message, User sender, MessagePosition position,
+            string senderName = null)
+        {
+            return new ChatModel
+            {
+                CreatedOn = message.CreatedOn,
+                FullName = senderName ?? sender.FullName,
+                Message = message.Content,
+                Position = position,
+                ProfilePicture = sender.GetProfilePicture(),
+                MessageId = message.Id
+            };
         }
 
         #endregion

@@ -11,7 +11,8 @@ const config = {
     },
     output: {
         path: path.resolve(__dirname, "./wwwroot/assets/scripts"),
-        filename: "[name].js"
+        filename: "[name].bundle.js",
+        publicPath: "/assets/scripts/"
     },
 
     resolve: {
